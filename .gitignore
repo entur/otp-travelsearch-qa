@@ -101,3 +101,4 @@ ENV/
 .mypy_cache/
 
 Report*.html
+test-report-*json
