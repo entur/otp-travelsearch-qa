@@ -15,9 +15,10 @@ from graphqlclient import GraphQLClient
 import time
 import json
 import datetime
-from json2html import *
 import csv
 import sys
+import os
+import gcpuploader
 
 client = GraphQLClient('https://api.entur.org/journeyplanner/1.1/index/graphql')
 
@@ -45,36 +46,23 @@ def createQuery(search) :
     }}
     """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"])
 
-def createHtmlReport(jsonReport) :
-    print("creating html report")
-    htmlReport = json2html.convert(json = jsonReport)
+def saveJsonReport(jsonReport) :
+    print("Saving json report")
 
-    html="""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    </head>
-    <body>
-        {content}
-    </body>
-    </html>
-    """.format(content=htmlReport)
-
-    htmlFooter="</body></footer>"
-
-    text_file = open("Report.html", "w")
-    text_file.write(html)
+    fileName = "test-report-{}.json".format(int(round(time.time() * 1000)))
+    text_file = open(fileName, "w")
+    text_file.write(jsonReport)
     text_file.close()
+    print("Saved {}".format(fileName))
+    return fileName
 
 def loadCsv(csvFile) :
     with open(csvFile) as file:
         searches = [{k: v for k, v in row.items()}
             for row in csv.DictReader(file, skipinitialspace=True)]
-        print(searches)
         return searches
 
-def run(csvFile):
+def run(csvFile, uploadGcp):
 
     searches = loadCsv(csvFile)
 
@@ -118,8 +106,17 @@ def run(csvFile):
     }
 
     jsonReport = json.dumps(report)
-    createHtmlReport(jsonReport)
+    fileName = saveJsonReport(jsonReport)
+    if(uploadGcp):
+        if(os.environ["bucket_name"] is None or os.environ["destination_blob_name"] is None):
+            print("Environment variables required: bucket_name and destination_blob_name")
+
+        gcpuploader.uploadBlob(os.environ["bucket_name"], fileName, os.environ["destination_blob_name"] + "/" + fileName)
 
 csvFile=sys.argv[1]
 
-run(csvFile)
+if(len(sys.argv) > 1):
+    uploadGcp=sys.argv[2] == 'True'
+else:
+    uploadGcp = False;
+run(csvFile, uploadGcp)
