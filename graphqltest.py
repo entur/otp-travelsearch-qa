@@ -17,6 +17,7 @@ import json
 import datetime
 from json2html import *
 import csv
+import sys
 
 client = GraphQLClient('https://api.entur.org/journeyplanner/1.1/index/graphql')
 
@@ -66,16 +67,16 @@ def createHtmlReport(jsonReport) :
     text_file.write(html)
     text_file.close()
 
-def loadCsv() :
-    with open('endpoints_custom_entur_from_to.csv') as file:
+def loadCsv(csvFile) :
+    with open(csvFile) as file:
         searches = [{k: v for k, v in row.items()}
             for row in csv.DictReader(file, skipinitialspace=True)]
         print(searches)
         return searches
 
-def run():
+def run(csvFile):
 
-    searches = loadCsv()
+    searches = loadCsv(csvFile)
 
     print("loaded {numberOfSearches} searches from file".format(numberOfSearches=len(searches)))
 
@@ -119,4 +120,6 @@ def run():
     jsonReport = json.dumps(report)
     createHtmlReport(jsonReport)
 
-run()
+csvFile=sys.argv[1]
+
+run(csvFile)
