@@ -12,6 +12,9 @@
 - name: Copy the otp-travelsearch-qa sources to staging directory
   command: rsync -ar --delete {{ build_home }}/ {{otp_travelsearch_qa_root}}/source
 
+- name: Copy the run script to staging directory
+  copy: src=run.sh dest={{otp_travelsearch_qa_root}}/source
+
 - name: Move Dockerfile
   template: src=Dockerfile.j2 dest={{otp_travelsearch_qa_root}}/Dockerfile mode=0755
 
