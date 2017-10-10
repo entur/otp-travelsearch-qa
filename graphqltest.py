@@ -20,6 +20,8 @@ import sys
 import os
 import gcpuploader
 
+USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
+
 client = GraphQLClient('https://api.entur.org/journeyplanner/1.1/index/graphql')
 
 def createQuery(search) :
@@ -107,16 +109,23 @@ def run(csvFile, uploadGcp):
 
     jsonReport = json.dumps(report)
     fileName = saveJsonReport(jsonReport)
-    if(uploadGcp):
-        if(os.environ["BUCKET_NAME"] is None or os.environ["DESTINATION_BLOB_NAME"] is None):
-            print("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
 
+    if(uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"] + "/" + fileName)
+
+if(len(sys.argv) == 1):
+    print(USAGE)
+    sys.exit(1)
 
 csvFile=sys.argv[1]
 
-if(len(sys.argv) > 1):
+if(len(sys.argv) == 3):
     uploadGcp=sys.argv[2] == 'True'
 else:
     uploadGcp = False;
+
+if(uploadGcp):
+    if('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
+        raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
+
 run(csvFile, uploadGcp)
