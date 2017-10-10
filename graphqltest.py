@@ -108,10 +108,10 @@ def run(csvFile, uploadGcp):
     jsonReport = json.dumps(report)
     fileName = saveJsonReport(jsonReport)
     if(uploadGcp):
-        if(os.environ["bucket_name"] is None or os.environ["destination_blob_name"] is None):
+        if(os.environ["BUCKET_NAME"] is None or os.environ["DESTINATION_BLOB_NAME"] is None):
             print("Environment variables required: bucket_name and destination_blob_name")
 
-        gcpuploader.uploadBlob(os.environ["bucket_name"], fileName, os.environ["destination_blob_name"] + "/" + fileName)
+        gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"] + "/" + fileName)
 
 csvFile=sys.argv[1]
 
