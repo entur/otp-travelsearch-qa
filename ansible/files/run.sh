@@ -1,6 +1,6 @@
 #!/bin/bash
 
-${ENDPOINTS_FILE="endpoints"}
+${ENDPOINTS_FILE="endpoints.csv"}
 ${UPLOAD_GCP="True"}
 
 python ./graphqltest.py ${ENDPOINTS_FILE} ${UPLOAD_GCP}
