@@ -11,6 +11,7 @@ RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
 
 RUN pip install datetime graphqlclient google.cloud
 
-RUN chmod a+x run.sh
+RUN ls -la
+RUN chmod a+x ./run.sh
 
 CMD [ "run.sh" ]
