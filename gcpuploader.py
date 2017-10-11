@@ -24,19 +24,20 @@ def uploadBlob(bucketName, sourceFileName, destinationFolder):
 
     destinationBlobName = destinationFolder + "/" + sourceFileName
 
-    blob = bucket.blob(destinationBlobName)
-    blob.upload_from_filename(sourceFileName)
+    reportBlob = bucket.blob(destinationBlobName)
+    reportBlob.upload_from_filename(sourceFileName)
+    reportBlob.make_public()
 
-    blob = bucket.blob(destinationFolder + "/" + INDEX_FILE)
+    indexBlob = bucket.blob(destinationFolder + "/" + INDEX_FILE)
 
     if os.path.exists(INDEX_FILE):
         print("Deleting local index file");
         os.remove(INDEX_FILE)
 
-    blobExists = blob.exists();
+    blobExists = indexBlob.exists();
     if(blobExists):
-        print("index file exists: {}".format(blob))
-        blob.download_to_filename(INDEX_FILE)
+        print("index file exists: {}".format(indexBlob))
+        indexBlob.download_to_filename(INDEX_FILE)
     else:
         print("index file does not exist. Will upload a new one")
 
@@ -48,8 +49,9 @@ def uploadBlob(bucketName, sourceFileName, destinationFolder):
 
 
     print("Uploading index file")
-    blob.upload_from_filename(INDEX_FILE)
+    indexBlob.upload_from_filename(INDEX_FILE)
+    indexBlob.make_public()
 
-    print('File {} uploaded to {}.'.format(
+    print('File {} uploaded to {}. Index file updated.'.format(
         sourceFileName,
         destinationBlobName))
