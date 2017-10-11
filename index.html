@@ -18,6 +18,29 @@
     const MAX_REPORTS = 20
 
     class LineChartComponent extends React.Component {
+
+
+      shouldComponentUpdate(nextProps, nextState) {
+        const nextDates = nextProps.reports.map((report) => report.date)
+        const currentDates = this.props.reports.map((report) => report.date)
+
+        if(this.arraysEquals(currentDates, nextDates)) {
+          return false;
+        }
+        return true;
+      }
+
+      arraysEquals(array1, array2) {
+        if (array1.length != array2.length) return false;
+        for (var i = 0; i < array1.length; i++) {
+            if (array1[i].compare) {
+                if (!array1[i].compare(array2[i])) return false;
+            }
+            else if (array1[i] !== array2[i]) return false;
+        }
+        return true;
+      }
+
       render() {
         if(this.thisCanvas != null) {
           const labels = this.props.reports.map((report) => report.date)
@@ -25,7 +48,8 @@
           const secondsTotal = this.props.reports.map((report) => report.secondsTotal)
 
           const ctx = this.thisCanvas.getContext('2d')
-            const myChart = new Chart(ctx, {
+
+          const myChart = new Chart(ctx, {
               type: 'line',
               data: {
                   labels: labels,
@@ -51,9 +75,12 @@
                               beginAtZero:true
                           }
                       }]
+                  },
+                  tooltips: {
+                      enabled: false
                   }
               }
-          });
+            })
         }
         return (<div><canvas id="lineChartId" width="200" height="200" ref={(input) => this.thisCanvas = input}></canvas></div>)
       }
@@ -111,7 +138,16 @@
               reportLines.forEach(function(reportLocation) {
                 axios.get(BASE_URI + "/" + reportLocation)
                   .then(function (response) {
-                    self.setState({ reports: [...self.state.reports, response.data] });
+
+                    let found = false;
+                    self.state.reports.forEach((existingReport) => {
+                      if(existingReport.date === response.data.date) {
+                        found = true;
+                      }
+                    })
+                    if(!found) {
+                      self.setState({ reports: [...self.state.reports, response.data] });
+                    }
                   })
               });
               self.setState({reportLocations: reportLines})
@@ -119,7 +155,7 @@
         }
 
         componentDidMount() {
-          var intervalId = setInterval(this.fetchReports.bind(this), 15000)
+          var intervalId = setInterval(this.fetchReports.bind(this), 1000)
           this.setState({intervalId: intervalId})
           this.fetchReports()
         }
@@ -129,6 +165,7 @@
         }
 
         render() {
+
           const reports = this.state.reports.sort(function(a, b) {
               var keyA = new Date(a.date),
                   keyB = new Date(b.date);
@@ -139,7 +176,7 @@
           }).slice(0, MAX_REPORTS)
 
           const reportComponents = reports.map((report) =>
-             <Report report={report}/>
+             <Report key={new Date(report.date).getTime()} report={report}/>
           );
           return (
             <div>
