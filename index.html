@@ -6,7 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
 </head>
 <body>
   <div id="root"></div>
@@ -16,6 +16,48 @@
     const INDEX_URI = BASE_URI + "/index"
     const SHAMASH_OTP = "https://api.entur.org/doc/shamash-otp/?query="
     const MAX_REPORTS = 20
+
+    class LineChartComponent extends React.Component {
+      render() {
+        if(this.thisCanvas != null) {
+          const labels = this.props.reports.map((report) => report.date)
+          const averageSeconds = this.props.reports.map((report) => report.secondsAverage)
+          const secondsTotal = this.props.reports.map((report) => report.secondsTotal)
+
+          const ctx = this.thisCanvas.getContext('2d')
+            const myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: 'Average seconds test execution',
+                      data: averageSeconds,
+                      borderWidth: 1,
+                      backgroundColor: 'rgb(255, 99, 132)',
+                  },
+                  {
+                      label: 'Seconds total',
+                      data: secondsTotal,
+                      borderWidth: 1,
+                      backgroundColor: 'navy',
+                  }
+                ]
+              },
+              options: {
+                  maintainAspectRatio: false,
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+        }
+        return (<div><canvas id="lineChartId" width="200" height="200" ref={(input) => this.thisCanvas = input}></canvas></div>)
+      }
+    }
 
     class FailedSearch extends React.Component {
 
@@ -69,7 +111,6 @@
               reportLines.forEach(function(reportLocation) {
                 axios.get(BASE_URI + "/" + reportLocation)
                   .then(function (response) {
-                    console.log("loaded report: ", response.data)
                     self.setState({ reports: [...self.state.reports, response.data] });
                   })
               });
@@ -95,13 +136,15 @@
               if(keyA < keyB) return 1;
               if(keyA > keyB) return -1;
               return 0;
-          }).slice(0, MAX_REPORTS).map((report) =>
+          }).slice(0, MAX_REPORTS)
+
+          const reportComponents = reports.map((report) =>
              <Report report={report}/>
           );
           return (
             <div>
              <h1>OTP Travel Search reports</h1>
-             <table className="table table-striped table-hover">
+             <table className="table table-striped table-hover table-condensed">
               <tbody>
                 <tr>
                   <th>Date</th>
@@ -111,9 +154,10 @@
                   <th>Seconds average</th>
                   <th>Failed searches</th>
                 </tr>
-                {reports}
+                {reportComponents}
               </tbody>
               </table>
+              <LineChartComponent reports={reports} />
              </div>
            );
         }
