@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const BASE_URI = "http://otpreport-test.entur.org/otp-travelsearch-qa/reports";
+    const INDEX_URI = BASE_URI + "/index"
+    const SHAMASH_OTP = "https://api.entur.org/doc/shamash-otp/?query="
+    const MAX_REPORTS = 20
+
+    class FailedSearch extends React.Component {
+
+      render() {
+        const failedSearch = this.props.failedSearch;
+        const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
+
+        return (
+          <li>
+            <a href={shamashHref} target="_blank">
+              Search from {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
+            </a>
+          </li>
+        )
+      }
+    }
+
+    class Report extends React.Component {
+      render() {
+        const report = this.props.report;
+        const failedSearches = report.failedSearches.map((failedSearch) =>
+          <FailedSearch failedSearch={failedSearch} />
+        )
+
+        return (
+            <tr className="active">
+              <td>{report.date}</td>
+              <td>{report.failedPercentage}</td>
+              <td>{report.numberOfSearches}</td>
+              <td>{report.secondsTotal.toFixed(2)}</td>
+              <td>{report.secondsAverage.toFixed(2)}</td>
+              <td><ul>{failedSearches}</ul></td>
+            </tr>
+         )
+      }
+    }
+
+    class ReportList extends React.Component {
+
+        constructor(props) {
+          super(props);
+          this.state = { reportLocations: [], reports: [], intervalId: null};
+        }
+
+        fetchReports() {
+          const self = this;
+          console.log("Loading reports")
+          axios.get(INDEX_URI)
+            .then(function (response) {
+              let reportLines = response.data.split('\n')
+              reportLines.forEach(function(reportLocation) {
+                axios.get(BASE_URI + "/" + reportLocation)
+                  .then(function (response) {
+                    console.log("loaded report: ", response.data)
+                    self.setState({ reports: [...self.state.reports, response.data] });
+                  })
+              });
+              self.setState({reportLocations: reportLines})
+            })
+        }
+
+        componentDidMount() {
+          var intervalId = setInterval(this.fetchReports.bind(this), 60000)
+          this.setState({intervalId: intervalId})
+          this.fetchReports()
+        }
+
+        componentWillUnmount() {
+          clearInterval(this.state.intervalId)
+        }
+
+        render() {
+          const reports = this.state.reports.sort(function(a, b) {
+              var keyA = new Date(a.date),
+                  keyB = new Date(b.date);
+
+              if(keyA < keyB) return 1;
+              if(keyA > keyB) return -1;
+              return 0;
+          }).slice(0, MAX_REPORTS).map((report) =>
+             <Report report={report}/>
+          );
+          return (
+             <table className="table">
+              <tbody>
+                <tr>
+                  <th>Date</th>
+                  <th>Failed percentage</th>
+                  <th>Number of searches</th>
+                  <th>Seconds total</th>
+                  <th>Seconds average</th>
+                  <th>Failed searches</th>
+                </tr>
+                {reports}
+              </tbody>
+             </table>);
+        }
+    }
+
+    ReactDOM.render(
+        <ReportList />,
+        document.getElementById('root')
+    );
+  </script>
+</html>
