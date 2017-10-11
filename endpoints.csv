@@ -1,5 +1,5 @@
-name,fromPlace,toPlace
-Testsøk 1,NSR:StopPlace:610,NSR:StopPlace:493
-Testsøk 2,NSR:Quay:11239,NSR:StopPlace:610
-Testsøk should fail,NSR:39,NSR:StopPlace:610
-Dyrløkke til Bjørvika,NSR:StopPlace:5664,59.90804,10.756284
+name;fromPlace;toPlace
+Testsøk 1;NSR:StopPlace:610;NSR:StopPlace:493
+Testsøk 2;NSR:Quay:11239;NSR:StopPlace:610
+Testsøk should fail;NSR:39;NSR:StopPlace:610
+Dyrløkke til Bjørvika;NSR:StopPlace:5664;59.90804,10.756284

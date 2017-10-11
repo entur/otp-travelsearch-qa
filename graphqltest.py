@@ -61,7 +61,7 @@ def saveJsonReport(jsonReport) :
 def loadCsv(csvFile) :
     with open(csvFile) as file:
         searches = [{k: v for k, v in row.items()}
-            for row in csv.DictReader(file, skipinitialspace=True)]
+            for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
         return searches
 
 def run(csvFile, uploadGcp):
@@ -79,7 +79,6 @@ def run(csvFile, uploadGcp):
     for search in searches:
         count += 1
         query = createQuery(search)
-
         try:
             result = client.execute(query)
             jsonResponse = json.loads(result)
