@@ -35,8 +35,8 @@
     class Report extends React.Component {
       render() {
         const report = this.props.report;
-        const failedSearches = report.failedSearches.map((failedSearch) =>
-          <FailedSearch failedSearch={failedSearch} />
+        const failedSearches = report.failedSearches.map((failedSearch, index) =>
+          <FailedSearch key={index} failedSearch={failedSearch} />
         )
 
         return (
@@ -95,7 +95,7 @@
               if(keyA > keyB) return -1;
               return 0;
           }).slice(0, MAX_REPORTS).map((report) =>
-             <Report report={report}/>
+             <Report key={report.date} report={report}/>
           );
           return (
              <table className="table">
