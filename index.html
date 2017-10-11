@@ -17,8 +17,15 @@
     const SHAMASH_OTP = "https://api.entur.org/doc/shamash-otp/?query="
     const MAX_REPORTS = 20
 
+    /**
+    * This component should really use react-chartjs but that requires webpack or browserify
+    **/
     class LineChartComponent extends React.Component {
 
+      constructor(props) {
+        super(props);
+        this.state = { myChart: null, thisCanvas: null};
+      }
 
       shouldComponentUpdate(nextProps, nextState) {
         const nextDates = nextProps.reports.map((report) => report.date)
@@ -27,6 +34,7 @@
         if(this.arraysEquals(currentDates, nextDates)) {
           return false;
         }
+
         return true;
       }
 
@@ -41,49 +49,66 @@
         return true;
       }
 
-      render() {
-        if(this.thisCanvas != null) {
-          const labels = this.props.reports.map((report) => report.date)
-          const averageSeconds = this.props.reports.map((report) => report.secondsAverage)
-          const secondsTotal = this.props.reports.map((report) => report.secondsTotal)
-
-          const ctx = this.thisCanvas.getContext('2d')
-
-          const myChart = new Chart(ctx, {
-              type: 'line',
-              data: {
-                  labels: labels,
-                  datasets: [{
-                      label: 'Average seconds test execution',
-                      data: averageSeconds,
-                      borderWidth: 1,
-                      backgroundColor: 'rgb(255, 99, 132)',
-                  },
-                  {
-                      label: 'Seconds total',
-                      data: secondsTotal,
-                      borderWidth: 1,
-                      backgroundColor: 'navy',
-                  }
-                ]
-              },
-              options: {
-                  maintainAspectRatio: false,
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero:true
-                          }
-                      }]
-                  },
-                  tooltips: {
-                      enabled: false
-                  }
-              }
-            })
+      componentWillUpdate(nextProps, nextState) {
+        if(this.state.myChart != null) {
+          this.state.myChart.destroy()
         }
+        const myChart = this.createChart(nextProps.reports)
+        this.setState({myChart: myChart})
+      }
+
+      componentDidMount() {
+        if(this.thisCanvas != null) {
+          this.setState({thisCanvas: this.thisCanvas})
+        }
+      }
+
+      render() {
         return (<div><canvas id="lineChartId" width="200" height="200" ref={(input) => this.thisCanvas = input}></canvas></div>)
       }
+
+      createChart(reports) {
+        const ctx = this.thisCanvas.getContext('2d')
+        const labels = reports.map((report) => report.date)
+        const secondsAverage = reports.map((report) => report.secondsAverage)
+        const secondsTotal = reports.map((report) => report.secondsTotal)
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: labels,
+              datasets: [{
+                  id: "average",
+                  label: 'Average seconds test execution',
+                  data: secondsAverage,
+                  borderWidth: 1,
+                  backgroundColor: 'rgb(255, 99, 132)',
+              },
+              {
+                  id: "total",
+                  label: 'Seconds total',
+                  data: secondsTotal,
+                  borderWidth: 1,
+                  backgroundColor: 'navy',
+              }
+            ]
+          },
+          options: {
+              maintainAspectRatio: false,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              },
+              tooltips: {
+                  enabled: false
+              }
+          }
+        })
+        return myChart
+      }
+
     }
 
     class FailedSearch extends React.Component {
@@ -155,7 +180,7 @@
         }
 
         componentDidMount() {
-          var intervalId = setInterval(this.fetchReports.bind(this), 1000)
+          var intervalId = setInterval(this.fetchReports.bind(this), 5000)
           this.setState({intervalId: intervalId})
           this.fetchReports()
         }
