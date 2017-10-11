@@ -12,15 +12,43 @@
 # limitations under the Licence.
 
 import sys
+import os
 from google.cloud import storage
 
-def uploadBlob(bucketName, sourceFileName, destinationBlobName):
+INDEX_FILE = "index"
+
+def uploadBlob(bucketName, sourceFileName, destinationFolder):
     """Uploads a file to the bucket."""
     storage_client = storage.Client()
     bucket = storage_client.get_bucket(bucketName)
-    blob = bucket.blob(destinationBlobName)
 
+    destinationBlobName = destinationFolder + "/" + sourceFileName
+
+    blob = bucket.blob(destinationBlobName)
     blob.upload_from_filename(sourceFileName)
+
+    blob = bucket.blob(destinationFolder + "/" + INDEX_FILE)
+
+    if os.path.exists(INDEX_FILE):
+        print("Deleting local index file");
+        os.remove(INDEX_FILE)
+
+    blobExists = blob.exists();
+    if(blobExists):
+        print("index file exists: {}".format(blob))
+        blob.download_to_filename(INDEX_FILE)
+    else:
+        print("index file does not exist. Will upload a new one")
+
+    with open(INDEX_FILE, "a") as indexFile:
+        print("Appending {} to index file".format(sourceFileName))
+        if(blobExists):
+            indexFile.write("\n")
+        indexFile.write(sourceFileName)
+
+
+    print("Uploading index file")
+    blob.upload_from_filename(INDEX_FILE)
 
     print('File {} uploaded to {}.'.format(
         sourceFileName,

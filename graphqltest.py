@@ -111,7 +111,7 @@ def run(csvFile, uploadGcp):
     fileName = saveJsonReport(jsonReport)
 
     if(uploadGcp):
-        gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"] + "/" + fileName)
+        gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
 
 if(len(sys.argv) == 1):
     print(USAGE)
