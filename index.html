@@ -12,7 +12,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const BASE_URI = "http://otpreport-test.entur.org/otp-travelsearch-qa/reports";
+    const BASE_URI = "http://otpreport-test.entur.org/otp-travelsearch-qa/reports"
     const INDEX_URI = BASE_URI + "/index"
     const SHAMASH_OTP = "https://api.entur.org/doc/shamash-otp/?query="
     const MAX_REPORTS = 20
@@ -23,8 +23,8 @@
     class LineChartComponent extends React.Component {
 
       constructor(props) {
-        super(props);
-        this.state = { myChart: null, thisCanvas: null};
+        super(props)
+        this.state = { myChart: null, thisCanvas: null}
       }
 
       shouldComponentUpdate(nextProps, nextState) {
@@ -32,21 +32,21 @@
         const currentDates = this.props.reports.map((report) => report.date)
 
         if(this.arraysEquals(currentDates, nextDates)) {
-          return false;
+          return false
         }
 
-        return true;
+        return true
       }
 
       arraysEquals(array1, array2) {
-        if (array1.length != array2.length) return false;
+        if (array1.length != array2.length) return false
         for (var i = 0; i < array1.length; i++) {
             if (array1[i].compare) {
-                if (!array1[i].compare(array2[i])) return false;
+                if (!array1[i].compare(array2[i])) return false
             }
-            else if (array1[i] !== array2[i]) return false;
+            else if (array1[i] !== array2[i]) return false
         }
-        return true;
+        return true
       }
 
       componentWillUpdate(nextProps, nextState) {
@@ -114,7 +114,7 @@
     class FailedSearch extends React.Component {
 
       render() {
-        const failedSearch = this.props.failedSearch;
+        const failedSearch = this.props.failedSearch
         const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
 
         return (
@@ -129,7 +129,7 @@
 
     class Report extends React.Component {
       render() {
-        const report = this.props.report;
+        const report = this.props.report
         const failedSearches = report.failedSearches.map((failedSearch, index) =>
           <FailedSearch key={index} failedSearch={failedSearch} />
         )
@@ -150,32 +150,34 @@
     class ReportList extends React.Component {
 
         constructor(props) {
-          super(props);
-          this.state = { reportLocations: [], reports: [], intervalId: null};
+          super(props)
+          this.state = { reportLocations: [], reports: [], intervalId: null}
         }
 
         fetchReports() {
-          const self = this;
+          const self = this
           console.log("Loading reports")
+
           axios.get(INDEX_URI)
             .then(function (response) {
               let reportLines = response.data.split('\n')
-              reportLines.forEach(function(reportLocation) {
-                axios.get(BASE_URI + "/" + reportLocation)
-                  .then(function (response) {
-
-                    let found = false;
-                    self.state.reports.forEach((existingReport) => {
-                      if(existingReport.date === response.data.date) {
-                        found = true;
-                      }
-                    })
-                    if(!found) {
-                      self.setState({ reports: [...self.state.reports, response.data] });
+              self.setState({reportLocations: reportLines})
+              let promiseArray = reportLines.map(reportLocation => axios.get(BASE_URI + "/" + reportLocation))
+              axios.all(promiseArray).then((results) => {
+                const newReports = []
+                results.forEach(result => {
+                  let found = false
+                  self.state.reports.forEach((existingReport) => {
+                    if(existingReport.date === result.data.date) {
+                      found = true
                     }
                   })
-              });
-              self.setState({reportLocations: reportLines})
+                  if(!found) {
+                    newReports.push(result.data)
+                  }
+                })
+                self.setState({ reports: [...self.state.reports, ...newReports] })
+              })
             })
         }
 
@@ -193,16 +195,16 @@
 
           const reports = this.state.reports.sort(function(a, b) {
               var keyA = new Date(a.date),
-                  keyB = new Date(b.date);
+                  keyB = new Date(b.date)
 
-              if(keyA < keyB) return 1;
-              if(keyA > keyB) return -1;
-              return 0;
+              if(keyA < keyB) return 1
+              if(keyA > keyB) return -1
+              return 0
           }).slice(0, MAX_REPORTS)
 
           const reportComponents = reports.map((report) =>
              <Report key={new Date(report.date).getTime()} report={report}/>
-          );
+          )
           return (
             <div>
              <h1>OTP Travel Search reports</h1>
@@ -221,13 +223,13 @@
               </table>
               <LineChartComponent reports={reports} />
              </div>
-           );
+           )
         }
     }
 
     ReactDOM.render(
         <ReportList />,
         document.getElementById('root')
-    );
+    )
   </script>
 </html>
