@@ -182,13 +182,13 @@
         }
 
         componentDidMount() {
-          var intervalId = setInterval(this.fetchReports.bind(this), 5000)
-          this.setState({intervalId: intervalId})
+          // var intervalId = setInterval(this.fetchReports.bind(this), 5000)
+          // this.setState({intervalId: intervalId})
           this.fetchReports()
         }
 
         componentWillUnmount() {
-          clearInterval(this.state.intervalId)
+          // clearInterval(this.state.intervalId)
         }
 
         render() {
