@@ -162,6 +162,16 @@
             .then(function (response) {
               let reportLines = response.data.split('\n')
               self.setState({reportLocations: reportLines})
+
+              reportLines = reportLines.sort(function(a, b) {
+                let aTimestamp = a.substring(a.lastIndexOf('-') + 1, a.lastIndexOf('.json'))
+                let bTimestamp = b.substring(b.lastIndexOf('-') + 1, b.lastIndexOf('.json'))
+
+                if(aTimestamp < bTimestamp) return 1
+                if(aTimestamp > bTimestamp) return -1
+                return 0;
+              }).slice(0, MAX_REPORTS)
+
               let promiseArray = reportLines.map(reportLocation => axios.get(BASE_URI + "/" + reportLocation))
               axios.all(promiseArray).then((results) => {
                 const newReports = []
@@ -182,27 +192,18 @@
         }
 
         componentDidMount() {
-          // var intervalId = setInterval(this.fetchReports.bind(this), 5000)
-          // this.setState({intervalId: intervalId})
+          var intervalId = setInterval(this.fetchReports.bind(this), 10000)
+          this.setState({intervalId: intervalId})
           this.fetchReports()
         }
 
         componentWillUnmount() {
-          // clearInterval(this.state.intervalId)
+          clearInterval(this.state.intervalId)
         }
 
         render() {
 
-          const reports = this.state.reports.sort(function(a, b) {
-              var keyA = new Date(a.date),
-                  keyB = new Date(b.date)
-
-              if(keyA < keyB) return 1
-              if(keyA > keyB) return -1
-              return 0
-          }).slice(0, MAX_REPORTS)
-
-          const reportComponents = reports.map((report) =>
+          const reportComponents = this.state.reports.map((report) =>
              <Report key={new Date(report.date).getTime()} report={report}/>
           )
           return (
@@ -221,7 +222,7 @@
                 {reportComponents}
               </tbody>
               </table>
-              <LineChartComponent reports={reports} />
+              <LineChartComponent reports={this.state.reports} />
              </div>
            )
         }
