@@ -19,6 +19,7 @@ import csv
 import sys
 import os
 import gcpuploader
+import hubotnotifier
 
 USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
 
@@ -86,19 +87,18 @@ def run(csvFile, uploadGcp):
             if not jsonResponse["data"]["plan"]["itineraries"]:
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
         except Exception as exception:
-            print((exception))
-            print('')
+            print(exception)
             failedSearches.append({"search": search, "otpQuery": query, "expection": exception})
 
 
     spent = time.time()-time1
     average=spent/count
     failedCount=len(failedSearches)
-    failedPercentage=failedCount/count
+    failedPercentage=failedCount/count*100
 
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        "failedPercentage": "{:.1%}".format(failedPercentage),
+        "failedPercentage": failedPercentage,
         "numberOfSearches": count,
         "secondsTotal": spent,
         "secondsAverage": average,
@@ -111,6 +111,8 @@ def run(csvFile, uploadGcp):
 
     if(uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
+
+    hubotnotifier.notifyIfNecesarry(report)
 
 if(len(sys.argv) == 1):
     print(USAGE)
@@ -126,5 +128,7 @@ else:
 if(uploadGcp):
     if('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
         raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
+
+
 
 run(csvFile, uploadGcp)
