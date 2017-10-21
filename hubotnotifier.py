@@ -73,5 +73,5 @@ def notifyIfNecesarry(report):
         message = "Failed percentage has increased from {}% to {}% since last test execution. Threshold is: {}".format(lastfailedPercentage, failedPercentage, FAILED_PERCENTAGE_THRESHOLD)
         notifyHubot(message, ':disappointed:')
     elif(lastfailedPercentage > failedPercentage and diff >= FAILED_PERCENTAGE_THRESHOLD):
-        message = "Improvement. Percentage of failed tests decreased from {}% to {}% since last test execution. Threshold is: {}".format(failedPercentage, lastfailedPercentage, FAILED_PERCENTAGE_THRESHOLD);
+        message = "Improvement. Percentage of failed tests decreased from {}% to {}% since last test execution. Threshold is: {}".format(lastfailedPercentage, failedPercentage, FAILED_PERCENTAGE_THRESHOLD);
         notifyHubot(message, ':champagne:')
