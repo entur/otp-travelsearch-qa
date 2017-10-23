@@ -1,6 +1,125 @@
-name;fromPlace;toPlace
-Testsøk 1;NSR:StopPlace:610;NSR:StopPlace:493
-Testsøk 2;NSR:Quay:11239;NSR:StopPlace:610
-Nesbru til Bussterminalen Grønland;NSR:StopPlace:4441;NSR:StopPlace:58293
-Dyrløkke til Bjørvika;NSR:StopPlace:5664;59.90804,10.756284
-Asker to Kristiansand;NSR:StopPlace:418;NSR:StopPlace:609
+description;fromPlace;origin;toPlace;destination;transportType
+Fylkeskryssende;NSR:StopPlace:11;Drammen;NSR:StopPlace:58211;Oslo Lufthavn;flytoget
+Fylkeskryssende;NSR:StopPlace:20762;Notodden Skysstasjon;NSR:StopPlace:6505;Oslo Bussterminal;TIMEkspressen
+Møre og Romsdal;NSR:StopPlace:38768;Aålesund Hurtigbåtkai;NSR:StopPlace:38672;Hareid hurtigbåtkai;hurtigbåt
+Møre og Romsdal;NSR:StopPlace:58054;Tromsø Hurtigrutekai;NSR:StopPlace:58035;Vadsø Hurtigrutekai;hurtigruta
+NSB;NSR:StopPlace:659;Trondheim;NSR:StopPlace:337;Oslo S;NSB tog
+NSB;NSR:StopPlace:1;Drammen;NSR:StopPlace:302;Gjøvik;NSB tog+NSB tog
+NSB;NSR:StopPlace:324;Gol;NSR:StopPlace:577;Billingstad;NSB tog+NSB tog
+NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog
+Ruter;NSR:StopPlace:58915;Storo;NSR:StopPlace:58366;Jernbanetorget;t-bane
+Ruter;NSR:StopPlace:6024;Sinsenterrassen;NSR:StopPlace:58251;Brugata;trikk
+Ruter;NSR:StopPlace:58382;Aker brygge;NSR:StopPlace:4411;Hovedøya;båt
+Ruter;NSR:StopPlacec:337;Oslo S;NSR:StopPlace:375;Langhus;NSB tog
+Ruter;NSR:StopPlace:4401;IKEA Slependen;NSR:StopPlace:6505;Oslo Bussterminal;buss
+Ruter;NSR:StopPlace:6715;Ljabru hovedgård;NSR:StopPlace:5336;Kjellås(Enebakk);buss (grønn)
+Østold;NSR:StopPlace:1544;Sellebakk torg;NSR:StopPlace:1850;Gressvikveien;Buss
+Østold;NSR:StopPlace:2410;Paul Holmsens vei;NSR:StopPlace:2143;Skiveien;Buss
+Østold;NSR:StopPlace:1924;Slevikkrysset;NSR:StopPlace:412;Askim;Buss+NSB tog
+Østold;NSR:StopPlace:2839;Kallumtoppen;NSR:StopPlace:2580;Flatland;Buss+NSB tog
+Østold;NSR:StopPlace:2994;Isebakke;NSR:StopPlace:2793;Veden;Buss
+Østold;NSR:StopPlace:3009;Sponvika;NSR:StopPlace:1845;Skjærhalden;Buss
+Østold;NSR:StopPlace:1878;Makø brygge;NSR:StopPlace:1869;Gravningsund brygge;Båt
+Østold;NSR:StopPlace:1897;Viker;NSR:StopPlace:1454;Thorsø gård;Buss
+Østold;NSR:StopPlace:2576;Sarpsborg Rådhus;NSR:StopPlace:1929;Bergenhus;Buss
+Østold;NSR:StopPlace:911;Ørje busstorg;NSR:StopPlace:1005;Skjønhaug torv;Buss
+Akershus;NSR:StopPlace:5300;Borud;NSR:StopPlace:4489;Lillestrøm terminal;Buss
+Akershus;NSR:StopPlace:5353;Georg Stangs vei;NSR:StopPlace:5584;Åråsen;Buss
+Akershus;NSR:StopPlace:640;Sørumsand;NSR:StopPlace:6802;Styri;Buss+NSB tog
+Akershus;NSR:StopPlace:166;Eidsvoll Verk;NSR:StopPlace:3891;Hurdal kirke;Buss
+Akershus;NSR:StopPlace:3122;Minnesund nord;NSR:StopPlace:3509;Nannestad torg;Buss
+Akershus;NSR:StopPlace:3501;Røtterud;NSR:StopPlace:4949;Tiurkroken;Buss
+Akershus;NSR:StopPlace:344;Jessheim;NSR:StopPlace:6497;Årnes stasjon;Buss+NSB tog
+Akershus;NSR:StopPlace:4489;Lillestrøm terminal;NSR:StopPlace:4663;Nittedal stasjon;Buss+NSB tog
+Akershus;NSR:StopPlace:4698;Slattum;NSR:StopPlace:4892;Ask terminal;Buss
+Akershus;NSR:StopPlace:5576;Drøbak torg;NSR:StopPlace:58368;Nesoddtangen;Buss
+Oslo;NSR:StopPlace:6740;Prinsdal;NSR:StopPlace:6626;Solemskogen;Buss+Trikk
+Oslo;NSR:StopPlace:58228;Mortensrud;NSR:StopPlace:58213;Haugerud;T-bane
+Oslo;NSR:StopPlace:5891;Langerud sykehjem;NSR:StopPlace:5994;Oppsal;Buss+T-bane
+Oslo;NSR:StopPlace:58248;Ryen;NSR:StopPlace:6630;Malmøya;Buss+T-bane
+Oslo;NSR:StopPlace:6165;Tveita T;NSR:StopPlace:4168;Tinghuset;T-bane
+Oslo;NSR:StopPlace:58258;Olaf Ryes plass;NSR:StopPlace:6288;Alexander Kiellands plass;Buss+Trikk
+Oslo;NSR:StopPlace:5999;Årvoll senter;NSR:StopPlace:4375;Bygdøhus;Buss
+Oslo;NSR:StopPlace:6056;Gladengveien;NSR:StopPlace:4411;Hovedøya;Buss+Båt
+Oslo;NSR:StopPlace:58216;Grorud;NSR:StopPlace:58220;Ellingsrudåsen;Buss+T-bane
+Oslo;NSR:StopPlace:534;Kjelsås;NSR:StopPlace:6298;Vettakollen;Buss+T-bane
+Hedmark;NSR:StopPlace:8846;Skotterud sentrum;NSR:StopPlace:10510;Kløverbakken;Buss
+Hedmark;NSR:StopPlace:635;Kongsvinger;NSR:StopPlace:8000;Folldal rutebilstasjon;Buss+Tog
+Hedmark;NSR:StopPlace:9836;Roverud;NSR:StopPlace:10643;Storhamarsenteret;Buss+Tog
+Hedmark;NSR:StopPlace:9601;Solvangvegen;NSR:StopPlace:9601;Øvre Heggelia;Buss
+Hedmark;NSR:StopPlace:10580;CC Hamar;NSR:StopPlace:6971;Bringebærvegen;Buss
+Hedmark;NSR:StopPlace:169;Løten;NSR:StopPlace:7334;Nybergsund;Buss
+Hedmark;NSR:StopPlace:8952;Osen sentrum;NSR:StopPlace:8674;Drevsjø;Buss
+Hedmark;NSR:StopPlace:8674;Drevsjø;NSR:StopPlace:8189;Dalsbygda sentrum;Buss
+Hedmark;NSR:StopPlace:583;Koppang;NSR:StopPlace:7479;Kvikne Coop-marked;Buss+Tog
+Hedmark;NSR:StopPlace:8544;Åkrestrømmen;NSR:StopPlace:542;Brumunddal;Buss+Tog
+Oppland;NSR:StopPlace:13675;Kolbu sentrum;NSR:StopPlace:13072;Nordlia;Buss
+Oppland;NSR:StopPlace:16;Raufoss;NSR:StopPlace:10962;Jevnaker stasjon;Buss
+Oppland;NSR:StopPlace:12510;Bagn;NSR:StopPlace:11881;Lom;Buss+Tog
+Oppland;NSR:StopPlace:11189;Fagernes skysstasjon;NSR:StopPlace:645;Dombås;Buss+Tog
+Oppland;NSR:StopPlace:14093;Steinvegen;NSR:StopPlace:14320;Holsjordet;Buss
+Oppland;NSR:StopPlace:13737;Pinnikvegen;NSR:StopPlace:14488;Fredheim;Buss
+Oppland;NSR:StopPlace:46;Roa;NSR:StopPlace:645;Dombås;Buss+Tog
+Oppland;NSR:StopPlace:12943;Etnedal rutebilstasjon;NSR:StopPlace:19;Ringebu;Buss+Tog
+Oppland;NSR:StopPlace:12813;Segalstad bru;NSR:StopPlace:11951;Beitostølen;Buss
+Oppland;NSR:StopPlace:14590;Bismo;NSR:StopPlace:12192;Randsverk;Buss
+Buskerud;NSR:StopPlace:16343;Slemmestad sentrum;NSR:StopPlace:15801;Rødberg;Buss+Tog
+Buskerud;NSR:StopPlace:17025;Jutulveien;NSR:StopPlace:17329;Underlia snuplass;Buss
+Buskerud;NSR:StopPlace:17295;Sørensvingen;NSR:StopPlace:17220;Gulskogen Senter;Buss
+Buskerud;NSR:StopPlace:17095;Tranby;NSR:StopPlace:16032;Prestfoss herredshus;Buss
+Buskerud;NSR:StopPlace:17381;Riegelsbakken;NSR:StopPlace:15451;Lampeland;Buss
+Buskerud;NSR:StopPlace:245;Hokksund;NSR:StopPlace:15726;Fossekallveien;Buss+Tog
+Buskerud;NSR:StopPlace:15534;Elsrud;NSR:StopPlace:17342;Strøtvet snuplass;Buss
+Buskerud;NSR:StopPlace:318;Geilo;NSR:StopPlace:16043;Leveld posthus;Buss+Tog
+Buskerud;NSR:StopPlace:15733;Hol sentrum;NSR:StopPlace:11189;Fagernes skysstasjon;Buss
+Buskerud;NSR:StopPlace:16743;Lierbyen bussterminal;NSR:StopPlace:15255;Filtvet;Buss
+Vestfold;NSR:StopPlace:259;Holmestrand;NSR:StopPlace:18750;Svarstad;Buss+Tog
+Vestfold;NSR:StopPlace:19180;Eidsfoss;NSR:StopPlace:18964;Tjøme kommunehus;Buss
+Vestfold;NSR:StopPlace:17452;Torggata;NSR:StopPlace:18872;Høyjord;Buss
+Vestfold;NSR:StopPlace:19031;Andebu sentrum;NSR:StopPlace:19483;Fjellvikbakken;Buss
+Vestfold;NSR:StopPlace:17465;Ranvik;NSR:StopPlace:18990;Kamfjordkilen;Buss
+Vestfold;NSR:StopPlace:17566;Trudvangveien;NSR:StopPlace:18999;Almeveien;Buss
+Vestfold;NSR:StopPlace:653;Tønsberg;NSR:StopPlace:19363;Gloppeskogen;Buss+Tog
+Vestfold;NSR:StopPlace:18011;Helgeroa;NSR:StopPlace:18617;Kvelde sentrum;Buss
+Vestfold;NSR:StopPlace:58122;Tangen brygge;NSR:StopPlace:17693;Tønsberg rutebilstasjon;Buss+Båt
+Vestfold;NSR:StopPlace:17486;Revetal;NSR:StopPlace:17660;Gullhaug;Buss
+Telemark;NSR:StopPlace:20649;Langesund torv;NSR:StopPlace:19570;Rauland Krossen;Buss+Tog
+Telemark;NSR:StopPlace:21337;Smihaugvegen;NSR:StopPlace:20826;Bjørndalen;Buss
+Telemark;NSR:StopPlace:20257;Meieritorvet;NSR:StopPlace:19979;Skien sykehjem;Buss
+Telemark;NSR:StopPlace:20443;Gjerpen kirke;NSR:StopPlace:1;Drangedal;Buss+Tog
+Telemark;NSR:StopPlace:20259;Holtesletta;NSR:StopPlace:590;Bø;Buss+Tog
+Telemark;NSR:StopPlace:21199;Ulefoss Senter;NSR:StopPlace:21570;Vrådal sentrum;Buss
+Telemark;NSR:StopPlace:20557;Kviteseid sentrum;NSR:StopPlace:21388;Tinnoset;Buss
+Telemark;NSR:StopPlace:20609;Austbygde;NSR:StopPlace:19570;Rauland Krossen;Buss
+Telemark;NSR:StopPlace:20550;Arabygdi;NSR:StopPlace:20485;Kragerø rutebilstasjon;Buss
+Telemark;NSR:StopPlace:21545;Vestheia;NSR:StopPlace:20849;Jomfruland Tårnbrygga;Buss+Båt
+Aust-Agder;NSR:StopPlace:296;Gjerstad;NSR:StopPlace:25350;Buvikbakken;Buss
+Aust-Agder;NSR:StopPlace:21829;Risør rutebilstasjon;NSR:StopPlace:22041;Valle;Buss
+Aust-Agder;NSR:StopPlace:58375;Gjeving brygge;NSR:StopPlace:24632;Arendal stasjon;Buss
+Aust-Agder;NSR:StopPlace:21979;Hastensund;NSR:StopPlace:24171;Kolbjørnsvik;Buss
+Aust-Agder;NSR:StopPlace:22201;Heidalen;NSR:StopPlace:250;Nelaug;Buss+Tog
+Aust-Agder;NSR:StopPlace:25611;Grimstad Odden;NSR:StopPlace:250;Nelaug;Buss+Tog
+Aust-Agder;NSR:StopPlace:24891;Fevik nedre;NSR:StopPlace:24883;Birkeland Tomta;Buss
+Aust-Agder;NSR:StopPlace:22997;Høvågkrysset;NSR:StopPlace:24581;Eikeveien;Buss
+Aust-Agder;NSR:StopPlace:23067;Nedenes terminal;NSR:StopPlace:296;Gjerstad;Buss+Tog
+Aust-Agder;NSR:StopPlace:23557;Lillesand rutebilstasjon;NSR:StopPlace:25363;Byglandsfjord;Buss
+Vest-Agder;NSR:StopPlace:25793;Sodefjed;NSR:StopPlace:24266;Tonstad sentrum;Buss+Tog
+Vest-Agder;NSR:StopPlace:23237;Karuss;NSR:StopPlace:21919;Rugdeveien;Buss
+Vest-Agder;NSR:StopPlace:23776;Lund Torv;NSR:StopPlace:22368;Marnaveien;Buss
+Vest-Agder;NSR:StopPlace:22354;Vennesla sentrum;NSR:StopPlace:24068;Tangvall;Buss
+Vest-Agder;NSR:StopPlace:23380;Spangereid;NSR:StopPlace:24221;Konsmo;Buss
+Vest-Agder;NSR:StopPlace:24842;Farsund sentrum;NSR:StopPlace:177;Marnardal;Buss+Tog
+Vest-Agder;NSR:StopPlace:23978;Kirkehamn;NSR:StopPlace:24600;Andabeløy;Buss+Ferje
+Vest-Agder;NSR:StopPlace:25080;Flekkefjord rutebilstasjon;NSR:StopPlace:22086;Vanse rutebilgården;Buss
+Vest-Agder;NSR:StopPlace:23851;Lyngdal rutebilstasjon;NSR:StopPlace:29;Gyland;Buss+Tog
+Vest-Agder;NSR:StopPlace:25198;Skinsnes;NSR:StopPlace:25198;Furutoppen;Buss
+Rogaland;NSR:StopPlace:28828;Egersund rutebilstasjon;NSR:StopPlace:28401;Rekavikgata;Buss+Tog+Ferje/Båt
+Rogaland;NSR:StopPlace:26062;Hauge i Dalane;NSR:StopPlace:26370;Heskestad;Buss
+Rogaland;NSR:StopPlace:28419;Bjerkreim;NSR:StopPlace:702;Sandnes Sentrum;Buss+Tog
+Rogaland;NSR:StopPlace:27709;Nærbø stasjon;NSR:StopPlace:26556;Hommersåk kai;Buss+Tog
+Rogaland;NSR:StopPlace:28720;Byrkjedal;NSR:StopPlace:28229;Fiskepirterminalen;Buss+Tog
+Rogaland;NSR:StopPlace:28082;Engøy;NSR:StopPlace:26218;Sjøveien;Buss
+Rogaland;NSR:StopPlace:27258;Stavanger turnhall;NSR:StopPlace:26900;Judaberg kai;Buss+Båt
+Rogaland;NSR:StopPlace:26469;Vikevåg kai;NSR:StopPlace:27721;Kopervik kai;Buss+Båt
+Rogaland;NSR:StopPlace:26900;Judaberg kai;NSR:StopPlace:26896;Ølensvåg;Buss+Båt
+Rogaland;NSR:StopPlace:27468;Suldalsosen;NSR:StopPlace:26420;Skjoldastraumen;Buss+Ferje
