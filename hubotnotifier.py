@@ -20,7 +20,7 @@ ETCD_BASE = "http://etcd-client.default.svc.cluster.local:2379/v2/keys/dynamic/o
 # ETCD_BASE = "http://localhost:2379/v2/keys/dynamic/otp-travelsearch-qa"
 HUBOT_ENDPOINT = "http://hubot/hubot/say/"
 # HUBOT_ENDPOINT = "http://localhost:8079/hubot/say/"
-FAILED_PERCENTAGE_THRESHOLD = 5
+FAILED_PERCENTAGE_THRESHOLD = 1
 DISABLE_HUBOT_NOTIFICATION = False
 FAILED_PERCENTAGE_KEY = "failedPercentage"
 
