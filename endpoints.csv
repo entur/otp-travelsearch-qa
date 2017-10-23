@@ -7,7 +7,7 @@ NSB;NSR:StopPlace:659;Trondheim;NSR:StopPlace:337;Oslo S;NSB tog
 NSB;NSR:StopPlace:1;Drammen;NSR:StopPlace:302;Gjøvik;NSB tog+NSB tog
 NSB;NSR:StopPlace:324;Gol;NSR:StopPlace:577;Billingstad;NSB tog+NSB tog
 NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog
-Ruter;NSR:StopPlace:58915;Storo;NSR:StopPlace:58366;Jernbanetorget;t-bane
+Ruter;NSR:StopPlace:58195;Storo;NSR:StopPlace:58366;Jernbanetorget;t-bane
 Ruter;NSR:StopPlace:6024;Sinsenterrassen;NSR:StopPlace:58251;Brugata;trikk
 Ruter;NSR:StopPlace:58382;Aker brygge;NSR:StopPlace:4411;Hovedøya;båt
 Ruter;NSR:StopPlacec:337;Oslo S;NSR:StopPlace:375;Langhus;NSB tog
