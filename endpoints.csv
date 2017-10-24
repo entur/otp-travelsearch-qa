@@ -113,7 +113,7 @@ Vest-Agder;NSR:StopPlace:23978;Kirkehamn;NSR:StopPlace:24600;Andabeløy;Buss+Fer
 Vest-Agder;NSR:StopPlace:25080;Flekkefjord rutebilstasjon;NSR:StopPlace:22086;Vanse rutebilgården;Buss
 Vest-Agder;NSR:StopPlace:23851;Lyngdal rutebilstasjon;NSR:StopPlace:29;Gyland;Buss+Tog
 Vest-Agder;NSR:StopPlace:25198;Skinsnes;NSR:StopPlace:25198;Furutoppen;Buss
-Rogaland;NSR:StopPlace:28828;Egersund rutebilstasjon;NSR:StopPlace:28401;Rekavikgata;Buss+Tog+Ferje/Båt
+Rogaland;NSR:StopPlace:28828;Egersund rutebilstasjon;NSR:StopPlace:28401;Rekavikgata;Buss+Tog+Ferje+Båt
 Rogaland;NSR:StopPlace:26062;Hauge i Dalane;NSR:StopPlace:26370;Heskestad;Buss
 Rogaland;NSR:StopPlace:28419;Bjerkreim;NSR:StopPlace:702;Sandnes Sentrum;Buss+Tog
 Rogaland;NSR:StopPlace:27709;Nærbø stasjon;NSR:StopPlace:26556;Hommersåk kai;Buss+Tog
@@ -123,3 +123,83 @@ Rogaland;NSR:StopPlace:27258;Stavanger turnhall;NSR:StopPlace:26900;Judaberg kai
 Rogaland;NSR:StopPlace:26469;Vikevåg kai;NSR:StopPlace:27721;Kopervik kai;Buss+Båt
 Rogaland;NSR:StopPlace:26900;Judaberg kai;NSR:StopPlace:26896;Ølensvåg;Buss+Båt
 Rogaland;NSR:StopPlace:27468;Suldalsosen;NSR:StopPlace:26420;Skjoldastraumen;Buss+Ferje
+Hordaland;NSR:StopPlace:30728;Sveio sentrum;NSR:StopPlace:33542;Masfjordnes ferjekai;Buss
+Hordaland;NSR:StopPlace:29256;Langevåg;NSR:StopPlace:31625;Husnes sentrum;Buss+Båt
+Hordaland;NSR:StopPlace:30975;Røldal sentrum;NSR:StopPlace:29823;Leirvik bussterminal;Buss+Båt
+Hordaland;NSR:StopPlace:28911;Osøyro;NSR:StopPlace:31787;Vinje;Buss+Tog
+Hordaland;NSR:StopPlace:398;Arna;NSR:StopPlace:32336;Hernar båtkai;Buss+Tog+Båt
+Hordaland;NSR:StopPlace:31882;Melkeplassen;NSR:StopPlace:29147;Starefossbakken;Buss
+Hordaland;NSR:StopPlace:30894;Akvariet;NSR:StopPlace:32416;Åsane brannstasjon;Buss
+Hordaland;NSR:StopPlace:32632;Knarvik senter;NSR:StopPlace:31355;Orreflaten;Buss+Tog
+Hordaland;NSR:StopPlace:31236;Eidfjord sentrum;NSR:StopPlace:32465;Manger senter;Buss
+Hordaland;NSR:StopPlace:33482;Fedje ferjekai;NSR:StopPlace:33375;Lonevåg terminal;Ferje+Buss
+Sogn og Fjordane;NSR:StopPlace:222;Myrdal;NSR:StopPlace:36247;Selje;Tog+Buss+Båt
+Sogn og Fjordane;NSR:StopPlace:34490;Aurland kai;NSR:StopPlace:36166;Skjolden;Båt+Buss
+Sogn og Fjordane;NSR:StopPlace:34505;Lærdal rådhus;NSR:StopPlace:58337;Ortnevik kai;Buss+Båt
+Sogn og Fjordane;NSR:StopPlace:35174;Fosshaugane;NSR:StopPlace:34813;Fresvik kai;Buss+Ferje
+Sogn og Fjordane;NSR:StopPlace:36541;Utvær kai;NSR:StopPlace:36650;Hyllestad;Båt+Buss+Ferje
+Sogn og Fjordane;NSR:StopPlace:37390;Eivindvik;NSR:StopPlace:35428;Gjervik;Buss+Båt+Ferje
+Sogn og Fjordane;NSR:StopPlace:36025;Førde rutebilstasjon;NSR:StopPlace:37075;Rognaldsvåg kai;Buss+Båt
+Sogn og Fjordane;NSR:StopPlace:34300;Naustdal;NSR:StopPlace:34730;Bremanger rutebilstasjon;Buss+Båt+Ferje
+Sogn og Fjordane;NSR:StopPlace:35968;Raudeberg;NSR:StopPlace:35579;Skei;Buss
+Sogn og Fjordane;NSR:StopPlace:35019;Loen;NSR:StopPlace:34178;Eimhjellen;Buss
+Møre og Romsdal;NSR:StopPlace:38744;Åheim;NSR:StopPlace:37897;Hopen;Buss+Ferje
+Møre og Romsdal;NSR:StopPlace:38240;Volda ferjekai;NSR:StopPlace:39992;Stranda kai;Buss
+Møre og Romsdal;NSR:StopPlace:37654;Valldal sentrum;NSR:StopPlace:39151;Taftesund;Buss
+Møre og Romsdal;NSR:StopPlace:39231;Fosnavåg terminal;NSR:StopPlace:40724;Skarbøvika;Buss+Ferje
+Møre og Romsdal;NSR:StopPlace:41499;Slinningsodden;NSR:StopPlace:40181;Kråmyra;Buss
+Møre og Romsdal;NSR:StopPlace:39124;Søvik;NSR:StopPlace:41105;Ona ferjekai;Buss+Ferje
+Møre og Romsdal;NSR:StopPlace:39625;Marstein;NSR:StopPlace:41140;Bud;Buss
+Møre og Romsdal;NSR:StopPlace:40451;Aukrasenteret;NSR:StopPlace:40131;Sunndalsøra;Buss+Ferje
+Møre og Romsdal;NSR:StopPlace:41497;Rindal rådhus;NSR:StopPlace:41403;Reipslagergata;Buss
+Møre og Romsdal;NSR:StopPlace:40313;Greves plass;NSR:StopPlace:37688;Valsøybotn;Buss+Ferje
+Sør-Trøndelag;NSR:StopPlace:55;Røros;NSR:StopPlace:43629;Osen;Buss+Tog+Ferje
+Sør-Trøndelag;NSR:StopPlace:43885;Brekken Coop;NSR:StopPlace:43075;Soknedal;Buss+Tog
+Sør-Trøndelag;NSR:StopPlace:42516;Meldal sentrum;NSR:StopPlace:43785;Fillan busstasjon;Buss
+Sør-Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:42004;Valentinlyst;Buss
+Sør-Trøndelag;NSR:StopPlace:43948;Bukkvollan;NSR:StopPlace:42676;Lade gård;Buss
+Sør-Trøndelag;NSR:StopPlace:42971;Møllebakken;NSR:StopPlace:42462;Ås i Tydal;Buss
+Sør-Trøndelag;NSR:StopPlace:229;Hommelvik;NSR:StopPlace:42045;Hølonda samvirkelag;Buss+Tog
+Sør-Trøndelag;NSR:StopPlace:42707;Støren stasjon;NSR:StopPlace:41967;Uthaug;Buss+Tog+Ferje
+Sør-Trøndelag;NSR:StopPlace:41597;Titran;NSR:StopPlace:41738;Rissa;Buss+Båt+Ferje
+Sør-Trøndelag;NSR:StopPlace:43583;Orkanger skysstasjon;NSR:StopPlace:41712;Revsnes;Buss+Ferje
+Nord-Trøndelag;NSR:StopPlace:44579;Meråker sentrum;NSR:StopPlace:46030;Borgan;Buss+Tog+Ferje
+Nord-Trøndelag;NSR:StopPlace:44777;Meådal;NSR:StopPlace:45002;Gjeving;Buss+Tog
+Nord-Trøndelag;NSR:StopPlace:44450;Husby;NSR:StopPlace:44561;Tautra;Buss+Tog
+Nord-Trøndelag;NSR:StopPlace:554;Åsen;NSR:StopPlace:45190;Elberg;Buss+Tog
+Nord-Trøndelag;NSR:Quay:79046;Byborg;NSR:Quay:78449;Skjeftevegen;Buss
+Nord-Trøndelag;NSR:Quay:78441;Stiklestad nasjonale kultursenter;NSR:Quay:77140;Vanvikan;Buss
+Nord-Trøndelag;NSR:Quay:78946;Verrabotn;NSR:Quay:1108;Snåsa;Buss+Tog
+Nord-Trøndelag;NSR:Quay:591;Grong;NSR:Quay:80213;Namdalseid;Buss+Tog
+Nord-Trøndelag;NSR:Quay:76250;Oasen;NSR:Quay:79370;Abelvær hurtigbåtkai;Buss+Båt
+Nord-Trøndelag;NSR:Quay:79756;Ryumsjøen;NSR:Quay:457;Namsskogan;Buss+Tog
+Nordland;NSR:Quay:81420;Hattfjelldal;NSR:Quay:84216;Andenes;Buss+Tog
+Nordland;NSR:Quay:81870;Trofors stasjon;NSR:Quay:86949;Gladstad;Buss+Tog+Båt
+Nordland;NSR:Quay:88148;Silvalen sentrum;NSR:Quay:81671;Mosjøen stasjon;Buss+Båt+Ferje
+Nordland;NSR:Quay:85186;Skjervengan;NSR:Quay:87265;Segelbergan;Buss
+Nordland;NSR:Quay:87783;Kirkegata;NSR:Quay:82615;Lovund hurtigbåtkai;Buss+Båt+Ferje
+Nordland;NSR:Quay:45;Dunderland;NSR:Quay:84174;Ørnes kai;Buss+Tog+Ferje+Båt
+Nordland;NSR:Quay:82490;Fredensborgveien;NSR:Quay:83653;Helåsvegen;Buss
+Nordland;NSR:Quay:86060;Jordbruksveien;NSR:Quay:85875;Reine;Buss+Ferje
+Nordland;NSR:Quay:85247;Leines;NSR:Quay:84012;Ballangen;Buss+Ferje
+Nordland;NSR:Quay:88139;Ankenestorg;NSR:Quay:83469;Digermulen fergekai;Buss+Ferje
+Troms;NSR:Quay:94473;Evenskjer;NSR:Quay:96392;Burfjord;Buss
+Troms;NSR:Quay:95793;Borkenes;NSR:Quay:94356;Altvik;Buss+Ferje
+Troms;NSR:Quay:88637;Harstad kirke;NSR:Quay:92029;Lamoveien;Buss
+Troms;NSR:Quay:89805;Sara Hauges vei;NSR:Quay:88264;Tennevoll;Buss
+Troms;NSR:Quay:90245;Setermoen;NSR:Quay:88558;Torsken;Buss
+Troms;NSR:Quay:94045;Sørreisa sentralskole;NSR:Quay:110311;Vengsøy ferjekai FERGE;Buss+Ferje
+Troms;NSR:Quay:93680;Mortenhals;NSR:Quay:94445;Ankervegen;Buss
+Troms;NSR:Quay:90848;Skattøra Borettslag;NSR:Quay:92312;Stalheim;Buss
+Troms;NSR:Quay:96907;Oldervik;NSR:Quay:91416;Skjervøy skole;Buss+Båt
+Troms;NSR:Quay:96392;Burfjord;NSR:Quay:90792;Årviksand;Buss+Ferje
+Finnmark;NSR:Quay:97895;Øksfjord hurtigbåtkai;NSR:Quay:97575;Svanvik;Buss
+Finnmark;NSR:Quay:97605;Langfjordbotn;NSR:Quay:97661;Suolovuopmi fjellstue;Buss
+Finnmark;NSR:Quay:97400;Bossekop;NSR:Quay:97350;Sætergamdalen;Buss
+Finnmark;NSR:Quay:97983;Rypefjord;NSR:Quay:98138;Tufjord;Buss+Ferje
+Finnmark;NSR:Quay:98267;Honningsvåg kai;NSR:Quay:97749;Kviby kryss;Buss
+Finnmark;NSR:Quay:98459;Indre Billefjord;NSR:Quay:97290;Karasjok bussterminal;Buss
+Finnmark;NSR:Quay:97236;Coavddatmohkki;NSR:Quay:97271;Jávrrásmuotkkegárggu;Buss
+Finnmark;NSR:Quay:98166;Sirma;NSR:Quay:97340;Kjøllefjord sentrum;Buss
+Finnmark;NSR:Quay:97407;Berlevåg;NSR:Quay:97399;Skjånes kai;Buss+Båt
+Finnmark;NSR:Quay:97800;Vardø rådhus;NSR:Quay:97526;Elvenes;Buss
