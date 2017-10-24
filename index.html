@@ -119,9 +119,9 @@
 
         return (
           <li>
-            {failedSearch.search.description}:&nbsp;
+            <mark>{failedSearch.search.description}</mark>&nbsp;{failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}&nbsp;
             <a href={shamashHref} target="_blank" style={{color: "#5AC39A"}}>
-               From {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
+               {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
             </a>
           </li>
         )
