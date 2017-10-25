@@ -203,3 +203,63 @@ Finnmark;NSR:Quay:97236;Coavddatmohkki;NSR:Quay:97271;Jávrrásmuotkkegárggu;Bu
 Finnmark;NSR:Quay:98166;Sirma;NSR:Quay:97340;Kjøllefjord sentrum;Buss
 Finnmark;NSR:Quay:97407;Berlevåg;NSR:Quay:97399;Skjånes kai;Buss+Båt
 Finnmark;NSR:Quay:97800;Vardø rådhus;NSR:Quay:97526;Elvenes;Buss
+Tog;NSR:Quay:102;Rakkestad;NSR:Quay:149;Sarpsborg;Tog
+Tog;NSR:Quay:314;Halden;NSR:Quay:633;Arendal;Tog
+Tog;NSR:Quay:168;Sandefjord;NSR:Quay:1000;Kristiansand;Tog
+Tog;NSR:Quay:338;Mariero;NSR:Quay:1077;Snartemo;Tog
+Tog;NSR:Quay:900;Bergen;NSR:Quay:836;Ål;Tog
+Tog;NSR:StopPlace:295;Hvalstad;NSR:Quay:1034;Kongsvinger;Tog
+Tog;NSR:Quay:582;Jessheim;NSR:StopPlace:467;Bjorli;Tog
+Tog;NSR:Quay:365;Myrdal;NSR:StopPlace:392;Alvdal;Tog
+Tog;NSR:StopPlace:602;Berkåk;NSR:StopPlace:148;Skatval;Tog
+Tog;NSR:Quay:297;Meråker;NSR:Quay:81;Rognan;Tog
+Fylkeskryssende;NSR:Quay:2845;Fredrikstad bussterminal;NSR:Quay:34346;Rjukan torg;Buss+Tog
+Fylkeskryssende;NSR:Quay:110496;Charlottenberg station;NSR:Quay:10209;Drøbak torg;Buss+Tog
+Fylkeskryssende;NSR:Quay:1042;Kongsvinger;NSR:Quay:98598;Røros;Buss+Tog
+Fylkeskryssende;NSR:Quay:21335;Fåvang;NSR:StopPlace:245;Hokksund;Buss+Tog
+Fylkeskryssende;NSR:Quay:19868;Hjellum;NSR:Quay:12272;Lyngveien;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:15338;Sætre bussterminal;NSR:StopPlace:20646;Langesund brygge;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:324;Gol;NSR:StopPlace:31353;Minde allé;Buss+Tog
+Fylkeskryssende;NSR:Quay:100150;Drammen;NSR:StopPlace:22878;Åmli sentrum;Buss+Tog
+Fylkeskryssende;NSR:Quay:34744;Seljord rutebilstasjon;NSR:StopPlace:28828;Egersund rutebilstasjon;Buss+Tog
+Fylkeskryssende;NSR:Quay:41925;Tinnheia torv;NSR:Quay:52928;Odda busstasjon;Buss
+Fylkeskryssende;NSR:StopPlace:22329;Mandal v/Amfi;NSR:Quay:97185;Hammerfest bussterminal;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:568;Bryne;NSR:Quay:63381;Hardbakke;Buss+Tog+Ferje
+Fylkeskryssende;NSR:Quay:45199;Haugesund bussterminal;NSR:Quay:52371;Våge ferjekai;Buss+Ferje
+Fylkeskryssende;NSR:StopPlace:33364;Norheimsund terminal;NSR:StopPlace:58184;Volda ferjekai;Buss
+Fylkeskryssende;NSR:StopPlace:32632;Knarvik senter;NSR:Quay:60731;Hermansverk sentrum;Buss+Båt
+Fylkeskryssende;NSR:StopPlace:36937;Høyanger rutebilstasjon;NSR:Quay:710;Vinstra;Buss+Tog
+Fylkeskryssende;NSR:Quay:112006;Sykkylven sentrum;NSR:StopPlace:58182;Florø kai;Buss+Båt
+Fylkeskryssende;NSR:Quay:67916;Molde trafikkterminal;NSR:Quay:98603;Støren;Buss+Tog
+Fylkeskryssende;NSR:Quay:72147;Sistranda busstasjon;NSR:Quay:77707;Ogndalsvegen;Buss+Tog+Båt
+Fylkeskryssende;NSR:Quay:1080;Trondheim;NSR:StopPlace:51790;Brønnøysund sentrum;Buss+Tog+Båt
+Fylkeskryssende;NSR:Quay:79240;Spillumstranda;NSR:Quay:94911;Bardufoss sentrum;Buss+Tog
+Fylkeskryssende;NSR:Quay:76624;Grong stasjon;NSR:StopPlace:40141;Skei i;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:49692;Hemnesberget;NSR:Quay:88613;Harstad Byterminal;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:47293;Svolvær sentrum;NSR:Quay:97393;Alta sentrum;Buss+Båt
+Fylkeskryssende;NSR:Quay:83389;Bjerkvik;NSR:StopPlace:56219;Brøstadbotn;Buss+Båt
+Fylkeskryssende;NSR:Quay:94818;Finnsnes;NSR:StopPlace:57018;Kautokeino/Guovdageaidnu;Buss
+Fylkeskryssende;NSR:Quay:89258;UNN Åsgård;NSR:Quay:97198;Smørstadbrinken;Buss
+Fylkeskryssende;NSR:Quay:97875;Vadsøhallen;NSR:Quay:519;Oppdal;Buss+Tog+Båt
+Fylkeskryssende;NSR:StopPlace:3749;Bjørkelangen terminal;NSR:Quay:29623;Hønefoss sentrum;Buss+Tog
+Fylkeskryssende;NSR:StopPlace:25363;Byglandsfjord;NSR:Quay:20733;Tyinkrysset;Buss+Tog
+Fly;NSR:Quay:1173;Oslo Lufthavn;NSR:StopPlace:759;Bergen Lufthavn;Fly
+Fly;NSR:StopPlace:750;Sogndal Lufthamn;NSR:StopPlace:735;Molde Lufthavn;Fly
+Fly;NSR:StopPlace:745;Stavanger lufthavn;NSR:Quay:1175;Namsos Lufthavn;Fly
+Fly;NSR:StopPlace:762;Kristiansand lufthavn;NSR:Quay:1191;Trondheim lufthavn;Fly
+Fly;NSR:Quay:1206;Ålesund Lufthavn;NSR:Quay:1213;Bergen Lufthavn;Fly
+Fly;NSR:StopPlace:726;Brønnøysund Lufthavn;NSR:StopPlace:761;Leknes Lufthavn;Fly
+Fly;NSR:Quay:1202;Harstad/Narvik Lufthavn;NSR:StopPlace:755;Alta Lufthavn;Fly
+Fly;NSR:StopPlace:732;Mosjøen lufthavn;NSR:StopPlace:742;Berlevåg Lufthavn;Fly
+Fly;NSR:StopPlace:760;Kirkenes Lufthavn;NSR:StopPlace:762;Kristiansand lufthavn;Fly
+Fly;NSR:Quay:1212;Lakselv Lufthavn;NSR:Quay:1174;Hammerfest Lufthavn;Fly
+Ekspressbuss;NSR:StopPlace:34505;Lærdal rådhus;NSR:Quay:13323;Trysilsenteret;Buss
+Ekspressbuss;NSR:Quay:46973;Stavanger;NSR:Quay:44054;Gaupemyr bussterminal;Buss
+Ekspressbuss;NSR:Quay:45201;Haugesund bussterminal;NSR:Quay:13319;Trysil busstasjon;Buss
+Ekspressbuss;NSR:StopPlace:1845;Skjærhalden;NSR:StopPlace:34505;Lærdal rådhus;Buss
+Ekspressbuss;NSR:Quay:62526;Førde rutebilstasjon;NSR:Quay:46967;Stavanger;Buss
+Ekspressbuss;NSR:StopPlace:40122;Kristiansund trafikkterminal;NSR:Quay:66688;Ørsta rutebilstasjon;Buss
+Ekspressbuss;NSR:StopPlace:44379;Namsos skysstasjon;NSR:Quay:71424;Trondheim S;Buss
+Ekspressbuss;NSR:StopPlace:47427;Narvik Rutebilstasjonen;NSR:Quay:93014;Storslett terminal;Buss
+Ekspressbuss;NSR:Quay:88852;Tromsø Prostneset;NSR:Quay:97182;Hammerfest bussterminal;Buss
+Ekspressbuss;NSR:Quay:97393;Alta sentrum;NSR:Quay:97289;Karasjok bussterminal;Buss
