@@ -89,7 +89,7 @@ def run(csvFile, uploadGcp):
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
         except Exception as exception:
             print(exception)
-            failedSearches.append({"search": search, "otpQuery": query, "expection": exception})
+            failedSearches.append({"search": search, "otpQuery": query, "expection": str(exception)})
 
 
     spent = time.time()-time1
@@ -112,8 +112,8 @@ def run(csvFile, uploadGcp):
 
     if(uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
-
-    hubotnotifier.notifyIfNecesarry(report)
+        # Only notify hibot if uploaded to gcp
+        hubotnotifier.notifyIfNecesarry(report)
 
 if(len(sys.argv) == 1):
     print(USAGE)
