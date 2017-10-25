@@ -113,7 +113,8 @@ def run(csvFile, uploadGcp):
     if(uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
         # Only notify hubot if uploaded to gcp
-        hubotnotifier.notifyIfNecesarry(report)
+        if('NOTIFY_HUBOT' in os.environ and os.environ["NOTIFY_HUBOT"] is "True"):
+            hubotnotifier.notifyIfNecesarry(report)
 
 if(len(sys.argv) == 1):
     print(USAGE)
