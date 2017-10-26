@@ -25,12 +25,13 @@ USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
 
 client = GraphQLClient('https://api.entur.org/journeyplanner/1.1/index/graphql')
 
-def createQuery(search) :
+TIME = "06:00"
+
+def createQuery(search, date, time) :
     return """
     {{
-      plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}") {{
+      plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}", date: "{date}" time: "{time}") {{
         itineraries {{
-
           startTime
           duration
           walkDistance
@@ -47,7 +48,7 @@ def createQuery(search) :
         }}
       }}
     }}
-    """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"])
+    """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
 
 def saveJsonReport(jsonReport) :
     print("Saving json report")
@@ -79,7 +80,9 @@ def run(csvFile, uploadGcp):
 
     for search in searches:
         count += 1
-        query = createQuery(search)
+        date = time.strftime("%Y-%m-%d")
+
+        query = createQuery(search, date, TIME)
         try:
             result = client.execute(query)
             jsonResponse = json.loads(result)
@@ -89,7 +92,7 @@ def run(csvFile, uploadGcp):
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
         except Exception as exception:
             print(exception)
-            failedSearches.append({"search": search, "otpQuery": query, "expection": str(exception)})
+            failedSearches.append({"search": search, "otpQuery": query, "exception": str(exception)})
 
 
     spent = time.time()-time1
