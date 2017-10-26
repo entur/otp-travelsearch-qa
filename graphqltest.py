@@ -84,13 +84,14 @@ def run(csvFile, uploadGcp):
 
         query = createQuery(search, date, TIME)
         try:
+            print("Executing search {}: {} -> {} ".format(count, search["fromPlace"], search["toPlace"]))
             result = client.execute(query)
             jsonResponse = json.loads(result)
-            print("Executing search {}: {} -> {} ".format(count, search["fromPlace"], search["toPlace"]))
 
             if not jsonResponse["data"]["plan"]["itineraries"]:
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
         except Exception as exception:
+            print("Caught exception:")
             print(exception)
             failedSearches.append({"search": search, "otpQuery": query, "exception": str(exception)})
 
