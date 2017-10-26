@@ -138,24 +138,51 @@
         const failedSearch = this.props.failedSearch
         const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
 
-        return (
-          <li>
-            <mark>{failedSearch.search.description}</mark>&nbsp;{failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}&nbsp;
+         return (
+           <li><mark>{failedSearch.search.description}</mark>&nbsp;{failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}&nbsp;
+           {failedSearch.failMessage}
             <a href={shamashHref} target="_blank" style={{color: "#5AC39A"}}>
-               {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
-            </a>
-            {failedSearch.failMessage}
-          </li>
-        )
+             {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
+             </a>
+          </li>)
+      }
+
+    }
+
+    class FailedSearches extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          expanded: false
+        }
+      }
+
+      collapse() {
+        this.setState({expanded: false})
+      }
+
+      expand() {
+        this.setState({expanded: true})
+      }
+
+      render() {
+        const collapseCallback = () => this.collapse()
+        const expandCallback = () => this.expand()
+
+        if(!this.state.expanded) {
+           return <div style={{cursor: "pointer"}} className="text-danger" onClick={expandCallback}><span>+</span>&nbsp;{this.props.failedCount}</div>
+        } else {
+            const failedSearches = this.props.failedSearches.map((failedSearch, index) =>
+              <FailedSearch key={index} failedSearch={failedSearch} />
+            )
+            return (<ul onClick={collapseCallback}>{failedSearches}</ul>)
+        }
       }
     }
 
     class Report extends React.Component {
       render() {
         const report = this.props.report
-        const failedSearches = report.failedSearches.map((failedSearch, index) =>
-          <FailedSearch key={index} failedSearch={failedSearch} />
-        )
 
         return (
             <tr className="active">
@@ -164,7 +191,7 @@
               <td>{report.numberOfSearches}</td>
               <td>{report.secondsTotal.toFixed(2)}</td>
               <td>{report.secondsAverage.toFixed(2)}</td>
-              <td><ul>{failedSearches}</ul></td>
+              <td><FailedSearches failedSearches={report.failedSearches} failedCount={report.failedCount}/></td>
             </tr>
          )
       }
