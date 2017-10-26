@@ -49,8 +49,14 @@ def uploadBlob(bucketName, sourceFileName, destinationFolder):
 
 
     print("Uploading index file")
+
     indexBlob.upload_from_filename(INDEX_FILE)
+
     indexBlob.make_public()
+    indexBlob.cache_control = 'no-cache'
+
+    indexBlob.patch()
+    indexBlob.update()
 
     print('File {} uploaded to {}. Index file updated.'.format(
         sourceFileName,
