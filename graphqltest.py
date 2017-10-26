@@ -93,7 +93,8 @@ def run(csvFile, uploadGcp):
         except Exception as exception:
             print("Caught exception:")
             print(exception)
-            failedSearches.append({"search": search, "otpQuery": query, "exception": str(exception)})
+            failMessage = str(exception) + ": " + str(exception.read())
+            failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage })
 
 
     spent = time.time()-time1
