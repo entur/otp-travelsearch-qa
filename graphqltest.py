@@ -91,10 +91,13 @@ def run(csvFile, uploadGcp):
             if not jsonResponse["data"]["plan"]["itineraries"]:
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
         except Exception as exception:
-            print("Caught exception:")
-            print(exception)
-            failMessage = str(exception) + ": " + str(exception.read())
-            failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage })
+            print("Caught exception: " + exception)
+
+            result = exception.read()
+            failMessage = str(exception)
+            print("Adding failmessage and reponse to report {}: {}".format(failMessage, result))
+
+            failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage, "response": result})
 
 
     spent = time.time()-time1
