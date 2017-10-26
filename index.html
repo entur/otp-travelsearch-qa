@@ -139,11 +139,26 @@
         const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
 
          return (
-           <li><mark>{failedSearch.search.description}</mark>&nbsp;{failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}&nbsp;
-           {failedSearch.failMessage}
-            <a href={shamashHref} target="_blank" style={{color: "#5AC39A"}}>
-             {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
-             </a>
+           <li style={{cursor: "pointer"}}>
+            <ul style={{"list-style-type": "none"}}>
+              <li>
+                <mark>{failedSearch.search.description}</mark>
+              </li>
+              <li>
+                {failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}
+              </li>
+              <li>
+                <a href={shamashHref} target="_blank" style={{color: "#5AC39A"}}>
+                {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
+                </a>
+              </li>
+              <li className="text-danger">
+                {failedSearch.failMessage}
+              </li>
+              <li className="text-warning">
+                {failedSearch.response}
+              </li>
+            </ul>
           </li>)
       }
 
@@ -170,7 +185,7 @@
         const expandCallback = () => this.expand()
 
         if(!this.state.expanded) {
-           return <div style={{cursor: "pointer"}} className="text-danger" onClick={expandCallback}>{this.props.failedCount}</div>
+           return <strong style={{cursor: "pointer"}} className="text-danger" onClick={expandCallback}>{this.props.failedCount}</strong>
         } else {
             const failedSearches = this.props.failedSearches.map((failedSearch, index) =>
               <FailedSearch key={index} failedSearch={failedSearch} />
