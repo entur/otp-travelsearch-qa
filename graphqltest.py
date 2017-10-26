@@ -93,7 +93,7 @@ def run(csvFile, uploadGcp):
         except Exception as exception:
             failMessage = str(exception)
             print("Caught exception: " + failMessage)
-            result = exception.read()
+            result = str(exception.read())
             print("Adding failmessage and reponse to report {}: {}".format(failMessage, result))
 
             failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage, "response": result})
