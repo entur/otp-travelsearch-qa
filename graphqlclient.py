@@ -7,8 +7,6 @@ class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
            'Content-Type': 'application/json'}
 
-
-
     def __init__(self, endpoint):
         self.endpoint = endpoint
 
