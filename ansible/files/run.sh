@@ -2,7 +2,7 @@
 
 : ${ENDPOINTS_FILE="endpoints.csv"}
 : ${UPLOAD_GCP="True"}
-: ${NOTIFY_HUBOT="True"}
+export NOTIFY_HUBOT=${NOTIFY_HUBOT="True"}
 
 python ./graphqltest.py ${ENDPOINTS_FILE} ${UPLOAD_GCP}
 
