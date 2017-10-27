@@ -256,10 +256,9 @@
             .then(function (response) {
               let reportLines = response.data.split('\n')
 
-
               reportLines = reportLines.sort(function(a, b) {
-                let aTimestamp = a.substring(a.lastIndexOf('-') + 1, a.lastIndexOf('.json'))
-                let bTimestamp = b.substring(b.lastIndexOf('-') + 1, b.lastIndexOf('.json'))
+                let aTimestamp = parseInt(a.substring(a.lastIndexOf('-') + 1, a.lastIndexOf('.json')))
+                let bTimestamp = parseInt(b.substring(b.lastIndexOf('-') + 1, b.lastIndexOf('.json')))
 
                 if(aTimestamp < bTimestamp) return 1
                 if(aTimestamp > bTimestamp) return -1
