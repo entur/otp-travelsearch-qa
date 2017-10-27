@@ -46,6 +46,8 @@ def createQuery(search, date, time) :
             }}
           }}
         }}
+        messageEnums
+        messageStrings
       }}
     }}
     """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
