@@ -139,7 +139,7 @@
 
          return (
            <li>
-            <ul style={{"list-style-type": "none"}}>
+            <ul >
               <li>
                 <mark>{failedSearch.search.description}</mark>
               </li>
@@ -184,7 +184,11 @@
         const expandCallback = () => this.expand()
 
         if(!this.state.expanded) {
-           return <strong style={{cursor: "pointer"}} className="text-danger" onClick={expandCallback}>{this.props.failedCount}</strong>
+           return (
+             <div>
+              <button style={{cursor: "pointer"}} className="btn btn-danger" onClick={expandCallback}>{this.props.failedCount}</button>
+            </div>
+           )
         } else {
             const failedSearches = this.props.failedSearches.map((failedSearch, index) =>
               <FailedSearch key={index} failedSearch={failedSearch} />
