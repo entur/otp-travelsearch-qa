@@ -94,19 +94,12 @@
       createChart(reports) {
         const ctx = this.thisCanvas.getContext('2d')
         const labels = reports.map((report) => report.date).reverse()
-        const secondsAverage = reports.map((report) => report.secondsAverage).reverse()
         const secondsTotal = reports.map((report) => report.secondsTotal).reverse()
         const myChart = new Chart(ctx, {
           type: 'line',
           data: {
               labels: labels,
-              datasets: [{
-                  id: "average",
-                  label: 'Average seconds test execution',
-                  data: secondsAverage,
-                  borderWidth: 1,
-                  backgroundColor: 'rgb(24, 28, 86)',
-              },
+              datasets: [
               {
                   id: "total",
                   label: 'Seconds total',
