@@ -39,7 +39,7 @@
     const BASE_URI = "http://otpreport.entur.org/otp-travelsearch-qa/reports"
     const INDEX_URI = BASE_URI + "/index"
     const SHAMASH_OTP = "https://api.entur.org/doc/shamash-otp/?query="
-    const MAX_REPORTS = 20
+    const MAX_REPORTS = 10
 
     /**
     * This component should really use react-chartjs but that requires webpack or browserify
@@ -305,6 +305,7 @@
             .then(function (response) {
               let reportLines = response.data.split('\n')
 
+              // Only fetch the newest ones
               reportLines = reportLines.sort(function(a, b) {
                 let aTimestamp = parseInt(a.substring(a.lastIndexOf('-') + 1, a.lastIndexOf('.json')))
                 let bTimestamp = parseInt(b.substring(b.lastIndexOf('-') + 1, b.lastIndexOf('.json')))
@@ -333,7 +334,16 @@
                     newReports.push(result.data)
                   }
                 })
-                self.setState({ reports: [...self.state.reports, ...newReports] })
+                // If adding reports, sort all and keep the newest ones
+                let newState = [...self.state.reports, ...newReports].sort(function(a, b) {
+                  let aDate = new Date(a.date).getTime()
+                  let bDate = new Date(b.date).getTime()
+                  if(aDate < bDate) return 1
+                  if(aDate > bDate) return -1
+                  return 0;
+                }).slice(0, MAX_REPORTS);
+
+                self.setState({ reports:  newState })
               })
             })
         }
@@ -353,7 +363,9 @@
           for(var i = 0; i < this.state.reports.length; i++) {
             let report = this.state.reports[i]
             reportComponents.push(<Report key={report.date} report={report}/>)
-            reportComponents.push(<FailedSearches key={report.date +"-failedSearches"} failedSearches={report.failedSearches} failedCount={report.failedCount} />)
+            if(report.failedCount > 0) {
+              reportComponents.push(<FailedSearches key={report.date +"-failedSearches"} failedSearches={report.failedSearches} failedCount={report.failedCount} />)
+            }
           }
           if(reportComponents.length == 0) {
             reportComponents = null
