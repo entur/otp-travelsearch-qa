@@ -26,6 +26,10 @@
         background-color: black;
         color: white;
       }
+      .borderless td, .borderless th {
+        border: none;
+        padding: 0em;
+      }
     </style>
 </head>
 <body>
@@ -131,36 +135,51 @@
 
     }
 
+
     class FailedSearch extends React.Component {
 
       render() {
         const failedSearch = this.props.failedSearch
         const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
-
+        const self = this
          return (
-           <li>
-            <ul >
-              <li>
-                <mark>{failedSearch.search.description}</mark>
-              </li>
-              <li>
-                {failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}
-              </li>
-              <li>
+            <tr className="borderless">
+              <td className="borderless" style={{"width": "20%"}}>
                 <a href={shamashHref} target="_blank" style={{color: "#5AC39A"}}>
-                {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
+                  {failedSearch.search.fromPlace} to {failedSearch.search.toPlace}
                 </a>
-              </li>
-              <li className="text-danger">
+              </td>
+              <td className="borderless" style={{"width": "20%"}}>
+                {failedSearch.search.origin}&nbsp;to&nbsp;{failedSearch.search.destination}
+              </td>
+              <td className="text-danger borderless" style={{"width": "20%"}}>
                 {failedSearch.failMessage}
-              </li>
-              <li className="text-warning">
-                {failedSearch.response}
-              </li>
-            </ul>
-          </li>)
+              </td>
+              <td className="text-warning borderless" onClick={() => console.log(failedSearch.response)} style={{"cursor": "pointer"}}>
+                {failedSearch.response.substring(0,100)}
+              </td>
+            </tr>
+          )
       }
+    }
 
+    class FailedSearchGroup extends React.Component {
+      render() {
+        const failedSearches = this.props.failedSearchGroup.map((failedSearch, index) =>
+          <FailedSearch key={index} failedSearch={failedSearch} />
+        )
+
+        return (
+          <div>
+            <mark>{this.props.groupName}</mark>
+            <table className="borderless" style={{"width": "100%"}}>
+              <tbody>
+                {failedSearches}
+              </tbody>
+            </table>
+          </div>
+        )
+      }
     }
 
     class FailedSearches extends React.Component {
@@ -179,28 +198,49 @@
         this.setState({expanded: true})
       }
 
+      groupFailedSearches() {
+        var groups = {}
+        for (var i = 0; i < this.props.failedSearches.length; i++) {
+          var groupName = this.props.failedSearches[i].search.description
+          if (!groups[groupName]) {
+            groups[groupName] = []
+          }
+          groups[groupName].push(this.props.failedSearches[i])
+        }
+        var groupsArray = [];
+
+        return groups
+      }
+
       render() {
         const collapseCallback = () => this.collapse()
         const expandCallback = () => this.expand()
 
         if(!this.state.expanded) {
            return (
-             <div>
-              <button style={{cursor: "pointer"}} className="btn btn-danger" onClick={expandCallback}>{this.props.failedCount}</button>
-            </div>
+             <tr>
+               <td colSpan="5">
+                <button style={{cursor: "pointer"}} className="btn btn-danger" onClick={expandCallback}>{this.props.failedCount}</button> failed
+              </td>
+            </tr>
            )
         } else {
-            const failedSearches = this.props.failedSearches.map((failedSearch, index) =>
-              <FailedSearch key={index} failedSearch={failedSearch} />
+            const groupedFailedSearches = this.groupFailedSearches(this.props.failedSearches);
+            const groupedFailedSearchesComponents = []
+            for (var groupName in groupedFailedSearches) {
+              groupedFailedSearchesComponents.push(<FailedSearchGroup key={groupName} groupName={groupName} failedSearchGroup={groupedFailedSearches[groupName]} />)
+            }
+
+            return (
+              <tr>
+                <td colSpan="5">
+                  <button style={{cursor: "pointer"}} className="btn btn-success" onClick={collapseCallback}>
+                    collapse
+                  </button>
+                  {groupedFailedSearchesComponents}
+                </td>
+              </tr>
             )
-            return (<div>
-                <button style={{cursor: "pointer"}} className="btn btn-success" onClick={collapseCallback}>
-                  collapse
-                </button>
-                <ul>
-                  {failedSearches}
-                </ul>
-              </div>)
         }
       }
     }
@@ -216,7 +256,6 @@
               <td>{report.numberOfSearches}</td>
               <td>{report.secondsTotal.toFixed(2)}</td>
               <td>{report.secondsAverage.toFixed(2)}</td>
-              <td><FailedSearches failedSearches={report.failedSearches} failedCount={report.failedCount}/></td>
             </tr>
          )
       }
@@ -310,10 +349,16 @@
         }
 
         render() {
+          let reportComponents = []
+          for(var i = 0; i < this.state.reports.length; i++) {
+            let report = this.state.reports[i]
+            reportComponents.push(<Report key={report.date} report={report}/>)
+            reportComponents.push(<FailedSearches key={report.date +"-failedSearches"} failedSearches={report.failedSearches} failedCount={report.failedCount} />)
+          }
+          if(reportComponents.length == 0) {
+            reportComponents = null
+          }
 
-          const reportComponents = this.state.reports.map((report) =>
-             <Report key={new Date(report.date).getTime()} report={report}/>
-          )
           return (
             <div>
 
@@ -330,7 +375,6 @@
                   <th>Number of searches</th>
                   <th>Seconds total</th>
                   <th>Seconds average</th>
-                  <th>Failed searches</th>
                 </tr>
                 {reportComponents}
               </tbody>
