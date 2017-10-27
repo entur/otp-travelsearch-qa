@@ -138,7 +138,7 @@
         const shamashHref = SHAMASH_OTP + encodeURIComponent(failedSearch.otpQuery)
 
          return (
-           <li style={{cursor: "pointer"}}>
+           <li>
             <ul style={{"list-style-type": "none"}}>
               <li>
                 <mark>{failedSearch.search.description}</mark>
@@ -189,7 +189,14 @@
             const failedSearches = this.props.failedSearches.map((failedSearch, index) =>
               <FailedSearch key={index} failedSearch={failedSearch} />
             )
-            return (<ul onClick={collapseCallback}>{failedSearches}</ul>)
+            return (<div>
+                <button style={{cursor: "pointer"}} className="btn btn-success" onClick={collapseCallback}>
+                  collapse
+                </button>
+                <ul>
+                  {failedSearches}
+                </ul>
+              </div>)
         }
       }
     }
