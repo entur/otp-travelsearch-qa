@@ -36,8 +36,7 @@ def getValue(key):
     except Exception as e:
         print("Error getting value from key {} on url {}".format(key, url))
         print(e)
-        raise e
-        return None
+        return "0"
 
 def putValue(key, value):
     data = {"value" : value}
