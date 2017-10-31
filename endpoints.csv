@@ -263,3 +263,13 @@ Ekspressbuss;NSR:StopPlace:44379;Namsos skysstasjon;NSR:StopPlace:41742;Trondhei
 Ekspressbuss;NSR:StopPlace:47427;Narvik Rutebilstasjonen;NSR:StopPlace:54474;Storslett terminal;Buss
 Ekspressbuss;NSR:StopPlace:52273;Tromsø Prostneset;NSR:StopPlace:56676;Hammerfest bussterminal;Buss
 Ekspressbuss;NSR:StopPlace:56826;Alta sentrum;NSR:StopPlace:56754;Karasjok bussterminal;Buss
+Ferje/Buss;NSR:StopPlace:58187;Horn ferjekai;NSR:StopPlace:58371;Verket ferjekai;Buss+Tog+Ferje
+Ferje/Buss/Trikk;NSR:StopPlace:58436;Hatvik ferjekai;NSR:StopPlace:58404;Nationaltheatret;Buss+Tog+Ferje
+Buss/trikk/T-bane;NSR:StopPlace:58403;Bogstadveien;NSR:StopPlace:58215;Veitvet;Buss+Trikk+T-bane
+Ferje/Buss;NSR:StopPlace:58339;Vangsnes ferjekai;NSR:StopPlace:58330;Solvorn ferjekai;Buss+Ferje
+Buss/Tog;NSR:StopPlace:672;Torp lufthavn;NSR:StopPlace:404;Vestfossen;Buss+Tog
+Buss/Ferje;NSR:StopPlace:58444;Sørrollnes ferjekai;NSR:StopPlace:55902;Giæverbukta;Buss+Ferje
+Buss/Trikk;NSR:StopPlace:16806;Vikersund bussterminal;NSR:StopPlace:58309;Grefsen stadion;Buss+Trikk+Tog
+Buss/Trikk;NSR:StopPlace:58264;John Colletts plass;NSR:StopPlace:10634;Norrøna;Buss+Trikk+Tog
+Buss/Trikk;NSR:StopPlace:1338;Sarpsborg stasjon;NSR:StopPlace:58296;Oslo Hospital;Buss+Trikk+Tog
+Buss/T-bane;NSR:StopPlace:58197;Brynseng;NSR:StopPlace:13580;Kråkjordet;Buss+T-bane+Tog
