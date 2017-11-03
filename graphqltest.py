@@ -23,7 +23,12 @@ import hubotnotifier
 
 USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
 
-client = GraphQLClient('https://api.entur.org/journeyplanner/1.1/index/graphql')
+if('GRAPHQL_ENDPOINT' not in os.environ):
+    graphqlEndpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
+else:
+    graphqlEndpoint = os.environ["GRAPHQL_ENDPOINT"]
+
+client = GraphQLClient(graphqlEndpoint)
 
 TIME = "06:00"
 
