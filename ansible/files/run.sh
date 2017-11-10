@@ -2,8 +2,8 @@
 
 : ${ENDPOINTS_FILE="endpoints.csv"}
 : ${UPLOAD_GCP="True"}
-export ${NOTIFY_HUBOT="True"}
-export ${GRAPHITE_REPORT_HOST="graphite"}
+export NOTIFY_HUBOT=${NOTIFY_HUBOT="True"}
+export GRAPHITE_REPORT_HOST=${GRAPHITE_REPORT_HOST="graphite"}
 
 python ./graphqltest.py ${ENDPOINTS_FILE} ${UPLOAD_GCP}
 
