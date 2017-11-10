@@ -12,6 +12,7 @@
 # limitations under the Licence.
 
 from graphqlclient import GraphQLClient
+from graphitereporter import GraphiteReporter
 import time
 import json
 import datetime
@@ -22,6 +23,8 @@ import gcpuploader
 import hubotnotifier
 
 USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
+
+graphiteReporter = GraphiteReporter()
 
 if('GRAPHQL_ENDPOINT' not in os.environ):
     graphqlEndpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
@@ -120,6 +123,13 @@ def run(csvFile, uploadGcp):
         "failedCount": failedCount,
         "failedSearches": failedSearches
     }
+
+    graphiteReporter.reportToGraphite([
+                ('search.count', count),
+                ('search.seconds.total', spent),
+                ('search.seconds.average', average),
+                ('search.failed.count', failedCount)
+            ])
 
     jsonReport = json.dumps(report)
     fileName = saveJsonReport(jsonReport)
