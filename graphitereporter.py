@@ -10,6 +10,7 @@ class GraphiteReporter:
             timeout_in_seconds=15)
             print("Initiated graphite send")
         else:
+            print("GRAPHITE_REPORT_HOST not set")
             self.graphite = None
 
     def reportToGraphite(self, listOfMetrics):
