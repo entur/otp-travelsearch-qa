@@ -83,6 +83,7 @@ def run(csvFile, uploadGcp):
     print("loaded {numberOfSearches} searches from file".format(numberOfSearches=len(searches)))
 
     count = 0
+    successCount = 0
     failed = 0
     failedSearches=[]
 
@@ -100,6 +101,8 @@ def run(csvFile, uploadGcp):
 
             if not jsonResponse["data"]["plan"]["itineraries"]:
                 failedSearches.append({"search": search, "otpQuery": query, "response": result})
+            else:
+                successCount += 1
         except Exception as exception:
             failMessage = str(exception)
             print("Caught exception: " + failMessage)
@@ -120,12 +123,14 @@ def run(csvFile, uploadGcp):
         "numberOfSearches": count,
         "secondsTotal": spent,
         "secondsAverage": average,
+        "successCount": successCount,
         "failedCount": failedCount,
         "failedSearches": failedSearches
     }
 
     graphiteReporter.reportToGraphite([
                 ('search.count', count),
+                ('search.success.count', successCount),
                 ('search.seconds.total', spent),
                 ('search.seconds.average', average),
                 ('search.failed.count', failedCount)
