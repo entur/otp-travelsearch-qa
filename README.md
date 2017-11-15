@@ -18,5 +18,21 @@ It produces json reports.
 python graphqltest.py endpoints.csv
 ```
 
+## Run and upload to gcp
+```
+BUCKET_NAME=<bucket_name> DESTINATION_BLOB_NAME="<destination_blob_name" python ./graphqltest.py endpoints.csv True
+```
+
+## Run and notify hubot if necesarry
+Requires access to etcd to be able to read and update last value
+```
+NOTIFY_HUBOT=True python ./graphqltest.py endpoints.csv
+```
+
+## Run and send metrics to Graphite
+```
+GRAPHITE_REPORT_HOST="<graphite>" python ./graphqltest.py endpoints.csv
+```
+
 ## Viewing reports
 See https://github.com/entur/otp-travelsearch-ui
