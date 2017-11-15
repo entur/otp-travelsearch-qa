@@ -23,7 +23,7 @@ python graphqltest.py endpoints.csv
 BUCKET_NAME=<bucket_name> DESTINATION_BLOB_NAME="<destination_blob_name" python ./graphqltest.py endpoints.csv True
 ```
 
-## Run and notify hubot if necesarry
+## Run and notify Hubot if necesarry
 Requires access to etcd to be able to read and update last value
 ```
 NOTIFY_HUBOT=True python ./graphqltest.py endpoints.csv
