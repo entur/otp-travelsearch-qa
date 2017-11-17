@@ -76,6 +76,9 @@ def loadCsv(csvFile) :
             for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
         return searches
 
+def roundTwoDecimals(value):
+    return round(value, 2)
+
 def run(csvFile, uploadGcp):
 
     searches = loadCsv(csvFile)
@@ -112,10 +115,10 @@ def run(csvFile, uploadGcp):
             failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage, "response": result})
 
 
-    spent = time.time()-time1
-    average=spent/count
-    failedCount=len(failedSearches)
-    failedPercentage=failedCount/count*100
+    spent = roundTwoDecimals(time.time()-time1)
+    average = roundTwoDecimals(spent/count)
+    failedCount = len(failedSearches)
+    failedPercentage = failedCount/count*100
 
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
