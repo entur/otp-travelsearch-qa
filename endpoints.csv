@@ -105,7 +105,7 @@ Aust-Agder;NSR:StopPlace:23067;Nedenes terminal;NSR:StopPlace:296;Gjerstad;Buss+
 Aust-Agder;NSR:StopPlace:23552;Lillesand Viadukten;NSR:StopPlace:25363;Byglandsfjord;Buss
 Vest-Agder;NSR:StopPlace:25793;Sodefjed;NSR:StopPlace:24266;Tonstad sentrum;Buss+Tog
 Vest-Agder;NSR:StopPlace:23237;Karuss;NSR:StopPlace:21919;Rugdeveien;Buss
-Vest-Agder;NSR:StopPlace:23776;Lund Torv;NSR:StopPlace:24652;Endresens gate;Buss
+Vest-Agder;NSR:StopPlace:23776;Lund Torv;NSR:StopPlace:25260;Bryggegata;Buss
 Vest-Agder;NSR:StopPlace:22354;Vennesla sentrum;NSR:StopPlace:24068;Tangvall;Buss
 Vest-Agder;NSR:StopPlace:23380;Spangereid;NSR:StopPlace:24221;Konsmo;Buss
 Vest-Agder;NSR:StopPlace:24842;Farsund sentrum;NSR:StopPlace:177;Marnardal;Buss+Tog
@@ -136,7 +136,7 @@ Hordaland;NSR:StopPlace:33482;Fedje ferjekai;NSR:StopPlace:33375;Lonevåg termin
 Sogn og Fjordane;NSR:StopPlace:222;Myrdal;NSR:StopPlace:36247;Selje;Tog+Buss+Båt
 Sogn og Fjordane;NSR:StopPlace:34490;Aurland kai;NSR:StopPlace:36166;Skjolden;Båt+Buss
 Sogn og Fjordane;NSR:StopPlace:34505;Lærdal rådhus;NSR:StopPlace:58337;Ortnevik kai;Buss+Båt
-Sogn og Fjordane;NSR:StopPlace:35174;Fosshaugane;NSR:StopPlace:34813;Fresvik kai;Buss+Ferje
+Sogn og Fjordane;NSR:StopPlace:34066;Helgheim;NSR:StopPlace:37210;Vik kommunehus;Buss+Ferje
 Sogn og Fjordane;NSR:StopPlace:36541;Utvær kai;NSR:StopPlace:35790;Flekke;Båt+Buss+Ferje
 Sogn og Fjordane;NSR:StopPlace:37390;Eivindvik;NSR:StopPlace:35428;Gjervik;Buss+Båt+Ferje
 Sogn og Fjordane;NSR:StopPlace:36025;Førde rutebilstasjon;NSR:StopPlace:37075;Rognaldsvåg kai;Buss+Båt
@@ -188,7 +188,7 @@ Troms;NSR:StopPlace:55941;Borkenes;NSR:StopPlace:55183;Altvik;Buss+Ferje
 Troms;NSR:StopPlace:52154;Harstad kirke;NSR:StopPlace:53953;Lamoveien;Buss
 Troms;NSR:StopPlace:52774;Sara Hauges vei;NSR:StopPlace:51957;Tennevoll;Buss
 Troms;NSR:StopPlace:53010;Setermoen;NSR:StopPlace:52115;Torsken;Buss
-Troms;NSR:StopPlace:55017;Sørreisa sentralskole;NSR:StopPlace:70261;Vengsøy ferjekai FERGE;Buss+Ferje
+Troms;NSR:StopPlace:55017;Sørreisa sentralskole;NSR:StopPlace:70261;Vengsøy ferjekai;Buss+Ferje
 Troms;NSR:StopPlace:54821;Mortenhals;NSR:StopPlace:55230;Ankervegen;Buss
 Troms;NSR:StopPlace:53331;Skattøra Borettslag;NSR:StopPlace:54103;Stalheim;Buss
 Troms;NSR:StopPlace:56531;Oldervik;NSR:StopPlace:53633;Skjervøy skole;Buss+Båt
