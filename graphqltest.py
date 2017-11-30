@@ -20,6 +20,11 @@ import time
 
 import gcpuploader
 import hubotnotifier
+
+import travelsearch
+import reportdao
+import csvloader
+
 from graphitereporter import GraphiteReporter
 from graphqlclient import GraphQLClient
 
@@ -36,57 +41,12 @@ client = GraphQLClient(graphqlEndpoint)
 
 TIME = "06:00"
 
-
-def createQuery(search, date, time):
-    return """
-    {{
-      plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}", date: "{date}" time: "{time}") {{
-        itineraries {{
-          startTime
-          duration
-          walkDistance
-          legs {{
-            from {{
-              name
-              vertexType
-            }}
-            to {{
-              name
-              vertexType
-            }}
-          }}
-        }}
-        messageEnums
-        messageStrings
-      }}
-    }}
-    """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
-
-
-def saveJsonReport(jsonReport):
-    print("Saving json report")
-
-    fileName = "test-report-{}.json".format(int(round(time.time() * 1000)))
-    text_file = open(fileName, "w")
-    text_file.write(jsonReport)
-    text_file.close()
-    print("Saved {}".format(fileName))
-    return fileName
-
-
-def loadCsv(csvFile):
-    with open(csvFile) as file:
-        searches = [{k: v for k, v in row.items()}
-                    for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
-        return searches
-
-
 def roundTwoDecimals(value):
     return round(value, 2)
 
 
 def run(csvFile, uploadGcp):
-    searches = loadCsv(csvFile)
+    searches = csvloader.loadCsv(csvFile)
 
     print("loaded {numberOfSearches} searches from file".format(numberOfSearches=len(searches)))
 
@@ -101,7 +61,7 @@ def run(csvFile, uploadGcp):
         count += 1
         date = time.strftime("%Y-%m-%d")
 
-        query = createQuery(search, date, TIME)
+        query = travelsearch.createQuery(search, date, TIME)
         try:
             print("Executing search {}: {} -> {} ".format(count, search["fromPlace"], search["toPlace"]))
             result = client.execute(query)
@@ -144,7 +104,7 @@ def run(csvFile, uploadGcp):
     ])
 
     jsonReport = json.dumps(report)
-    fileName = saveJsonReport(jsonReport)
+    fileName = reportdao.saveJsonReport(jsonReport)
 
     if (uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
