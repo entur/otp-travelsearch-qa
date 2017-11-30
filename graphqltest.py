@@ -20,16 +20,17 @@ import time
 import gcpuploader
 import hubotnotifier
 
-import travelsearch
+
 import reportdao
 import csvloader
 
 from graphitereporter import GraphiteReporter
 from graphqlclient import GraphQLClient
+from travelsearchexecutor import TravelSearchExecutor
 
 usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
 
-graphitereporter = GraphiteReporter()
+graphite_reporter = GraphiteReporter()
 
 if 'graphql_endpoint' not in os.environ:
     graphqlendpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
@@ -37,6 +38,8 @@ else:
     graphqlendpoint = os.environ["graphql_endpoint"]
 
 client = GraphQLClient(graphqlendpoint)
+
+travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
 
 TIME = "06:00"
 
@@ -49,58 +52,20 @@ def run(csv_file, upload_gcp):
 
     print("loaded {number_of_searches} searches from file".format (number_of_searches=len(travel_searches)))
 
-    count = 0
-    success_count = 0
-    failed = 0
-    failed_searches = []
-
-    start_time = time.time()
-
-    for travel_search in travel_searches:
-        count += 1
-        date = time.strftime("%y-%m-%d")
-
-        query = travelsearch.create_query(travel_search, date, time)
-        try:
-            print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"], travel_search["toPlace"]))
-            result = client.execute(query)
-            json_response = json.loads(result)
-
-            if not json_response["data"]["plan"]["itineraries"]:
-                failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
-            else:
-                success_count += 1
-        except Exception as exception:
-            fail_message = str(exception)
-            print("caught exception: " + fail_message)
-            result = str(exception.read())
-            print("adding failMessage and response to report {}: {}".format(fail_message, result))
-
-            failed_searches.append({"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
-
-    spent = round_two_decimals(time.time() - start_time)
-    average = round_two_decimals(spent / count)
-    failed_count = len(failed_searches)
-    failed_percentage = failed_count / count * 100
-
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        "failedPercentage": failed_percentage,
-        "numberOfSearches": count,
-        "secondsTotal": spent,
-        "secondsAverage": average,
-        "successCount": success_count,
-        "failedCount": failed_count,
-        "failedSearches": failed_searches
     }
 
-    graphitereporter.report_to_graphite([
-        ('search.count', count),
-        ('search.success.count', success_count),
-        ('search.seconds.total', spent),
-        ('search.seconds.average', average),
-        ('search.failed.count', failed_count)
-    ])
+    travel_search_report = travel_search_executor.run_travel_searches(travel_searches)
+    report["travelSearch"] = travel_search_report
+
+    # graphite_reporter.report_to_graphite([
+    #     ('search.count', count),
+    #     ('search.success.count', success_count),
+    #     ('search.seconds.total', spent),
+    #     ('search.seconds.average', average),
+    #     ('search.failed.count', failed_count)
+    # ])
 
     json_report = json.dumps(report)
     filename = reportdao.save_json_report(json_report)
