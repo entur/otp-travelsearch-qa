@@ -17,46 +17,46 @@ from google.cloud import storage
 INDEX_FILE = "index"
 
 
-def uploadBlob(bucketName, sourceFileName, destinationFolder):
+def upload_blob(bucket_name, source_file_name, destinationFolder):
     """Uploads a file to the bucket."""
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket(bucketName)
+    bucket = storage_client.get_bucket(bucket_name)
 
-    destinationBlobName = destinationFolder + "/" + sourceFileName
+    destination_blob_name = destinationFolder + "/" + source_file_name
 
-    reportBlob = bucket.blob(destinationBlobName)
-    reportBlob.upload_from_filename(sourceFileName)
-    reportBlob.make_public()
+    report_blob = bucket.blob(destination_blob_name)
+    report_blob.upload_from_filename(source_file_name)
+    report_blob.make_public()
 
-    indexBlob = bucket.blob(destinationFolder + "/" + INDEX_FILE)
+    index_blob = bucket.blob(destinationFolder + "/" + INDEX_FILE)
 
     if os.path.exists(INDEX_FILE):
         print("Deleting local index file");
         os.remove(INDEX_FILE)
 
-    blobExists = indexBlob.exists();
-    if (blobExists):
-        print("index file exists: {}".format(indexBlob))
-        indexBlob.download_to_filename(INDEX_FILE)
+    blob_exists = index_blob.exists();
+    if blob_exists:
+        print("index file exists: {}".format(index_blob))
+        index_blob.download_to_filename(INDEX_FILE)
     else:
         print("index file does not exist. Will upload a new one")
 
-    with open(INDEX_FILE, "a") as indexFile:
-        print("Appending {} to index file".format(sourceFileName))
-        if (blobExists):
-            indexFile.write("\n")
-        indexFile.write(sourceFileName)
+    with open(INDEX_FILE, "a") as index_file:
+        print("Appending {} to index file".format(source_file_name))
+        if blob_exists:
+            index_file.write("\n")
+        index_file.write(source_file_name)
 
     print("Uploading index file")
 
-    indexBlob.upload_from_filename(INDEX_FILE)
+    index_blob.upload_from_filename(INDEX_FILE)
 
-    indexBlob.make_public()
-    indexBlob.cache_control = 'no-cache'
+    index_blob.make_public()
+    index_blob.cache_control = 'no-cache'
 
-    indexBlob.patch()
-    indexBlob.update()
+    index_blob.patch()
+    index_blob.update()
 
     print('File {} uploaded to {}. Index file updated.'.format(
-        sourceFileName,
-        destinationBlobName))
+        source_file_name,
+        destination_blob_name))

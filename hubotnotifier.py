@@ -23,13 +23,13 @@ DISABLE_HUBOT_NOTIFICATION = False
 FAILED_PERCENTAGE_KEY = "failedPercentage"
 
 
-def getValue(key):
+def get_value(key):
     url = ETCD_BASE + "/" + key
     try:
         print("Getting value from key '{}' from etcd".format(key))
         response = requests.get(ETCD_BASE + "/" + key)
-        jsonResponse = response.json()
-        value = jsonResponse["node"]["value"]
+        json_response = response.json()
+        value = json_response["node"]["value"]
         print("Got value '{}' from etcd".format(value))
         return value
     except Exception as e:
@@ -38,44 +38,44 @@ def getValue(key):
         return "0"
 
 
-def putValue(key, value):
+def put_value(key, value):
     data = {"value": value}
     print("Putting value {} for key {}".format(value, key))
     response = requests.put(ETCD_BASE + "/" + key, data=data)
     print(response)
 
 
-def notifyHubot(message, icon):
-    messageObject = {"source": socket.gethostname(), "icon": icon, "message": message}
+def notify_hubot(message, icon):
+    message_object = {"source": socket.gethostname(), "icon": icon, "message": message}
     print("Nofifying hubot with message: {}".format(message))
     if (not DISABLE_HUBOT_NOTIFICATION):
-        response = requests.post(HUBOT_ENDPOINT, json=messageObject)
+        response = requests.post(HUBOT_ENDPOINT, json=message_object)
         print("Response from notifying hubot: {}".format(response))
     else:
         print("Hubot disabled for testing")
 
 
-def readAndReplace(key, value):
-    previousValue = getValue(key)
-    putValue(key, value)
-    return previousValue
+def read_and_replace(key, value):
+    previous_value = get_value(key)
+    put_value(key, value)
+    return previous_value
 
 
-def notifyIfNecesarry(report):
-    failedPercentage = report[FAILED_PERCENTAGE_KEY]
-    lastfailedPercentage = float(readAndReplace(FAILED_PERCENTAGE_KEY, failedPercentage))
-    if (lastfailedPercentage == None):
+def notify_if_necessary(report):
+    failed_percentage = report[FAILED_PERCENTAGE_KEY]
+    lastfailed_percentage = float(read_and_replace(FAILED_PERCENTAGE_KEY, failedPercentage))
+    if lastfailed_percentage is None:
         print("No last valued. Just putting new {} value to etcd".format(FAILED_PERCENTAGE_KEY))
         return
 
-    diff = abs(lastfailedPercentage - failedPercentage)
+    diff = abs(lastfailed_percentage - failed_percentage)
     print("Diff: {}".format(diff))
 
-    if (failedPercentage > lastfailedPercentage and diff >= FAILED_PERCENTAGE_THRESHOLD):
+    if failed_percentage > lastfailed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
         message = "Failed percentage has increased from {:.2f} to {:.2f} since last test execution. Threshold is: {}".format(
-            lastfailedPercentage, failedPercentage, FAILED_PERCENTAGE_THRESHOLD)
-        notifyHubot(message, ':disappointed:')
-    elif (lastfailedPercentage > failedPercentage and diff >= FAILED_PERCENTAGE_THRESHOLD):
+            lastfailed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD)
+        notify_hubot(message, ':disappointed:')
+    elif lastfailed_percentage > failed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
         message = "Improvement. Percentage of failed tests decreased from {:.2f} to {:.2f} since last test execution. Threshold is: {}".format(
-            lastfailedPercentage, failedPercentage, FAILED_PERCENTAGE_THRESHOLD);
-        notifyHubot(message, ':champagne:')
+            lastfailed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD);
+        notify_hubot(message, ':champagne:')

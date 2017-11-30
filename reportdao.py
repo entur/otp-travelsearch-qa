@@ -13,12 +13,12 @@
 
 import time
 
-def saveJsonReport(jsonReport):
+def save_json_report(jsonReport):
     print("Saving json report")
 
-    fileName = "test-report-{}.json".format(int(round(time.time() * 1000)))
-    text_file = open(fileName, "w")
+    file_name = "test-report-{}.json".format(int(round(time.time() * 1000)))
+    text_file = open(file_name, "w")
     text_file.write(jsonReport)
     text_file.close()
-    print("Saved {}".format(fileName))
-    return fileName
+    print("Saved {}".format(file_name))
+    return file_name

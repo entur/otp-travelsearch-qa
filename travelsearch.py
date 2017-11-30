@@ -12,7 +12,7 @@
 # limitations under the Licence.
 
 
-def createQuery(search, date, time):
+def create_query(search, date, time):
     return """
     {{
       plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}", date: "{date}" time: "{time}") {{

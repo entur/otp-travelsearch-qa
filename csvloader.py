@@ -13,8 +13,8 @@
 
 import csv
 
-def loadCsv(csvFile):
-    with open(csvFile) as file:
+def load_csv(csv_file):
+    with open(csv_file) as file:
         searches = [{k: v for k, v in row.items()}
                     for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
         return searches

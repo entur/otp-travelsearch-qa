@@ -27,7 +27,7 @@ class GraphiteReporter:
             print("GRAPHITE_REPORT_HOST not set")
             self.graphite = None
 
-    def reportToGraphite(self, listOfMetrics):
+    def report_to_graphite(self, listOfMetrics):
         if self.graphite:
             print("Sending list of metrics: {}".format(listOfMetrics))
             self.graphite.send_list(listOfMetrics)

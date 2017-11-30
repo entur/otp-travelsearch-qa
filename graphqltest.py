@@ -11,7 +11,6 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-import csv
 import datetime
 import json
 import os
@@ -28,106 +27,106 @@ import csvloader
 from graphitereporter import GraphiteReporter
 from graphqlclient import GraphQLClient
 
-USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
+usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
 
-graphiteReporter = GraphiteReporter()
+graphitereporter = GraphiteReporter()
 
-if 'GRAPHQL_ENDPOINT' not in os.environ:
-    graphqlEndpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
+if 'graphql_endpoint' not in os.environ:
+    graphqlendpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
 else:
-    graphqlEndpoint = os.environ["GRAPHQL_ENDPOINT"]
+    graphqlendpoint = os.environ["graphql_endpoint"]
 
-client = GraphQLClient(graphqlEndpoint)
+client = GraphQLClient(graphqlendpoint)
 
 TIME = "06:00"
 
-def roundTwoDecimals(value):
+def round_two_decimals(value):
     return round(value, 2)
 
 
-def run(csvFile, uploadGcp):
-    travelSearches = csvloader.loadCsv(csvFile)
+def run(csv_file, upload_gcp):
+    travel_searches = csvloader.load_csv(csv_file)
 
-    print("loaded {numberOfSearches} searches from file".format (numberOfSearches=len(travelSearches)))
+    print("loaded {number_of_searches} searches from file".format (number_of_searches=len(travel_searches)))
 
     count = 0
-    successCount = 0
+    success_count = 0
     failed = 0
-    failedSearches = []
+    failed_searches = []
 
-    time1 = time.time()
+    start_time = time.time()
 
-    for travelSearch in travelSearches:
+    for travel_search in travel_searches:
         count += 1
-        date = time.strftime("%Y-%m-%d")
+        date = time.strftime("%y-%m-%d")
 
-        query = travelsearch.createQuery(travelSearch, date, TIME)
+        query = travelsearch.create_query(travel_search, date, time)
         try:
-            print("Executing search {}: {} -> {} ".format(count, travelSearch["fromPlace"], travelSearch["toPlace"]))
+            print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"], travel_search["toPlace"]))
             result = client.execute(query)
-            jsonResponse = json.loads(result)
+            json_response = json.loads(result)
 
-            if not jsonResponse["data"]["plan"]["itineraries"]:
-                failedSearches.append({"search": travelSearch, "otpQuery": query, "response": result})
+            if not json_response["data"]["plan"]["itineraries"]:
+                failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
             else:
-                successCount += 1
+                success_count += 1
         except Exception as exception:
-            failMessage = str(exception)
-            print("Caught exception: " + failMessage)
+            fail_message = str(exception)
+            print("caught exception: " + fail_message)
             result = str(exception.read())
-            print("Adding failmessage and reponse to report {}: {}".format(failMessage, result))
+            print("adding failmessage and reponse to report {}: {}".format(fail_message, result))
 
-            failedSearches.append({"search": travelSearch, "otpQuery": query, "failMessage": failMessage, "response": result})
+            failed_searches.append({"search": travel_search, "otpquery": query, "fail_message": fail_message, "response": result})
 
-    spent = roundTwoDecimals(time.time() - time1)
-    average = roundTwoDecimals(spent / count)
-    failedCount = len(failedSearches)
-    failedPercentage = failedCount / count * 100
+    spent = round_two_decimals(time.time() - start_time)
+    average = round_two_decimals(spent / count)
+    failed_count = len(failed_searches)
+    failed_percentage = failed_count / count * 100
 
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        "failedPercentage": failedPercentage,
+        "failedPercentage": failed_percentage,
         "numberOfSearches": count,
         "secondsTotal": spent,
         "secondsAverage": average,
-        "successCount": successCount,
-        "failedCount": failedCount,
-        "failedSearches": failedSearches
+        "successCount": success_count,
+        "failedCount": failed_count,
+        "failedSearches": failed_searches
     }
 
-    graphiteReporter.reportToGraphite([
+    graphitereporter.report_to_graphite([
         ('search.count', count),
-        ('search.success.count', successCount),
+        ('search.success.count', success_count),
         ('search.seconds.total', spent),
         ('search.seconds.average', average),
-        ('search.failed.count', failedCount)
+        ('search.failed.count', failed_count)
     ])
 
-    jsonReport = json.dumps(report)
-    fileName = reportdao.saveJsonReport(jsonReport)
+    json_report = json.dumps(report)
+    filename = reportdao.save_json_report(json_report)
 
-    if (uploadGcp):
-        gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
-        # Only notify hubot if uploaded to gcp
+    if (upload_gcp):
+        gcpuploader.upload_blob(os.environ["bucket_name"], filename, os.environ["destination_blob_name"])
+        # only notify hubot if uploaded to gcp
 
     if 'NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True:
         print("notify hubot?: " + os.environ["NOTIFY_HUBOT"])
-        hubotnotifier.notifyIfNecesarry(report)
+        hubotnotifier.notify_if_necessary(report)
 
 
 if len(sys.argv) == 1:
-    print(USAGE)
+    print(usage)
     sys.exit(1)
 
-csvFile = sys.argv[1]
+csv_file = sys.argv[1]
 
 if len(sys.argv) == 3:
-    uploadGcp = sys.argv[2] == 'True'
+    upload_gcp = sys.argv[2] == 'True'
 else:
-    uploadGcp = False;
+    upload_gcp = False
 
-if uploadGcp:
+if upload_gcp:
     if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
         raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
 
-run(csvFile, uploadGcp)
+run(csv_file, upload_gcp)
