@@ -27,6 +27,7 @@ import csvloader
 from graphitereporter import GraphiteReporter
 from graphqlclient import GraphQLClient
 from travelsearchexecutor import TravelSearchExecutor
+from stoptimesexecutor import StopTimesExecutor
 
 usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
 
@@ -40,6 +41,7 @@ else:
 client = GraphQLClient(graphqlendpoint)
 
 travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
+stop_times_executor = StopTimesExecutor(client, graphite_reporter)
 
 TIME = "06:00"
 
@@ -55,6 +57,14 @@ def run(csv_file, upload_gcp):
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     }
+
+    stops = [
+        {
+            "id": "NSR:StopPlace:1"
+        }
+    ]
+
+    stop_times_executor.run_stop_times_searches(stops, TIME)
 
     travel_search_report = travel_search_executor.run_travel_searches(travel_searches, TIME)
     report["travelSearch"] = travel_search_report
