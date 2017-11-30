@@ -46,9 +46,9 @@ def roundTwoDecimals(value):
 
 
 def run(csvFile, uploadGcp):
-    searches = csvloader.loadCsv(csvFile)
+    travelSearches = csvloader.loadCsv(csvFile)
 
-    print("loaded {numberOfSearches} searches from file".format(numberOfSearches=len(searches)))
+    print("loaded {numberOfSearches} searches from file".format (numberOfSearches=len(travelSearches)))
 
     count = 0
     successCount = 0
@@ -57,18 +57,18 @@ def run(csvFile, uploadGcp):
 
     time1 = time.time()
 
-    for search in searches:
+    for travelSearch in travelSearches:
         count += 1
         date = time.strftime("%Y-%m-%d")
 
-        query = travelsearch.createQuery(search, date, TIME)
+        query = travelsearch.createQuery(travelSearch, date, TIME)
         try:
-            print("Executing search {}: {} -> {} ".format(count, search["fromPlace"], search["toPlace"]))
+            print("Executing search {}: {} -> {} ".format(count, travelSearch["fromPlace"], travelSearch["toPlace"]))
             result = client.execute(query)
             jsonResponse = json.loads(result)
 
             if not jsonResponse["data"]["plan"]["itineraries"]:
-                failedSearches.append({"search": search, "otpQuery": query, "response": result})
+                failedSearches.append({"search": travelSearch, "otpQuery": query, "response": result})
             else:
                 successCount += 1
         except Exception as exception:
@@ -77,7 +77,7 @@ def run(csvFile, uploadGcp):
             result = str(exception.read())
             print("Adding failmessage and reponse to report {}: {}".format(failMessage, result))
 
-            failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage, "response": result})
+            failedSearches.append({"search": travelSearch, "otpQuery": query, "failMessage": failMessage, "response": result})
 
     spent = roundTwoDecimals(time.time() - time1)
     average = roundTwoDecimals(spent / count)
