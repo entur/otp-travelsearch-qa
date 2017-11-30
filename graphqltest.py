@@ -74,9 +74,9 @@ def run(csv_file, upload_gcp):
             fail_message = str(exception)
             print("caught exception: " + fail_message)
             result = str(exception.read())
-            print("adding failmessage and reponse to report {}: {}".format(fail_message, result))
+            print("adding failMessage and response to report {}: {}".format(fail_message, result))
 
-            failed_searches.append({"search": travel_search, "otpquery": query, "fail_message": fail_message, "response": result})
+            failed_searches.append({"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
 
     spent = round_two_decimals(time.time() - start_time)
     average = round_two_decimals(spent / count)
