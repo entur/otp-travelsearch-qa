@@ -44,7 +44,7 @@ class TravelSearchExecutor:
         }}
         """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
 
-    def run_travel_searches(self, travel_searches):
+    def run_travel_searches(self, travel_searches, clock):
 
         count = 0
         success_count = 0
@@ -55,7 +55,7 @@ class TravelSearchExecutor:
         for travel_search in travel_searches:
             count += 1
 
-            query = self.create_query(travel_search, date, time)
+            query = self.create_query(travel_search, date, clock)
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"], travel_search["toPlace"]))
                 result = self.client.execute(query)

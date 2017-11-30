@@ -56,7 +56,7 @@ def run(csv_file, upload_gcp):
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     }
 
-    travel_search_report = travel_search_executor.run_travel_searches(travel_searches)
+    travel_search_report = travel_search_executor.run_travel_searches(travel_searches, TIME)
     report["travelSearch"] = travel_search_report
 
     # graphite_reporter.report_to_graphite([
