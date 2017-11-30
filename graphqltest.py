@@ -106,7 +106,7 @@ def run(csv_file, upload_gcp):
     filename = reportdao.save_json_report(json_report)
 
     if (upload_gcp):
-        gcpuploader.upload_blob(os.environ["bucket_name"], filename, os.environ["destination_blob_name"])
+        gcpuploader.upload_blob(os.environ["BUCKET_NAME"], filename, os.environ["DESTINATION_BLOB_NAME"])
         # only notify hubot if uploaded to gcp
 
     if 'NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True:
