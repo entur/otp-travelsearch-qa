@@ -11,11 +11,11 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-import sys
 import os
 from google.cloud import storage
 
 INDEX_FILE = "index"
+
 
 def uploadBlob(bucketName, sourceFileName, destinationFolder):
     """Uploads a file to the bucket."""
@@ -35,7 +35,7 @@ def uploadBlob(bucketName, sourceFileName, destinationFolder):
         os.remove(INDEX_FILE)
 
     blobExists = indexBlob.exists();
-    if(blobExists):
+    if (blobExists):
         print("index file exists: {}".format(indexBlob))
         indexBlob.download_to_filename(INDEX_FILE)
     else:
@@ -43,10 +43,9 @@ def uploadBlob(bucketName, sourceFileName, destinationFolder):
 
     with open(INDEX_FILE, "a") as indexFile:
         print("Appending {} to index file".format(sourceFileName))
-        if(blobExists):
+        if (blobExists):
             indexFile.write("\n")
         indexFile.write(sourceFileName)
-
 
     print("Uploading index file")
 

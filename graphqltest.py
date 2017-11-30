@@ -27,7 +27,7 @@ USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
 
 graphiteReporter = GraphiteReporter()
 
-if ('GRAPHQL_ENDPOINT' not in os.environ):
+if 'GRAPHQL_ENDPOINT' not in os.environ:
     graphqlEndpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
 else:
     graphqlEndpoint = os.environ["GRAPHQL_ENDPOINT"]
@@ -150,23 +150,23 @@ def run(csvFile, uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
         # Only notify hubot if uploaded to gcp
 
-    if ('NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True):
+    if 'NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True:
         print("notify hubot?: " + os.environ["NOTIFY_HUBOT"])
         hubotnotifier.notifyIfNecesarry(report)
 
 
-if (len(sys.argv) == 1):
+if len(sys.argv) == 1:
     print(USAGE)
     sys.exit(1)
 
 csvFile = sys.argv[1]
 
-if (len(sys.argv) == 3):
+if len(sys.argv) == 3:
     uploadGcp = sys.argv[2] == 'True'
 else:
     uploadGcp = False;
 
-if (uploadGcp):
+if uploadGcp:
     if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
         raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
 
