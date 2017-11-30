@@ -14,9 +14,12 @@
 from datetime import datetime
 import time
 import sys
+import json
 
+STOP_ID_KEY = "Stopplace-id"
 
 class StopTimesExecutor:
+
     def __init__(self, client, graphite_reporter):
         self.client = client
         self.graphite_reporter = graphite_reporter
@@ -25,9 +28,10 @@ class StopTimesExecutor:
 
     def run_stop_times_searches(self, stops, clock):
 
-        start_time = time.time()
+        test_start_time = time.time()
         count = 0
         success_count = 0
+        failed_searches = []
 
 
         for stop in stops:
@@ -39,28 +43,43 @@ class StopTimesExecutor:
 
                 variables = {
                     "startTime": start_time,
-                    "id": stop["id"]
+                    "id": stop[STOP_ID_KEY]
                 }
 
                 result = self.client.execute(QUERY, variables)
                 json_response = json.loads(result)
 
-                if not json_response["data"][""]["itineraries"]:
-                    failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
+                if not json_response["data"]["station"]["stoptimesWithoutPatterns"]:
+                    failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
                 else:
                     success_count += 1
-
+            except TypeError as exception:
+                fail_message = str(exception)
+                failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message, "response": fail_message})
 
             except Exception as exception:
-                print(sys.exc_info()[0])
-                print(exception)
                 fail_message = str(exception)
                 print("caught exception: " + fail_message)
-
                 result = str(exception.read())
+                failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message, "response": result})
 
+        spent = round(time.time() - test_start_time, 2)
+        failed_count = len(failed_searches)
+        failed_percentage = failed_count / count * 100
+        average = round(spent / count, 2)
 
+        report = {
+            "failedPercentage": failed_percentage,
+            "numberOfSearches": count,
+            "successCount": success_count,
+            "failedCount": failed_count,
+            "failedSearches": failed_searches,
+            "secondsAverage": average,
+            "secondsTotal": spent
+        }
 
+        print(report)
+        return report
 
 
 
