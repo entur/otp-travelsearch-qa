@@ -86,89 +86,22 @@ class StopTimesExecutor:
 
 
 QUERY = """
-        query StopPage($id:String!,$startTime:Long!) {
-            station(id:$id) {
-                gtfsId,
-                id,...F1
-            }
+       query StopPage($id:String!,$startTime:Long!) {
+        station(id:$id) {
+            ...F1
         }
-        fragment F0 on Stoptime {
-            realtimeState,
-            realtimeDeparture,
-            scheduledDeparture,
-            realtimeArrival,
-            scheduledArrival,
-            realtime,
-            serviceDay,
-            pickupType,
-            dropoffType
-            stopHeadsign,
-            stop {
-                gtfsId,
-                id,
-                code,
-                platformCode
-                desc
-                direction
-                alerts {
-                    id,
-                    alertHeaderText,
-                    alertDescriptionText,
-                    effectiveStartDate,
-                    effectiveEndDate
-                }
-            },
-            trip {
-                gtfsId,
-                pattern {
-                    route {
-                        alerts {
-                            id,
-                            alertHeaderText,
-                            alertDescriptionText,
-                            effectiveStartDate,
-                            effectiveEndDate
-                        }
-                        gtfsId,
-                        shortName,
-                        longName,
-                        mode,
-                        color,
-                        agency {
-                            name,
-                            id
-                        },
-                        id
-                    },
-                    code,
-                    id
-                },
-                stoptimesForDate {
-                    pickupType
-                    dropoffType
-                    realtimeDeparture
-                    scheduledDeparture
-                    stop {
-                        id
-                        gtfsId
-                        name
-                    }
-                },
-                alerts {
-                    id,
-                    alertHeaderText,
-                    alertDescriptionText,
-                    effectiveStartDate,
-                    effectiveEndDate
-                }
-            }
-        }
-        fragment F1 on Stop {
-            stoptimesWithoutPatterns(
-                startTime:$startTime,
-                timeRange:43200,
-                numberOfDepartures:100
-            ) {...F0},
-            id
-        }
+    }
+    fragment F0 on Stoptime {
+        realtimeState,
+        realtimeDeparture,
+        scheduledDeparture,
+    }
+    fragment F1 on Stop {
+        stoptimesWithoutPatterns(
+            startTime:$startTime,
+            timeRange:43200,
+            numberOfDepartures:10
+        ) {...F0},
+        id
+    }
     """
