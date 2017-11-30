@@ -11,12 +11,13 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-from six.moves import urllib
 import json
+from six.moves import urllib
+
 
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
-           'Content-Type': 'application/json'}
+               'Content-Type': 'application/json'}
 
     def __init__(self, endpoint):
         self.endpoint = endpoint

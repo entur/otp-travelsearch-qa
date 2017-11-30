@@ -11,22 +11,23 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-from graphqlclient import GraphQLClient
-from graphitereporter import GraphiteReporter
-import time
-import json
-import datetime
 import csv
-import sys
+import datetime
+import json
 import os
+import sys
+import time
+
 import gcpuploader
 import hubotnotifier
+from graphitereporter import GraphiteReporter
+from graphqlclient import GraphQLClient
 
 USAGE = "Usage: {} csvFile [uploadGcp(true|false)]".format(sys.argv[0])
 
 graphiteReporter = GraphiteReporter()
 
-if('GRAPHQL_ENDPOINT' not in os.environ):
+if ('GRAPHQL_ENDPOINT' not in os.environ):
     graphqlEndpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
 else:
     graphqlEndpoint = os.environ["GRAPHQL_ENDPOINT"]
@@ -35,7 +36,8 @@ client = GraphQLClient(graphqlEndpoint)
 
 TIME = "06:00"
 
-def createQuery(search, date, time) :
+
+def createQuery(search, date, time):
     return """
     {{
       plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}", date: "{date}" time: "{time}") {{
@@ -60,7 +62,8 @@ def createQuery(search, date, time) :
     }}
     """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
 
-def saveJsonReport(jsonReport) :
+
+def saveJsonReport(jsonReport):
     print("Saving json report")
 
     fileName = "test-report-{}.json".format(int(round(time.time() * 1000)))
@@ -70,17 +73,19 @@ def saveJsonReport(jsonReport) :
     print("Saved {}".format(fileName))
     return fileName
 
-def loadCsv(csvFile) :
+
+def loadCsv(csvFile):
     with open(csvFile) as file:
         searches = [{k: v for k, v in row.items()}
-            for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
+                    for row in csv.DictReader(file, skipinitialspace=True, delimiter=';')]
         return searches
+
 
 def roundTwoDecimals(value):
     return round(value, 2)
 
-def run(csvFile, uploadGcp):
 
+def run(csvFile, uploadGcp):
     searches = loadCsv(csvFile)
 
     print("loaded {numberOfSearches} searches from file".format(numberOfSearches=len(searches)))
@@ -88,7 +93,7 @@ def run(csvFile, uploadGcp):
     count = 0
     successCount = 0
     failed = 0
-    failedSearches=[]
+    failedSearches = []
 
     time1 = time.time()
 
@@ -114,11 +119,10 @@ def run(csvFile, uploadGcp):
 
             failedSearches.append({"search": search, "otpQuery": query, "failMessage": failMessage, "response": result})
 
-
-    spent = roundTwoDecimals(time.time()-time1)
-    average = roundTwoDecimals(spent/count)
+    spent = roundTwoDecimals(time.time() - time1)
+    average = roundTwoDecimals(spent / count)
     failedCount = len(failedSearches)
-    failedPercentage = failedCount/count*100
+    failedPercentage = failedCount / count * 100
 
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
@@ -132,39 +136,38 @@ def run(csvFile, uploadGcp):
     }
 
     graphiteReporter.reportToGraphite([
-                ('search.count', count),
-                ('search.success.count', successCount),
-                ('search.seconds.total', spent),
-                ('search.seconds.average', average),
-                ('search.failed.count', failedCount)
-            ])
+        ('search.count', count),
+        ('search.success.count', successCount),
+        ('search.seconds.total', spent),
+        ('search.seconds.average', average),
+        ('search.failed.count', failedCount)
+    ])
 
     jsonReport = json.dumps(report)
     fileName = saveJsonReport(jsonReport)
 
-    if(uploadGcp):
+    if (uploadGcp):
         gcpuploader.uploadBlob(os.environ["BUCKET_NAME"], fileName, os.environ["DESTINATION_BLOB_NAME"])
         # Only notify hubot if uploaded to gcp
 
-    if('NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True):
+    if ('NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True):
         print("notify hubot?: " + os.environ["NOTIFY_HUBOT"])
         hubotnotifier.notifyIfNecesarry(report)
 
-if(len(sys.argv) == 1):
+
+if (len(sys.argv) == 1):
     print(USAGE)
     sys.exit(1)
 
-csvFile=sys.argv[1]
+csvFile = sys.argv[1]
 
-if(len(sys.argv) == 3):
-    uploadGcp=sys.argv[2] == 'True'
+if (len(sys.argv) == 3):
+    uploadGcp = sys.argv[2] == 'True'
 else:
     uploadGcp = False;
 
-if(uploadGcp):
-    if('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
+if (uploadGcp):
+    if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
         raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
-
-
 
 run(csvFile, uploadGcp)
