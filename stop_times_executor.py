@@ -102,4 +102,12 @@ class StopTimesExecutor:
             "secondsTotal": spent
         }
 
+        self.graphite_reporter.report_to_graphite([
+            ('stop.time.count', count),
+            ('stop.time.success.count', success_count),
+            ('stop.time.seconds.total', spent),
+            ('stop.time.seconds.average', average),
+            ('stop.time.failed.count', failed_count)
+        ])
+
         return report
