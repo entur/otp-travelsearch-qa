@@ -30,9 +30,12 @@ HOUR = 6
 MINUTE = 0
 TIME = "06:00"
 USAGE = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
+
 GRAPHQL_ENDPOINT_ENV = "GRAPHQL_ENDPOINT"
 STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
 NOTIFY_HUBOT_ENV = "NOTIFY_HUBOT"
+BUCKET_NAME_ENV = "BUCKET_NAME"
+DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
 
 DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
 DEFAULT_STOP_TIMES_FILE = "stops.csv"
@@ -72,7 +75,7 @@ def run(travel_search_file, stop_times_file, upload_gcp):
     filename = reportdao.save_json_report(json_report)
 
     if (upload_gcp):
-        gcpuploader.upload_blob(os.environ["BUCKET_NAME"], filename, os.environ["DESTINATION_BLOB_NAME"])
+        gcpuploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
         # only notify hubot if uploaded to gcp
 
     if env_is_true(NOTIFY_HUBOT_ENV):
@@ -102,7 +105,7 @@ travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
 stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
 
 if upload_gcp:
-    if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
+    if (BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ):
         raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
 
 run(travel_search_file, stop_times_file, upload_gcp)
