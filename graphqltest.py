@@ -48,7 +48,7 @@ def get_env(key, default_value):
 
 
 def env_is_true(key):
-    if key in os.environ and bool(os.environ[key] is True):
+    if key in os.environ and bool(os.environ[key]):
         print("Got " + key + ": True")
         return True
     return False
