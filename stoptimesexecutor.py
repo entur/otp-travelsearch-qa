@@ -13,12 +13,10 @@
 
 from datetime import datetime
 import time
-import sys
 import json
 
 STOP_ID_KEY = "Stopplace-id"
-HOUR=6
-MINUTE=0
+
 QUERY = """
        query StopPage($id:String!,$startTime:Long!) {
         station(id:$id) {
@@ -42,13 +40,14 @@ QUERY = """
 
 class StopTimesExecutor:
 
-    def __init__(self, client, graphite_reporter):
+    def __init__(self, client, graphite_reporter, hour, minute):
         self.client = client
         self.graphite_reporter = graphite_reporter
+        self.hour = hour
+        self.minute = minute
 
 
-
-    def run_stop_times_searches(self, stops, clock):
+    def run_stop_times_searches(self, stops):
 
         test_start_time = time.time()
         count = 0
@@ -61,7 +60,7 @@ class StopTimesExecutor:
 
             try:
                 print("Executing stop times request {}: {}".format(count, stop))
-                start_time = int(time.mktime(datetime.now().replace(hour=HOUR, minute=MINUTE).timetuple()))
+                start_time = int(time.mktime(datetime.now().replace(hour=self.hour, minute=self.minute).timetuple()))
 
                 variables = {
                     "startTime": start_time,

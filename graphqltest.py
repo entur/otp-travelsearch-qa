@@ -29,6 +29,10 @@ from graphqlclient import GraphQLClient
 from travelsearchexecutor import TravelSearchExecutor
 from stoptimesexecutor import StopTimesExecutor
 
+HOUR=6
+MINUTE=0
+TIME = "06:00"
+
 usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
 
 graphite_reporter = GraphiteReporter()
@@ -41,12 +45,9 @@ else:
 client = GraphQLClient(graphqlendpoint)
 
 travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
-stop_times_executor = StopTimesExecutor(client, graphite_reporter)
+stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
 
-HOUR=6
-MINUTE=0
 
-TIME = "06:00"
 
 def round_two_decimals(value):
     return round(value, 2)
@@ -63,11 +64,11 @@ def run(csv_file, upload_gcp):
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     }
 
-    report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops, TIME)
+    report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
 
     travel_searches = csvloader.load_csv(csv_file)
     print("loaded {number_of_searches} searches from file".format (number_of_searches=len(travel_searches)))
-    travel_search_report = travel_search_executor.run_travel_searches(travel_searches, TIME)
+    travel_search_report = travel_search_executor.run_travel_searches(travel_searches)
     report["travelSearch"] = travel_search_report
 
     # graphite_reporter.report_to_graphite([
