@@ -32,6 +32,8 @@ from stoptimesexecutor import StopTimesExecutor
 HOUR=6
 MINUTE=0
 TIME = "06:00"
+USAGE = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
+DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
 
 def getEnv(key, default_value):
     if key not in os.environ:
@@ -40,29 +42,10 @@ def getEnv(key, default_value):
         return os.environ[key]
 
 
-
-DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
-
-usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
-
-graphite_reporter = GraphiteReporter()
-
-graphqlendpoint = getEnv("graphql_endpoint", DEFAULT_GRAPHQL_ENDPOINT)
-
-client = GraphQLClient(graphqlendpoint)
-
-travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
-stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
-
-
-
 def round_two_decimals(value):
     return round(value, 2)
 
-
 def run(csv_file, upload_gcp):
-
-
     stops = csvloader.load_csv("stops.csv")
     print("loaded {number_of_searches} stops from file".format (number_of_searches=len(stops)))
 
@@ -98,11 +81,8 @@ def run(csv_file, upload_gcp):
         hubotnotifier.notify_if_necessary(report)
 
 
-
-
-
 if len(sys.argv) == 1:
-    print(usage)
+    print(USAGE)
     sys.exit(1)
 
 csv_file = sys.argv[1]
@@ -111,6 +91,18 @@ if len(sys.argv) == 3:
     upload_gcp = sys.argv[2] == 'True'
 else:
     upload_gcp = False
+
+
+
+graphite_reporter = GraphiteReporter()
+
+graphqlendpoint = getEnv("graphql_endpoint", DEFAULT_GRAPHQL_ENDPOINT)
+
+client = GraphQLClient(graphqlendpoint)
+
+travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
+stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
+
 
 if upload_gcp:
     if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
