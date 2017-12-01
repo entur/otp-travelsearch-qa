@@ -4,7 +4,7 @@ echo "start "
 date
 for i in {1..4}
 do
-  python graphqltest.py endpoints.csv
+  python graphql_test.py endpoints.csv
   echo "----------------"
 done
 echo "waiting"

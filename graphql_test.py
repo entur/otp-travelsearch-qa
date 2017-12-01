@@ -16,13 +16,13 @@ import json
 import os
 import sys
 
-import csvloader
-import gcpuploader
-import hubotnotifier
-import reportdao
-from graphitereporter import GraphiteReporter
-from graphqlclient import GraphQLClient
-from stoptimesexecutor import StopTimesExecutor
+import csv_loader
+import gcp_uploader
+import hubot_notifier
+import report_dao
+from graphite_reporter import GraphiteReporter
+from graphql_client import GraphQLClient
+from stop_times_executor import StopTimesExecutor
 from travelsearchexecutor import TravelSearchExecutor
 
 HOUR = 6
@@ -75,25 +75,25 @@ def run():
     }
 
     if stop_times_file is not None:
-        stops = csvloader.load_csv(stop_times_file)
+        stops = csv_loader.load_csv(stop_times_file)
         print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
         report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
 
 
-    travel_searches = csvloader.load_csv(travel_search_file)
+    travel_searches = csv_loader.load_csv(travel_search_file)
     print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
     report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, TIME)
 
     json_report = json.dumps(report)
-    filename = reportdao.save_json_report(json_report)
+    filename = report_dao.save_json_report(json_report)
 
     if upload_gcp:
-        gcpuploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
+        gcp_uploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
         # only notify hubot if uploaded to gcp
 
     if env_is_true(NOTIFY_HUBOT_ENV):
         print("notify hubot?: " + os.environ[NOTIFY_HUBOT_ENV])
-        hubotnotifier.notify_if_necessary(report)
+        hubot_notifier.notify_if_necessary(report)
 
 # required
 travel_search_file = get_arg(1)
