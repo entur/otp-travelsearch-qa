@@ -11,9 +11,9 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-from datetime import datetime
-import time
 import json
+import time
+from datetime import datetime
 
 STOP_ID_KEY = "stopPlaceId"
 
@@ -38,14 +38,13 @@ QUERY = """
     }
     """
 
-class StopTimesExecutor:
 
+class StopTimesExecutor:
     def __init__(self, client, graphite_reporter, hour, minute):
         self.client = client
         self.graphite_reporter = graphite_reporter
         self.hour = hour
         self.minute = minute
-
 
     def run_stop_times_searches(self, stops):
 
@@ -53,7 +52,6 @@ class StopTimesExecutor:
         count = 0
         success_count = 0
         failed_searches = []
-
 
         for stop in stops:
             count += 1
@@ -71,18 +69,23 @@ class StopTimesExecutor:
                 json_response = json.loads(result)
 
                 if not json_response["data"]["station"]["stoptimesWithoutPatterns"]:
-                    failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
+                    failed_searches.append(
+                        {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
                 else:
                     success_count += 1
             except TypeError as exception:
                 fail_message = str(exception)
-                failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message, "response": fail_message})
+                failed_searches.append(
+                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
+                     "response": fail_message})
 
             except Exception as exception:
                 fail_message = str(exception)
                 print("caught exception: " + fail_message)
                 result = str(exception.read())
-                failed_searches.append({"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message, "response": result})
+                failed_searches.append(
+                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
+                     "response": result})
 
         spent = round(time.time() - test_start_time, 2)
         failed_count = len(failed_searches)
@@ -100,4 +103,3 @@ class StopTimesExecutor:
         }
 
         return report
-

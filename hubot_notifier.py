@@ -11,8 +11,9 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-import requests
 import socket
+
+import requests
 
 ETCD_BASE = "http://etcd-client.default.svc.cluster.local:2379/v2/keys/dynamic/otp-travelsearch-qa"
 # ETCD_BASE = "http://localhost:2379/v2/keys/dynamic/otp-travelsearch-qa"
@@ -65,19 +66,19 @@ def notify_if_necessary(report):
     travel_search_report = report["travelSearch"]
     failed_percentage = travel_search_report[FAILED_PERCENTAGE_KEY]
 
-    lastfailed_percentage = float(read_and_replace(FAILED_PERCENTAGE_KEY, failed_percentage))
-    if lastfailed_percentage is None:
+    last_failed_percentage = float(read_and_replace(FAILED_PERCENTAGE_KEY, failed_percentage))
+    if last_failed_percentage is None:
         print("No last valued. Just putting new {} value to etcd".format(FAILED_PERCENTAGE_KEY))
         return
 
-    diff = abs(lastfailed_percentage - failed_percentage)
+    diff = abs(last_failed_percentage - failed_percentage)
     print("Diff: {}".format(diff))
 
-    if failed_percentage > lastfailed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
+    if failed_percentage > last_failed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
         message = "Failed percentage has increased from {:.2f} to {:.2f} since last test execution. Threshold is: {}".format(
-            lastfailed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD)
+            last_failed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD)
         notify_hubot(message, ':disappointed:')
-    elif lastfailed_percentage > failed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
+    elif last_failed_percentage > failed_percentage and diff >= FAILED_PERCENTAGE_THRESHOLD:
         message = "Improvement. Percentage of failed tests decreased from {:.2f} to {:.2f} since last test execution. Threshold is: {}".format(
-            lastfailed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD);
+            last_failed_percentage, failed_percentage, FAILED_PERCENTAGE_THRESHOLD)
         notify_hubot(message, ':champagne:')

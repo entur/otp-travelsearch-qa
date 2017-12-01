@@ -61,13 +61,16 @@ def get_arg(index):
 
     return sys.argv[index]
 
+
 def args_has_index(index):
     return len(sys.argv) > index
+
 
 def get_arg_default_value(index, default_value):
     if args_has_index(index):
         return sys.argv[index]
     return default_value
+
 
 def run():
     report = {
@@ -78,7 +81,6 @@ def run():
         stops = csv_loader.load_csv(stop_times_file)
         print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
         report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
-
 
     travel_searches = csv_loader.load_csv(travel_search_file)
     print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
@@ -93,6 +95,7 @@ def run():
 
     if env_is_true(NOTIFY_HUBOT_ENV):
         hubot_notifier.notify_if_necessary(report)
+
 
 # required
 travel_search_file = get_arg(1)

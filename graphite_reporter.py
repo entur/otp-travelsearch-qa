@@ -11,13 +11,14 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-import graphitesend
 import os
+
+import graphitesend
 
 
 class GraphiteReporter:
     def __init__(self):
-        if ('GRAPHITE_REPORT_HOST' in os.environ):
+        if 'GRAPHITE_REPORT_HOST' in os.environ:
             self.graphite = graphitesend.init(prefix='app',
                                               system_name='otp-travelsearch-qa',
                                               graphite_server=os.environ["GRAPHITE_REPORT_HOST"],

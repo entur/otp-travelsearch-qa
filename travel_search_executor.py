@@ -11,8 +11,9 @@
 # See the Licence for the specific language governing permissions and
 # limitations under the Licence.
 
-import time
 import json
+import time
+
 
 class TravelSearchExecutor:
     def __init__(self, client, graphite_reporter):
@@ -57,7 +58,8 @@ class TravelSearchExecutor:
 
             query = self.create_query(travel_search, date, clock)
             try:
-                print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"], travel_search["toPlace"]))
+                print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
+                                                              travel_search["toPlace"]))
                 result = self.client.execute(query)
                 json_response = json.loads(result)
 
@@ -71,8 +73,8 @@ class TravelSearchExecutor:
                 result = str(exception.read())
                 print("adding failMessage and response to report {}: {}".format(fail_message, result))
 
-                failed_searches.append({"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
-
+                failed_searches.append(
+                    {"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
 
         spent = round(time.time() - start_time, 2)
         failed_count = len(failed_searches)
@@ -96,6 +98,5 @@ class TravelSearchExecutor:
             ('search.seconds.average', average),
             ('search.failed.count', failed_count)
         ])
-
 
         return report

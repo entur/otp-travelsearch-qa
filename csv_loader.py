@@ -13,6 +13,7 @@
 
 import csv
 
+
 def load_csv(csv_file):
     with open(csv_file) as file:
         searches = [{k: v for k, v in row.items()}
