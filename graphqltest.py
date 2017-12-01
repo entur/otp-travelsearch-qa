@@ -15,7 +15,6 @@ import datetime
 import json
 import os
 import sys
-import time
 
 import csvloader
 import gcpuploader
@@ -59,7 +58,7 @@ def round_two_decimals(value):
     return round(value, 2)
 
 
-def run(travel_search_file, stop_times_file, upload_gcp):
+def run():
     stops = csvloader.load_csv(stop_times_file)
     print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
     travel_searches = csvloader.load_csv(travel_search_file)
@@ -74,7 +73,7 @@ def run(travel_search_file, stop_times_file, upload_gcp):
     json_report = json.dumps(report)
     filename = reportdao.save_json_report(json_report)
 
-    if (upload_gcp):
+    if upload_gcp:
         gcpuploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
         # only notify hubot if uploaded to gcp
 
@@ -89,11 +88,6 @@ if len(sys.argv) == 1:
 
 travel_search_file = sys.argv[1]
 
-if len(sys.argv) == 3:
-    upload_gcp = sys.argv[2] == 'True'
-else:
-    upload_gcp = False
-
 graphite_reporter = GraphiteReporter()
 
 graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
@@ -104,8 +98,10 @@ client = GraphQLClient(graphql_endpoint)
 travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
 stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
 
-if upload_gcp:
-    if (BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ):
-        raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
+if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
+    print("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")
+    upload_gcp = False
+else:
+    upload_gcp = True
 
-run(travel_search_file, stop_times_file, upload_gcp)
+run()
