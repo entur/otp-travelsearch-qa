@@ -75,7 +75,7 @@ def run():
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     }
 
-    if stop_points_file is not None:
+    if stop_times_file is not None:
         stops = csvloader.load_csv(stop_times_file)
         print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
         report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
@@ -100,12 +100,11 @@ def run():
 travel_search_file = get_arg(1)
 
 # optional
-stop_points_file = get_arg_default_value(2, None)
+stop_times_file = get_arg_default_value(2, None)
 
 graphite_reporter = GraphiteReporter()
 
 graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
-stop_times_file = get_env(STOP_TIMES_FILE_ENV, DEFAULT_STOP_TIMES_FILE)
 
 client = GraphQLClient(graphql_endpoint)
 
