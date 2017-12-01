@@ -63,7 +63,7 @@ def read_and_replace(key, value):
 
 def notify_if_necessary(report):
     travel_search_report = report["travelSearch"]
-    failed_percentage = travel_search_report["FAILED_PERCENTAGE_KEY"]
+    failed_percentage = travel_search_report[FAILED_PERCENTAGE_KEY]
 
     lastfailed_percentage = float(read_and_replace(FAILED_PERCENTAGE_KEY, failed_percentage))
     if lastfailed_percentage is None:
