@@ -17,6 +17,28 @@ import sys
 import json
 
 STOP_ID_KEY = "Stopplace-id"
+HOUR=6
+MINUTE=0
+QUERY = """
+       query StopPage($id:String!,$startTime:Long!) {
+        station(id:$id) {
+            ...F1
+        }
+    }
+    fragment F0 on Stoptime {
+        realtimeState,
+        realtimeDeparture,
+        scheduledDeparture,
+    }
+    fragment F1 on Stop {
+        stoptimesWithoutPatterns(
+            startTime:$startTime,
+            timeRange:43200,
+            numberOfDepartures:10
+        ) {...F0},
+        id
+    }
+    """
 
 class StopTimesExecutor:
 
@@ -39,7 +61,7 @@ class StopTimesExecutor:
 
             try:
                 print("Executing stop times request {}: {}".format(count, stop))
-                start_time = int(time.mktime(datetime.now().replace(hour=6, minute=0).timetuple()))
+                start_time = int(time.mktime(datetime.now().replace(hour=HOUR, minute=MINUTE).timetuple()))
 
                 variables = {
                     "startTime": start_time,
@@ -78,30 +100,5 @@ class StopTimesExecutor:
             "secondsTotal": spent
         }
 
-        print(report)
         return report
 
-
-
-
-
-QUERY = """
-       query StopPage($id:String!,$startTime:Long!) {
-        station(id:$id) {
-            ...F1
-        }
-    }
-    fragment F0 on Stoptime {
-        realtimeState,
-        realtimeDeparture,
-        scheduledDeparture,
-    }
-    fragment F1 on Stop {
-        stoptimesWithoutPatterns(
-            startTime:$startTime,
-            timeRange:43200,
-            numberOfDepartures:10
-        ) {...F0},
-        id
-    }
-    """
