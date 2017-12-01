@@ -92,7 +92,6 @@ def run():
         # only notify hubot if uploaded to gcp
 
     if env_is_true(NOTIFY_HUBOT_ENV):
-        print("notify hubot?: " + os.environ[NOTIFY_HUBOT_ENV])
         hubot_notifier.notify_if_necessary(report)
 
 # required
