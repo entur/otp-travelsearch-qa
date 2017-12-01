@@ -15,7 +15,7 @@ from datetime import datetime
 import time
 import json
 
-STOP_ID_KEY = "Stopplace-id"
+STOP_ID_KEY = "stopPlaceId"
 
 QUERY = """
        query StopPage($id:String!,$startTime:Long!) {
