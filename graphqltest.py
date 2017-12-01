@@ -15,118 +15,105 @@ import datetime
 import json
 import os
 import sys
-import time
 
+import csvloader
 import gcpuploader
 import hubotnotifier
-
-import travelsearch
 import reportdao
-import csvloader
-
 from graphitereporter import GraphiteReporter
 from graphqlclient import GraphQLClient
+from stoptimesexecutor import StopTimesExecutor
+from travelsearchexecutor import TravelSearchExecutor
 
-usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
-
-graphitereporter = GraphiteReporter()
-
-if 'graphql_endpoint' not in os.environ:
-    graphqlendpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
-else:
-    graphqlendpoint = os.environ["graphql_endpoint"]
-
-client = GraphQLClient(graphqlendpoint)
-
+HOUR = 6
+MINUTE = 0
 TIME = "06:00"
+USAGE = "usage: {} endpoints_file [stoppoints_file]".format(sys.argv[0])
 
-def round_two_decimals(value):
-    return round(value, 2)
+GRAPHQL_ENDPOINT_ENV = "GRAPHQL_ENDPOINT"
+STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
+NOTIFY_HUBOT_ENV = "NOTIFY_HUBOT"
+BUCKET_NAME_ENV = "BUCKET_NAME"
+DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
+
+DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
 
 
-def run(csv_file, upload_gcp):
-    travel_searches = csvloader.load_csv(csv_file)
+def get_env(key, default_value):
+    if key not in os.environ:
+        return default_value
+    else:
+        return os.environ[key]
 
-    print("loaded {number_of_searches} searches from file".format (number_of_searches=len(travel_searches)))
 
-    count = 0
-    success_count = 0
-    failed = 0
-    failed_searches = []
+def env_is_true(key):
+    if key in os.environ and bool(os.environ[key]):
+        print("Got " + key + ": True")
+        return True
+    return False
 
-    start_time = time.time()
 
-    for travel_search in travel_searches:
-        count += 1
-        date = time.strftime("%y-%m-%d")
+def get_arg(index):
+    if not args_has_index(index):
+        print("Could not find required argument at index {}".format(index))
+        print(USAGE)
+        sys.exit(1)
 
-        query = travelsearch.create_query(travel_search, date, time)
-        try:
-            print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"], travel_search["toPlace"]))
-            result = client.execute(query)
-            json_response = json.loads(result)
+    return sys.argv[index]
 
-            if not json_response["data"]["plan"]["itineraries"]:
-                failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
-            else:
-                success_count += 1
-        except Exception as exception:
-            fail_message = str(exception)
-            print("caught exception: " + fail_message)
-            result = str(exception.read())
-            print("adding failMessage and response to report {}: {}".format(fail_message, result))
+def args_has_index(index):
+    return len(sys.argv) > index
 
-            failed_searches.append({"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
+def get_arg_default_value(index, default_value):
+    if args_has_index(index):
+        return sys.argv[index]
+    return default_value
 
-    spent = round_two_decimals(time.time() - start_time)
-    average = round_two_decimals(spent / count)
-    failed_count = len(failed_searches)
-    failed_percentage = failed_count / count * 100
-
+def run():
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        "failedPercentage": failed_percentage,
-        "numberOfSearches": count,
-        "secondsTotal": spent,
-        "secondsAverage": average,
-        "successCount": success_count,
-        "failedCount": failed_count,
-        "failedSearches": failed_searches
     }
 
-    graphitereporter.report_to_graphite([
-        ('search.count', count),
-        ('search.success.count', success_count),
-        ('search.seconds.total', spent),
-        ('search.seconds.average', average),
-        ('search.failed.count', failed_count)
-    ])
+    if stop_times_file is not None:
+        stops = csvloader.load_csv(stop_times_file)
+        print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
+        report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
+
+
+    travel_searches = csvloader.load_csv(travel_search_file)
+    print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
+    report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, TIME)
 
     json_report = json.dumps(report)
     filename = reportdao.save_json_report(json_report)
 
-    if (upload_gcp):
-        gcpuploader.upload_blob(os.environ["BUCKET_NAME"], filename, os.environ["DESTINATION_BLOB_NAME"])
+    if upload_gcp:
+        gcpuploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
         # only notify hubot if uploaded to gcp
 
-    if 'NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True:
-        print("notify hubot?: " + os.environ["NOTIFY_HUBOT"])
+    if env_is_true(NOTIFY_HUBOT_ENV):
+        print("notify hubot?: " + os.environ[NOTIFY_HUBOT_ENV])
         hubotnotifier.notify_if_necessary(report)
 
+# required
+travel_search_file = get_arg(1)
 
-if len(sys.argv) == 1:
-    print(usage)
-    sys.exit(1)
+# optional
+stop_times_file = get_arg_default_value(2, None)
 
-csv_file = sys.argv[1]
+graphite_reporter = GraphiteReporter()
 
-if len(sys.argv) == 3:
-    upload_gcp = sys.argv[2] == 'True'
-else:
+graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
+
+client = GraphQLClient(graphql_endpoint)
+
+travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
+stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
+
+if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
+    print("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")
     upload_gcp = False
+else:
+    upload_gcp = True
 
-if upload_gcp:
-    if ('BUCKET_NAME' not in os.environ or 'DESTINATION_BLOB_NAME' not in os.environ):
-        raise ValueError("Environment variables required: BUCKET_NAME and DESTINATION_BLOB_NAME")
-
-run(csv_file, upload_gcp)
+run()
