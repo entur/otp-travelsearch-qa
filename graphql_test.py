@@ -23,7 +23,7 @@ import report_dao
 from graphite_reporter import GraphiteReporter
 from graphql_client import GraphQLClient
 from stop_times_executor import StopTimesExecutor
-from travelsearchexecutor import TravelSearchExecutor
+from travel_search_executor import TravelSearchExecutor
 
 HOUR = 6
 MINUTE = 0
