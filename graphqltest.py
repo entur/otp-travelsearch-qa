@@ -28,7 +28,7 @@ from travelsearchexecutor import TravelSearchExecutor
 HOUR = 6
 MINUTE = 0
 TIME = "06:00"
-USAGE = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
+USAGE = "usage: {} endpoints_file [stoppoints_file]".format(sys.argv[0])
 
 GRAPHQL_ENDPOINT_ENV = "GRAPHQL_ENDPOINT"
 STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
@@ -54,21 +54,36 @@ def env_is_true(key):
     return False
 
 
-def round_two_decimals(value):
-    return round(value, 2)
+def get_arg(index):
+    if not args_has_index(index):
+        print("Could not find required argument at index {}".format(index))
+        print(USAGE)
+        sys.exit(1)
 
+    return sys.argv[index]
+
+def args_has_index(index):
+    return len(sys.argv) > index
+
+def get_arg_default_value(index, default_value):
+    if args_has_index(index):
+        return sys.argv[index]
+    return default_value
 
 def run():
-    stops = csvloader.load_csv(stop_times_file)
-    print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
-    travel_searches = csvloader.load_csv(travel_search_file)
-    print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
-
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        "stopTimes": stop_times_executor.run_stop_times_searches(stops),
-        "travelSearch": travel_search_executor.run_travel_searches(travel_searches, TIME)
     }
+
+    if stop_points_file is not None:
+        stops = csvloader.load_csv(stop_times_file)
+        print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
+        report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
+
+
+    travel_searches = csvloader.load_csv(travel_search_file)
+    print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
+    report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, TIME)
 
     json_report = json.dumps(report)
     filename = reportdao.save_json_report(json_report)
@@ -81,12 +96,11 @@ def run():
         print("notify hubot?: " + os.environ[NOTIFY_HUBOT_ENV])
         hubotnotifier.notify_if_necessary(report)
 
+# required
+travel_search_file = get_arg(1)
 
-if len(sys.argv) == 1:
-    print(USAGE)
-    sys.exit(1)
-
-travel_search_file = sys.argv[1]
+# optional
+stop_points_file = get_arg_default_value(2, None)
 
 graphite_reporter = GraphiteReporter()
 
