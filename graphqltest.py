@@ -33,14 +33,21 @@ HOUR=6
 MINUTE=0
 TIME = "06:00"
 
+def getEnv(key, default_value):
+    if key not in os.environ:
+        return default_value
+    else:
+        return os.environ[key]
+
+
+
+DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
+
 usage = "usage: {} csvfile [uploadgcp(true|false)]".format(sys.argv[0])
 
 graphite_reporter = GraphiteReporter()
 
-if 'graphql_endpoint' not in os.environ:
-    graphqlendpoint = 'https://api.entur.org/journeyplanner/1.1/index/graphql'
-else:
-    graphqlendpoint = os.environ["graphql_endpoint"]
+graphqlendpoint = getEnv("graphql_endpoint", DEFAULT_GRAPHQL_ENDPOINT)
 
 client = GraphQLClient(graphqlendpoint)
 
@@ -89,6 +96,9 @@ def run(csv_file, upload_gcp):
     if 'NOTIFY_HUBOT' in os.environ and bool(os.environ["NOTIFY_HUBOT"]) is True:
         print("notify hubot?: " + os.environ["NOTIFY_HUBOT"])
         hubotnotifier.notify_if_necessary(report)
+
+
+
 
 
 if len(sys.argv) == 1:
