@@ -37,7 +37,6 @@ BUCKET_NAME_ENV = "BUCKET_NAME"
 DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
 
 DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
-DEFAULT_STOP_TIMES_FILE = "stops.csv"
 
 
 def get_env(key, default_value):
