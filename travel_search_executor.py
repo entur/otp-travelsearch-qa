@@ -16,9 +16,10 @@ import time
 
 
 class TravelSearchExecutor:
-    def __init__(self, client, graphite_reporter):
+    def __init__(self, client, graphite_reporter, travel_search_date):
         self.client = client
         self.graphite_reporter = graphite_reporter
+        self.travel_search_date = travel_search_date
 
     def create_query(self, search, date, time):
         return """
@@ -51,7 +52,7 @@ class TravelSearchExecutor:
         success_count = 0
         failed_searches = []
         start_time = time.time()
-        date = time.strftime("%y-%m-%d")
+        date = self.travel_search_date
 
         for travel_search in travel_searches:
             count += 1
