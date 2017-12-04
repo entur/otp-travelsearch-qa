@@ -60,7 +60,7 @@ class TravelSearchExecutor:
             query = self.create_query(travel_search, date, clock)
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
-                                                              travel_search["toPlace"]))
+                                                              travel_search["toPlace"]), flush=True)
                 result = self.client.execute(query)
                 json_response = json.loads(result)
 
