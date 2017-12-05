@@ -91,7 +91,8 @@ def run():
 
     if upload_gcp:
         gcp_uploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
-        # only notify hubot if uploaded to gcp
+        # Consider using constructor for gcp uploader
+        gcp_uploader.remove_old_files(os.environ[BUCKET_NAME_ENV], os.environ[DESTINATION_BLOB_NAME_ENV])
 
     if env_is_true(NOTIFY_HUBOT_ENV):
         hubot_notifier.notify_if_necessary(report)
