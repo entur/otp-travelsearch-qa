@@ -1,4 +1,4 @@
-description;stopPlaceId;stoPlaceName;transportType;type;isMultiModal
+description;stopPlaceId;stopPlaceName;transportType;type;isMultiModal
 Østfold;NSR:StopPlace:2562;Halden bussterminal;Buss;;
 Østfold;NSR:StopPlace:192;Halden;Tog;;
 Østfold;NSR:StopPlace:1338;Sarpsborg stasjon;Buss;;
