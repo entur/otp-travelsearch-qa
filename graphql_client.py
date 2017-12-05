@@ -20,6 +20,8 @@ class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
                'Content-Type': 'application/json'}
 
+    CONNECT_TIMEOUT_SECONDS = 50
+
     def __init__(self, endpoint):
         self.endpoint = endpoint
 
@@ -32,7 +34,7 @@ class GraphQLClient:
         req = urllib.request.Request(self.endpoint, json.dumps(data).encode('utf-8'), self.HEADERS)
 
         try:
-            response = urllib.request.urlopen(req)
+            response = urllib.request.urlopen(req, timeout=self.CONNECT_TIMEOUT_SECONDS)
             return response.read().decode('utf-8')
         except urllib.error.HTTPError as e:
             raise e
