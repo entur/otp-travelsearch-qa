@@ -18,7 +18,7 @@ import time
 import re
 
 INDEX_FILE = "index"
-DAYS_TO_KEEP = 49
+DAYS_TO_KEEP = 32
 
 
 def upload_blob(bucket_name, source_file_name, destination_folder):
