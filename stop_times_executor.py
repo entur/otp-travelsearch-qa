@@ -15,6 +15,8 @@ import json
 import time
 from datetime import datetime
 
+from graphql_exception import GraphQLException
+
 STOP_ID_KEY = "stopPlaceId"
 
 QUERY = """
@@ -79,13 +81,12 @@ class StopTimesExecutor:
                     {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
                      "response": fail_message})
 
-            except Exception as exception:
-                fail_message = str(exception)
-                print("caught exception: " + fail_message)
-                result = str(exception.read())
+            except GraphQLException as exception:
+                print("caught exception: " + exception.message)
+
                 failed_searches.append(
-                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
-                     "response": result})
+                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": exception.message,
+                     "response": exception.body})
 
         spent = round(time.time() - test_start_time, 2)
         failed_count = len(failed_searches)

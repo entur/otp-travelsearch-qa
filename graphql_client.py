@@ -14,13 +14,14 @@
 import json
 
 from six.moves import urllib
+from graphql_exception import GraphQLException
 
 
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
                'Content-Type': 'application/json'}
 
-    CONNECT_TIMEOUT_SECONDS = 50
+    CONNECT_TIMEOUT_SECONDS = 45
 
     def __init__(self, endpoint):
         self.endpoint = endpoint
@@ -36,5 +37,10 @@ class GraphQLClient:
         try:
             response = urllib.request.urlopen(req, timeout=self.CONNECT_TIMEOUT_SECONDS)
             return response.read().decode('utf-8')
+        except Exception as e:
+            graphql_exception = GraphQLException(str(e), '')
+            raise graphql_exception
         except urllib.error.HTTPError as e:
-            raise e
+            # In case of HTTPError, we want to read the response
+            graphql_exception = GraphQLException(str(e), e.read().decode('utf-8'))
+            raise graphql_exception

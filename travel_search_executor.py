@@ -13,6 +13,7 @@
 
 import json
 import time
+from graphql_exception import GraphQLException
 
 
 class TravelSearchExecutor:
@@ -67,14 +68,11 @@ class TravelSearchExecutor:
                     failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
                 else:
                     success_count += 1
-            except Exception as exception:
-                fail_message = str(exception)
-                print("caught exception: " + fail_message)
-                result = str(exception.read())
-                print("adding failMessage and response to report {}: {}".format(fail_message, result))
-
+            except GraphQLException as exception:
+                print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
                 failed_searches.append(
-                    {"search": travel_search, "otpQuery": query, "failMessage": fail_message, "response": result})
+                    {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body})
+
 
         spent = round(time.time() - start_time, 2)
         failed_count = len(failed_searches)
