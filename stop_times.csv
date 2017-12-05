@@ -1,4 +1,4 @@
-description;stopPlaceId;stopPlaceName;transportType;type;isMultiModal
+description;stopPlaceId;stoPlaceName;transportType;type;isMultiModal
 Østfold;NSR:StopPlace:2562;Halden bussterminal;Buss;;
 Østfold;NSR:StopPlace:192;Halden;Tog;;
 Østfold;NSR:StopPlace:1338;Sarpsborg stasjon;Buss;;
@@ -166,9 +166,9 @@ Rogaland;NSR:StopPlace:28647;Bryne stasjon;Buss;;
 Rogaland;NSR:StopPlace:28655;Bryne sentrum;Buss;;
 Rogaland;NSR:StopPlace:26937;Jørpelandsvågen kai;Båt;;M
 Rogaland;NSR:StopPlace:27397;Niels Juels gate;Buss;;
-Rogaland;(NSR:StopPlace:26106;Sauda bussterminal;Buss;;
+Rogaland;NSR:StopPlace:26106;Sauda bussterminal;Buss;;
 Rogaland;NSR:StopPlace:26895;Judaberg ferjekai;Ferje;;M
-Rogaland;(NSR:StopPlace:27781;Oddagaten;Buss;;
+Rogaland;NSR:StopPlace:27781;Oddagaten;Buss;;
 Hordaland;NSR:StopPlace:29823;Leirvik bussterminal;Buss;T;
 Hordaland;NSR:StopPlace:29915;Leirvik båtkai;Båt;;
 Hordaland;NSR:StopPlace:30756;Odda busstasjon;Buss;T;
@@ -297,7 +297,7 @@ Troms;NSR:StopPlace:52273;Tromsø Prostneset HR;Buss;;
 Troms;NSR:StopPlace:52279;Tromsø Prostneset;Båt;;
 Troms;NSR:StopPlace:55683;Fredrik Langes gate;Buss;T;
 Troms;NSR:StopPlace:55423;Finnsnes TIRB;Buss;;
-Troms;NSR:StopPlace:55427NSR:StopPlace:55427;Finnsnes;Båt;;
+Troms;NSR:StopPlace:55427;Finnsnes;Båt;;
 Troms;NSR:StopPlace:54474;Storslett terminal;Buss;T;
 Troms;NSR:StopPlace:55478;Bardufoss sentrum;Buss;;
 Troms;NSR:StopPlace:757;Bardufoss lufthavn;Fly;;
@@ -321,8 +321,8 @@ Finnmark;NSR:StopPlace:56927;Jarfjordbotn kryss;Buss;;
 Finnmark;NSR:StopPlace:56953;Svanvik;Buss;;
 Finnmark;NSR:StopPlace:57163;Vadsø bussterminal;Buss;T;
 Finnmark;NSR:StopPlace:57152;Bergstien;Buss;;
-Finnmark;(NSR:StopPlace:57095;Vardø rådhus;Buss;;
-Finnmark;NSR:StopPlace:56838);Berlevåg;Buss;;
+Finnmark;NSR:StopPlace:57095;Vardø rådhus;Buss;;
+Finnmark;NSR:StopPlace:56838;Berlevåg;Buss;;
 Finnmark;NSR:StopPlace:57406;Honningsvåg/Nordkapphuset;Buss;T;
 Finnmark;NSR:StopPlace:57125;Kongshus kai;Ferje;;
 Finnmark;NSR:StopPlace:57018;Kautokeino;Buss;;
