@@ -84,6 +84,7 @@ def run():
 
     travel_searches = csv_loader.load_csv(travel_search_file)
     print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
+    print("Running searches against endpoint " + graphql_endpoint)
     report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, TIME)
 
     json_report = json.dumps(report)
