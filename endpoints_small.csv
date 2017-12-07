@@ -1,0 +1,22 @@
+description;fromPlace;origin;toPlace;destination;transportType
+Østfold;NSR:StopPlace:2562;Halden bussterminal;NSR:StopPlace:1845;Skjærhalden;Buss
+Akershus;NSR:StopPlace:166;Eidsvoll Verk;NSR:StopPlace:540;Årnes;Tog
+Akershus;NSR:StopPlace:3336;Eltonåsen;NSR:StopPlace:344;Jessheim;Buss+Tog
+Oslo;NSR:StopPlace:6642;Simensbråten;NSR:StopPlace:58243;Bergkrystallen;Buss+T-bane
+Oslo;NSR:StopPlace:6560;Eirik Raudes vei;NSR:StopPlace:6630;Malmøya;Buss
+Hedmark;NSR:StopPlace:10325;Stavsjø Brænderi;NSR:StopPlace:10559;Hamar skysstasjon;Buss
+Oppland;NSR:StopPlace:11881;Lom;NSR:StopPlace:14307;Dombås skyssterminal;Buss
+Buskerud;NSR:StopPlace:15255;Filtvet;NSR:StopPlace:16804;Drammen busstasjon;Buss
+Vestfold;NSR:StopPlace:17692;Sandefjord lufthavn Torp;NSR:StopPlace:17693;Tønsberg rutebilstasjon;Buss+Tog
+Telemark;NSR:StopPlace:19984;Skien terminal Landmannstorget;NSR:StopPlace:20170;Hjartdal Nordbø;Buss
+Aust-Agder;NSR:StopPlace:23558;Stoa Vest;NSR:StopPlace:24898;Feviktoppen;Buss
+Vest-Agder;NSR:StopPlace:24000;Søm terrasse;NSR:StopPlace:25080;Flekkefjord rutebilstasjon;Buss+Tog
+Rogaland;NSR:StopPlace:27407;Madlakrossen;NSR:StopPlace:58562;Ropeid kai;Buss+Båt
+Hordaland;NSR:StopPlace:31250;Matre;NSR:StopPlace:28911;Osøyro;Buss
+Sogn og Fjordane;NSR:StopPlace:35169;Sogndal skysstasjon;NSR:StopPlace:34562;Sandane rutebilstasjon;Buss
+Møre og Romsdal;NSR:StopPlace:41547;Sogge bru;NSR:StopPlace:39382;Molde trafikkterminal;Buss
+Sør-Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:58600;Brekstad kai;Buss+Båt
+Nord-Trøndelag;NSR:StopPlace:44483;Stjørdal stasjon;NSR:StopPlace:44379;Namsos skysstasjon;Tog+Buss
+Nordland;NSR:StopPlace:49395;Sortland bussterminal;NSR:StopPlace:50009;Bodø stasjon;Buss+Båt
+Troms;NSR:StopPlace:52273;Tromsø Prostneset;NSR:StopPlace:48751;Fauske stasjon;Buss
+Finnmark;NSR:StopPlace:56826;Alta sentrum;NSR:StopPlace:56676;Hammerfest bussterminal;Buss
