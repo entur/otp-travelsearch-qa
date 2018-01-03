@@ -102,3 +102,4 @@ ENV/
 
 index
 test-report-*json
+.idea
