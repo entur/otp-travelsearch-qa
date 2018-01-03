@@ -20,6 +20,7 @@ import csv_loader
 import gcp_uploader
 import hubot_notifier
 import report_dao
+import time
 from graphite_reporter import GraphiteReporter
 from graphql_client import GraphQLClient
 from stop_times_executor import StopTimesExecutor
@@ -35,8 +36,10 @@ STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
 NOTIFY_HUBOT_ENV = "NOTIFY_HUBOT"
 BUCKET_NAME_ENV = "BUCKET_NAME"
 DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
+TRAVEL_SEARCH_DATE = "TRAVEL_SEARCH_DATE"
 
 DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
+DEFAULT_TRAVEL_SEARCH_DATE = time.strftime("%y-%m-%d")
 
 
 def get_env(key, default_value):
@@ -75,6 +78,7 @@ def get_arg_default_value(index, default_value):
 def run():
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "travel_search_date": travel_search_date,
     }
 
     if stop_times_file is not None:
@@ -111,7 +115,9 @@ graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
 
 client = GraphQLClient(graphql_endpoint)
 
-travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
+travel_search_date = get_env(TRAVEL_SEARCH_DATE, DEFAULT_TRAVEL_SEARCH_DATE)
+
+travel_search_executor = TravelSearchExecutor(client, graphite_reporter, travel_search_date)
 stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
 
 if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
