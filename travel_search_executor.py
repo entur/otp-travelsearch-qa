@@ -52,13 +52,15 @@ class TravelSearchExecutor:
         count = 0
         success_count = 0
         failed_searches = []
-        start_time = time.time()
+        start_time_all_tests = time.time()
         date = self.travel_search_date
 
         for travel_search in travel_searches:
             count += 1
 
+            start_time = time.time()
             query = self.create_query(travel_search, date, clock)
+            success = False
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
                                                               travel_search["toPlace"]), flush=True)
@@ -68,17 +70,24 @@ class TravelSearchExecutor:
                 if not json_response["data"]["plan"]["itineraries"]:
                     failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
                 else:
+                    success = True
                     success_count += 1
             except GraphQLException as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
                 failed_searches.append(
                     {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body})
 
+            time_spent = round(time.time() - start_time, 2)
+            self.graphite_reporter.report_to_graphite([
+                ('search.seconds.each', time_spent),
+                ('search.success.each', success)
+            ])
 
-        spent = round(time.time() - start_time, 2)
+
+        total_time_spent = round(time.time() - start_time_all_tests, 2)
         failed_count = len(failed_searches)
         failed_percentage = failed_count / count * 100
-        average = round(spent / count, 2)
+        average = round(total_time_spent / count, 2)
 
         report = {
             "failedPercentage": failed_percentage,
@@ -87,13 +96,13 @@ class TravelSearchExecutor:
             "failedCount": failed_count,
             "failedSearches": failed_searches,
             "secondsAverage": average,
-            "secondsTotal": spent
+            "secondsTotal": total_time_spent
         }
 
         self.graphite_reporter.report_to_graphite([
             ('search.count', count),
             ('search.success.count', success_count),
-            ('search.seconds.total', spent),
+            ('search.seconds.total', total_time_spent),
             ('search.seconds.average', average),
             ('search.failed.count', failed_count)
         ])
