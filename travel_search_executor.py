@@ -52,6 +52,7 @@ class TravelSearchExecutor:
         count = 0
         success_count = 0
         failed_searches = []
+        successful_searches = []
         start_time_all_tests = time.time()
         date = self.travel_search_date
 
@@ -60,7 +61,6 @@ class TravelSearchExecutor:
 
             start_time = time.time()
             query = self.create_query(travel_search, date, clock)
-            success = False
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
                                                               travel_search["toPlace"]), flush=True)
@@ -70,8 +70,8 @@ class TravelSearchExecutor:
                 if not json_response["data"]["plan"]["itineraries"]:
                     failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
                 else:
-                    success = True
                     success_count += 1
+                    successful_searches.append({"search": travel_search, "otpquery": query, "response": result})
             except GraphQLException as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
                 failed_searches.append(
@@ -79,8 +79,7 @@ class TravelSearchExecutor:
 
             time_spent = round(time.time() - start_time, 2)
             self.graphite_reporter.report_to_graphite([
-                ('search.seconds.each', time_spent),
-                ('search.success.each', success)
+                ('search.seconds.each', time_spent)
             ])
 
 
@@ -93,6 +92,7 @@ class TravelSearchExecutor:
             "failedPercentage": failed_percentage,
             "numberOfSearches": count,
             "successCount": success_count,
+            "successfulSearches": successful_searches,
             "failedCount": failed_count,
             "failedSearches": failed_searches,
             "secondsAverage": average,
