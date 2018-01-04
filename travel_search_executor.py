@@ -59,25 +59,28 @@ class TravelSearchExecutor:
         for travel_search in travel_searches:
             count += 1
 
-            start_time = time.time()
             query = self.create_query(travel_search, date, clock)
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
                                                               travel_search["toPlace"]), flush=True)
+                start_time = time.time()
                 result = self.client.execute(query)
+                time_spent = round(time.time() - start_time, 2)
+
                 json_response = json.loads(result)
 
                 if not json_response["data"]["plan"]["itineraries"]:
-                    failed_searches.append({"search": travel_search, "otpquery": query, "response": result})
+                    failed_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
                 else:
                     success_count += 1
-                    successful_searches.append({"search": travel_search, "otpquery": query, "response": result})
+                    successful_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
             except GraphQLException as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
-                failed_searches.append(
-                    {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body})
 
-            time_spent = round(time.time() - start_time, 2)
+                time_spent = round(time.time() - start_time, 2)
+                failed_searches.append(
+                    {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body, "executionTime": time_spent})
+
             self.graphite_reporter.report_to_graphite([
                 ('search.seconds.each', time_spent)
             ])
