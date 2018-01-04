@@ -60,10 +60,11 @@ class TravelSearchExecutor:
             count += 1
 
             query = self.create_query(travel_search, date, clock)
+            start_time = time.time()
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
                                                               travel_search["toPlace"]), flush=True)
-                start_time = time.time()
+
                 result = self.client.execute(query)
                 time_spent = round(time.time() - start_time, 2)
 
@@ -84,7 +85,6 @@ class TravelSearchExecutor:
             self.graphite_reporter.report_to_graphite([
                 ('search.seconds.each', time_spent)
             ])
-
 
         total_time_spent = round(time.time() - start_time_all_tests, 2)
         failed_count = len(failed_searches)
