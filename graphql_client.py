@@ -12,6 +12,7 @@
 # limitations under the Licence.
 
 import json
+import os
 
 from six.moves import urllib
 from graphql_exception import GraphQLException
@@ -20,7 +21,11 @@ from graphql_exception import GraphQLException
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
                'Content-Type': 'application/json',
-               'User-Agent': 'otp-travelsearch-qa'}
+               'User-Agent': 'otp-travelsearch-qa',
+               'ET-Client-Name': 'otp-travelsearch-qa',
+               'ET-Client-ID': os.environ.get('HOSTNAME','')}
+
+    print("Will use these headers: {}".format(HEADERS))
 
     CONNECT_TIMEOUT_SECONDS = 45
 
