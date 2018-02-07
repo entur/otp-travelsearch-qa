@@ -19,7 +19,8 @@ from graphql_exception import GraphQLException
 
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
-               'Content-Type': 'application/json'}
+               'Content-Type': 'application/json',
+               'User-Agent': 'otp-travelsearch-qa'}
 
     CONNECT_TIMEOUT_SECONDS = 45
 
