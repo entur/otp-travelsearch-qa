@@ -36,10 +36,10 @@ STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
 NOTIFY_HUBOT_ENV = "NOTIFY_HUBOT"
 BUCKET_NAME_ENV = "BUCKET_NAME"
 DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
-TRAVEL_SEARCH_DATE = "TRAVEL_SEARCH_DATE"
+TRAVEL_SEARCH_DATE_TIME = "TRAVEL_SEARCH_DATE_TIME"
 
-DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/1.1/index/graphql"
-DEFAULT_TRAVEL_SEARCH_DATE = time.strftime("%y-%m-%d")
+DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/2.0/index/graphql"
+DEFAULT_TRAVEL_SEARCH_DATE_TIME = datetime.datetime.today().replace(hour=6, minute=0, second=0).strftime('%Y-%m-%dT%H:%M:%S')
 
 
 def get_env(key, default_value):
@@ -75,7 +75,7 @@ def get_arg_default_value(index, default_value):
     return default_value
 
 
-def run():
+def run(travel_search_date):
     report = {
         "date": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         "travel_search_date": travel_search_date,
@@ -89,7 +89,7 @@ def run():
     travel_searches = csv_loader.load_csv(travel_search_file)
     print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
     print("Running searches against endpoint " + graphql_endpoint)
-    report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, TIME)
+    report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, travel_search_date)
 
     json_report = json.dumps(report)
     filename = report_dao.save_json_report(json_report)
@@ -115,9 +115,10 @@ graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
 
 client = GraphQLClient(graphql_endpoint)
 
-travel_search_date = get_env(TRAVEL_SEARCH_DATE, DEFAULT_TRAVEL_SEARCH_DATE)
+travel_search_date = get_env(TRAVEL_SEARCH_DATE_TIME, DEFAULT_TRAVEL_SEARCH_DATE_TIME)
+print("Using datetime: " + travel_search_date)
 
-travel_search_executor = TravelSearchExecutor(client, graphite_reporter, travel_search_date)
+travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
 stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
 
 if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
@@ -126,4 +127,4 @@ if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.envi
 else:
     upload_gcp = True
 
-run()
+run(travel_search_date)

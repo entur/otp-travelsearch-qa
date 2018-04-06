@@ -17,25 +17,24 @@ from graphql_exception import GraphQLException
 
 
 class TravelSearchExecutor:
-    def __init__(self, client, graphite_reporter, travel_search_date):
+    def __init__(self, client, graphite_reporter):
         self.client = client
         self.graphite_reporter = graphite_reporter
-        self.travel_search_date = travel_search_date
 
-    def create_query(self, search, date, time):
+    def create_query(self, search, dateTime):
         return """
         {{
-          plan(fromPlace: "{fromPlace}", toPlace: "{toPlace}", date: "{date}" time: "{time}") {{
-            itineraries {{
+          trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}") {{
+            tripPatterns {{
               startTime
               duration
               walkDistance
               legs {{
-                from {{
+                fromPlace {{
                   name
                   vertexType
                 }}
-                to {{
+                toPlace {{
                   name
                   vertexType
                 }}
@@ -45,21 +44,20 @@ class TravelSearchExecutor:
             messageStrings
           }}
         }}
-        """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], date=date, time=time)
+        """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime)
 
-    def run_travel_searches(self, travel_searches, clock):
+    def run_travel_searches(self, travel_searches, dateTime):
 
         count = 0
         success_count = 0
         failed_searches = []
         successful_searches = []
         start_time_all_tests = time.time()
-        date = self.travel_search_date
 
         for travel_search in travel_searches:
             count += 1
 
-            query = self.create_query(travel_search, date, clock)
+            query = self.create_query(travel_search, dateTime)
             start_time = time.time()
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
@@ -70,7 +68,7 @@ class TravelSearchExecutor:
 
                 json_response = json.loads(result)
 
-                if not json_response["data"]["plan"]["itineraries"]:
+                if not json_response["data"]["trip"]["tripPatterns"]:
                     failed_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
                 else:
                     success_count += 1
