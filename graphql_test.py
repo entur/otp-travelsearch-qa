@@ -119,7 +119,7 @@ travel_search_date = get_env(TRAVEL_SEARCH_DATE_TIME, DEFAULT_TRAVEL_SEARCH_DATE
 print("Using datetime: " + travel_search_date)
 
 travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
-stop_times_executor = StopTimesExecutor(client, graphite_reporter, HOUR, MINUTE)
+stop_times_executor = StopTimesExecutor(client, graphite_reporter, travel_search_date)
 
 if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
     print("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")

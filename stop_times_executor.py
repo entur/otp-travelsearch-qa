@@ -20,33 +20,33 @@ from graphql_exception import GraphQLException
 STOP_ID_KEY = "stopPlaceId"
 
 QUERY = """
-       query StopPage($id:String!,$startTime:Long!) {
-        station(id:$id) {
+        query StopPage($id: String!, $startTime: DateTime!) {
+          
+          stopPlace(id: $id) {
             ...F1
+          }
         }
-    }
-    fragment F0 on Stoptime {
-        realtimeState,
-        realtimeDeparture,
-        scheduledDeparture,
-    }
-    fragment F1 on Stop {
-        stoptimesWithoutPatterns(
-            startTime:$startTime,
-            timeRange:43200,
-            numberOfDepartures:10
-        ) {...F0},
-        id
-    }
+        
+        fragment F0 on EstimatedCall {
+          realtimeState
+          expectedDepartureTime
+          actualDepartureTime
+        }
+        
+        fragment F1 on StopPlace {
+          estimatedCalls(startTime: $startTime, timeRange: 43200, numberOfDepartures: 10) {
+            ...F0
+          }
+          id
+        }
     """
 
 
 class StopTimesExecutor:
-    def __init__(self, client, graphite_reporter, hour, minute):
+    def __init__(self, client, graphite_reporter, travel_search_date):
         self.client = client
         self.graphite_reporter = graphite_reporter
-        self.hour = hour
-        self.minute = minute
+        self.travel_search_date = travel_search_date
 
     def run_stop_times_searches(self, stops):
 
@@ -60,17 +60,17 @@ class StopTimesExecutor:
 
             try:
                 print("Executing stop times request {}: {}".format(count, stop))
-                start_time = int(time.mktime(datetime.now().replace(hour=self.hour, minute=self.minute).timetuple()))
+
 
                 variables = {
-                    "startTime": start_time,
+                    "startTime": self.travel_search_date,
                     "id": stop[STOP_ID_KEY]
                 }
 
                 result = self.client.execute(QUERY, variables)
                 json_response = json.loads(result)
 
-                if not json_response["data"]["station"]["stoptimesWithoutPatterns"]:
+                if not json_response["data"]["stopPlace"]["estimatedCalls"]:
                     failed_searches.append(
                         {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
                 else:
