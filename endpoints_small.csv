@@ -15,8 +15,8 @@ Rogaland;NSR:StopPlace:27407;Madlakrossen;NSR:StopPlace:58562;Ropeid kai;Buss+B�
 Hordaland;NSR:StopPlace:31250;Matre;NSR:StopPlace:28911;Osøyro;Buss
 Sogn og Fjordane;NSR:StopPlace:35169;Sogndal skysstasjon;NSR:StopPlace:34562;Sandane rutebilstasjon;Buss
 Møre og Romsdal;NSR:StopPlace:41547;Sogge bru;NSR:StopPlace:39382;Molde trafikkterminal;Buss
-Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:58600;Brekstad kai;Buss+Båt
-Trøndelag;NSR:StopPlace:44483;Stjørdal stasjon;NSR:StopPlace:44379;Namsos skysstasjon;Tog+Buss
+Sør-Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:58600;Brekstad kai;Buss+Båt
+Nord-Trøndelag;NSR:StopPlace:44483;Stjørdal stasjon;NSR:StopPlace:44379;Namsos skysstasjon;Tog+Buss
 Nordland;NSR:StopPlace:49395;Sortland bussterminal;NSR:StopPlace:50009;Bodø stasjon;Buss+Båt
 Troms;NSR:StopPlace:52273;Tromsø Prostneset;NSR:StopPlace:48751;Fauske stasjon;Buss
 Finnmark;NSR:StopPlace:56826;Alta sentrum;NSR:StopPlace:56676;Hammerfest bussterminal;Buss
