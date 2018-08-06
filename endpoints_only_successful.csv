@@ -146,17 +146,17 @@ Møre og Romsdal;NSR:StopPlace:39124;Søvik;NSR:StopPlace:41105;Ona ferjekai;Bus
 Møre og Romsdal;NSR:StopPlace:39625;Marstein;NSR:StopPlace:41140;Bud;Buss
 Møre og Romsdal;NSR:StopPlace:40451;Aukrasenteret;NSR:StopPlace:40131;Sunndalsøra;Buss+Ferje
 Møre og Romsdal;NSR:StopPlace:40313;Greves plass;NSR:StopPlace:37688;Valsøybotn;Buss+Ferje
-Sør-Trøndelag;NSR:StopPlace:53;Røros;NSR:StopPlace:43629;Osen;Buss+Tog+Ferje
-Sør-Trøndelag;NSR:StopPlace:43885;Brekken Coop;NSR:StopPlace:43075;Soknedal;Buss+Tog
-Sør-Trøndelag;NSR:StopPlace:42516;Meldal sentrum;NSR:StopPlace:43785;Fillan busstasjon;Buss
-Sør-Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:42004;Valentinlyst;Buss
-Sør-Trøndelag;NSR:StopPlace:43948;Bukkvollan;NSR:StopPlace:42676;Lade gård;Buss
-Sør-Trøndelag;NSR:StopPlace:229;Hommelvik;NSR:StopPlace:42045;Hølonda samvirkelag;Buss+Tog
-Sør-Trøndelag;NSR:StopPlace:42707;Støren stasjon;NSR:StopPlace:42220;Skiftkroken;Buss+Tog+Ferje
-Sør-Trøndelag;NSR:StopPlace:43583;Orkanger skysstasjon;NSR:StopPlace:41712;Revsnes;Buss+Ferje
-Nord-Trøndelag;NSR:StopPlace:45683;Verrabotn;NSR:StopPlace:673;Snåsa;Buss+Tog
-Nord-Trøndelag;NSR:StopPlace:351;Grong;NSR:StopPlace:46302;Namdalseid;Buss+Tog
-Nord-Trøndelag;NSR:StopPlace:46078;Ryumsjøen;NSR:StopPlace:275;Namsskogan;Buss+Tog
+Trøndelag;NSR:StopPlace:53;Røros;NSR:StopPlace:43629;Osen;Buss+Tog+Ferje
+Trøndelag;NSR:StopPlace:43885;Brekken Coop;NSR:StopPlace:43075;Soknedal;Buss+Tog
+Trøndelag;NSR:StopPlace:42516;Meldal sentrum;NSR:StopPlace:43785;Fillan busstasjon;Buss
+Trøndelag;NSR:StopPlace:42655;Kyrksæterøra;NSR:StopPlace:42004;Valentinlyst;Buss
+Trøndelag;NSR:StopPlace:43948;Bukkvollan;NSR:StopPlace:42676;Lade gård;Buss
+Trøndelag;NSR:StopPlace:229;Hommelvik;NSR:StopPlace:42045;Hølonda samvirkelag;Buss+Tog
+Trøndelag;NSR:StopPlace:42707;Støren stasjon;NSR:StopPlace:42220;Skiftkroken;Buss+Tog+Ferje
+Trøndelag;NSR:StopPlace:43583;Orkanger skysstasjon;NSR:StopPlace:41712;Revsnes;Buss+Ferje
+Trøndelag;NSR:StopPlace:45683;Verrabotn;NSR:StopPlace:673;Snåsa;Buss+Tog
+Trøndelag;NSR:StopPlace:351;Grong;NSR:StopPlace:46302;Namdalseid;Buss+Tog
+Trøndelag;NSR:StopPlace:46078;Ryumsjøen;NSR:StopPlace:275;Namsskogan;Buss+Tog
 Nordland;NSR:StopPlace:51884;Silvalen sentrum;NSR:StopPlace:47174;Mosjøen stasjon;Buss+Båt+Ferje
 Nordland;NSR:StopPlace:49846;Skjervengan;NSR:StopPlace:51258;Segelbergan;Buss
 Nordland;NSR:StopPlace:25;Dunderland;NSR:StopPlace:49116;Ørnes kai;Buss+Tog+Ferje+Båt
