@@ -21,18 +21,18 @@ STOP_ID_KEY = "stopPlaceId"
 
 QUERY = """
         query StopPage($id: String!, $startTime: DateTime!) {
-          
+
           stopPlace(id: $id) {
             ...F1
           }
         }
-        
+
         fragment F0 on EstimatedCall {
           realtimeState
           expectedDepartureTime
           actualDepartureTime
         }
-        
+
         fragment F1 on StopPlace {
           estimatedCalls(startTime: $startTime, timeRange: 43200, numberOfDepartures: 10) {
             ...F0
@@ -75,18 +75,17 @@ class StopTimesExecutor:
                         {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
                 else:
                     success_count += 1
-            except TypeError as exception:
-                fail_message = str(exception)
-                failed_searches.append(
-                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
-                     "response": fail_message})
-
             except GraphQLException as exception:
                 print("caught exception: " + exception.message)
 
                 failed_searches.append(
                     {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": exception.message,
                      "response": exception.body})
+            except Exception as exception:
+                fail_message = str(exception)
+                failed_searches.append(
+                    {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
+                     "response": fail_message})
 
         spent = round(time.time() - test_start_time, 2)
         failed_count = len(failed_searches)
