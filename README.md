@@ -1,4 +1,4 @@
-# otp-travelsearch-qa
+# otp-travelsearch-qa [![CircleCI](https://circleci.com/gh/entur/otp-travelsearch-qa/tree/master.svg?style=svg)](https://circleci.com/gh/entur/otp-travelsearch-qa/tree/master)
 Simple test tool for OTP travel searches
 
 Reads endpoints.csv and runs OTP travelsearches sequentially using the graphql endpoint.
