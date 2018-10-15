@@ -1,0 +1,50 @@
+version: 2
+aliases:
+- &GCP-auth
+  name: GCP Authenticate
+  command: |
+    echo 'export GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY"' >> $BASH_ENV
+    /tools/gcp_authenticate.sh
+- &docker-login
+  name: Docker login
+  command: |
+    echo 'export GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY"' >> $BASH_ENV
+    /tools/docker_login.sh
+- &post-hook
+  name: Notify about build and docker image pushed
+  command: |
+    echo 'export CIRCLE_PROJECT_REPONAME="$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
+    echo 'export CIRCLE_SHA1="$CIRCLE_SHA1"' >> $BASH_ENV
+    echo 'export BUILD_STATUS_API_KEY="$BUILD_STATUS_API_KEY"' >> $BASH_ENV
+    /tools/build_notify.sh
+jobs:
+  deploy-docker:
+    docker:
+    - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+      auth:
+        username: _json_key
+        password: $GCLOUD_SERVICE_KEY
+    environment:
+      DEBIAN_FRONTEND: "noninteractive"
+    steps:
+    - attach_workspace:
+        at: ~/project
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run: *GCP-auth
+    - run: *docker-login
+    - run:
+        name: Docker build and push
+        command: mvn docker:build docker:push -s /tools/m2/settings.xml
+    - run: *post-hook
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+    - deploy-docker:
+        context: org-carbon
+        requires:
+        - build
+        filters:
+          branches:
+            only: master
