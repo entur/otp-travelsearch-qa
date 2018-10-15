@@ -18,7 +18,7 @@ aliases:
     echo 'export BUILD_STATUS_API_KEY="$BUILD_STATUS_API_KEY"' >> $BASH_ENV
     /tools/build_notify.sh
 jobs:
-  deploy-docker:
+  build:
     docker:
     - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
       auth:
@@ -39,9 +39,9 @@ jobs:
     - run: *post-hook
 workflows:
   version: 2
-  build_test_deploy:
+  build_deploy:
     jobs:
-    - deploy-docker:
+    - build:
         context: org-carbon
         filters:
           branches:
