@@ -43,8 +43,6 @@ workflows:
     jobs:
     - deploy-docker:
         context: org-carbon
-        requires:
-        - build
         filters:
           branches:
             only: master
