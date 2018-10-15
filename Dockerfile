@@ -2,7 +2,7 @@ FROM python:3.7
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY source/ .
+COPY . .
 
 # From https://cloud.google.com/sdk/downloads
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-173.0.0-linux-x86_64.tar.gz -o google-cloud-sdk-173.0.0-linux-x86_64.tar.gz \

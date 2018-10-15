@@ -1,5 +1,0 @@
----
-docker_build_root: /usr/src
-build_log_directory: /usr/src/log
-otp_travelsearch_qa_root: "{{docker_build_root}}/otp-travelsearch-qa"
-otp_travelsearch_qa_docker_image: "eu.gcr.io/carbon-1287/otp-travelsearch-qa"
