@@ -54,6 +54,7 @@ Send ET-Client-Name to identify calls from this script.
 ### Sending metrics to Graphite/Grafana
 This script updates graphite
 ![Grafana](images/grafana.png)
+![Grafana test execution time](images/grafana_2.png)
 
 ### Postman Collection and Monitor
 We have spent quite some time trying to migrate this test suite to Postman Collection and Monitor.
