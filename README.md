@@ -38,6 +38,29 @@ GRAPHITE_REPORT_HOST="<graphite>" python ./graphql_test.py endpoints.csv
 See https://github.com/entur/otp-travelsearch-ui
 
 
+## Why not use a test framework?
+This python script is run as a kubernetes job. Why not use a test framework or SaaS solution?
+Because: we had specific requirements for travel search testing, and could not at the time find a faster solution than writing and maintaining this ourself. Some of these requirements:
+
+### Test report format
+The test reports does have a very specific format, that allows us to control the view in https://github.com/entur/otp-travelsearch-ui
+* It makes it easy to group reports by location or time usage
+* Show the metrics we actually want
+* Link straight to shamash (GraphiQL) with the query that failed or was slow
+
+### Control our headers
+Send ET-Client-Name to identify calls from this script.
+
+### Sending metrics to Graphite/Grafana
+This script updates graphite
+![Grafana](images/grafana)
+
+### Postman Collection and Monitor
+We have spent quite some time trying to migrate this test suite to Postman Collection and Monitor.
+To make it work with Postman, quite some workarounds had to be made because of GraphQL and reading and iterating from csv files.
+And when it finally was set up and running with monitor, it turned out extremely expensive because of the number of requests per month. So we had to turn it off. It could have been executed with Newman, but then the impression was that a kubernetes pod was required, so it would not have been a Saas solution anyway
+
+
 ## TODO
 * Separate folder for py files
 * Verify syntax of python scripts with CI
