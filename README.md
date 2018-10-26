@@ -36,3 +36,11 @@ GRAPHITE_REPORT_HOST="<graphite>" python ./graphql_test.py endpoints.csv
 
 ## Viewing reports
 See https://github.com/entur/otp-travelsearch-ui
+
+
+## TODO
+* Separate folder for py files
+* Verify syntax of python scripts with CI
+* Do some testing to increase quality
+* Use a document database to store reports? Must be a suitable solution for otp-travelsearch-ui
+* Do more checks on the results from OpenTripPlanner
