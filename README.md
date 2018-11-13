@@ -6,7 +6,6 @@ It produces json reports.
 
 ## Optional features
 * Upload reports to gcp (Google cloud storage)
-* Notify Hubot if failed percentage has changed
 * Send stats to Graphite
 
 ## Prepare:
@@ -21,12 +20,6 @@ python graphql_test.py endpoints.csv
 ## Run and upload to gcp
 ```
 BUCKET_NAME=<bucket_name> DESTINATION_BLOB_NAME="<destination_blob_name" python ./graphql_test.py endpoints.csv True
-```
-
-## Run and notify Hubot if necesarry
-Requires access to etcd to be able to read and update last value
-```
-NOTIFY_HUBOT=True python ./graphql_test.py endpoints.csv
 ```
 
 ## Run and send metrics to Graphite

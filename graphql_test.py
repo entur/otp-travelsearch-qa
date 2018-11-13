@@ -18,7 +18,6 @@ import sys
 
 import csv_loader
 import gcp_uploader
-import hubot_notifier
 import report_dao
 import time
 from graphite_reporter import GraphiteReporter
@@ -33,7 +32,6 @@ USAGE = "usage: {} endpoints_file [stoppoints_file]".format(sys.argv[0])
 
 GRAPHQL_ENDPOINT_ENV = "GRAPHQL_ENDPOINT"
 STOP_TIMES_FILE_ENV = "STOP_TIMES_FILE"
-NOTIFY_HUBOT_ENV = "NOTIFY_HUBOT"
 BUCKET_NAME_ENV = "BUCKET_NAME"
 DESTINATION_BLOB_NAME_ENV = "DESTINATION_BLOB_NAME"
 TRAVEL_SEARCH_DATE_TIME = "TRAVEL_SEARCH_DATE_TIME"
@@ -98,9 +96,6 @@ def run(travel_search_date):
         gcp_uploader.upload_blob(os.environ[BUCKET_NAME_ENV], filename, os.environ[DESTINATION_BLOB_NAME_ENV])
         # Consider using constructor for gcp uploader
         gcp_uploader.remove_old_files(os.environ[BUCKET_NAME_ENV], os.environ[DESTINATION_BLOB_NAME_ENV])
-
-    if env_is_true(NOTIFY_HUBOT_ENV):
-        hubot_notifier.notify_if_necessary(report)
 
 
 # required

@@ -3,7 +3,6 @@
 : ${ENDPOINTS_FILE="endpoints.csv"}
 : ${STOP_TIMES_FILE="stop_times.csv"}
 
-export NOTIFY_HUBOT=${NOTIFY_HUBOT="True"}
 export GRAPHITE_REPORT_HOST=${GRAPHITE_REPORT_HOST="graphite"}
 
 python ./graphql_test.py ${ENDPOINTS_FILE} ${STOP_TIMES_FILE}
