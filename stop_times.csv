@@ -14,7 +14,6 @@ description;stopPlaceId;stoPplaceName;transportType;type;isMultiModal
 Østfold;NSR:StopPlace:412;Askim;Tog;;
 Østfold;NSR:StopPlace:1369;Askim torg;Buss;;
 Østfold;NSR:StopPlace:2136;Skautun;Buss;;
-Østfold;NSR:StopPlace:1656;Elvestad rv. 120;Buss;;
 Østfold;NSR:StopPlace:911;Ørje busstorg;Buss;;
 Akershus;NSR:StopPlace:4030;Sandvika bussterminal;Buss;T;
 Akershus;NSR:StopPlace:610;Sandvika;Tog;;
@@ -72,7 +71,6 @@ Buskerud;NSR:StopPlace:16804;Drammen busstasjon;Buss;T;
 Buskerud;NSR:StopPlace:16808;Bragernes torg;Buss;T;
 Buskerud;NSR:StopPlace:158;Hønefoss;Tog;;
 Buskerud;NSR:StopPlace:16961;Hønefoss sentrum;Buss;T;
-Buskerud;NSR:StopPlace:57599;Hønefoss stasjon;Buss;;
 Buskerud;NSR:StopPlace:519;Kongsberg;Tog;;
 Buskerud;NSR:StopPlace:17354;Kongsberg knutepunkt;Buss;T;
 Buskerud;NSR:StopPlace:324;Gol;Tog;;
