@@ -22,29 +22,56 @@ class TravelSearchExecutor:
         self.graphite_reporter = graphite_reporter
 
     def create_query(self, search, dateTime):
-        return """
-        {{
-          trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}") {{
-            tripPatterns {{
-              startTime
-              duration
-              walkDistance
-              legs {{
-                fromPlace {{
-                  name
-                  vertexType
+        if 'raptorRange' in search and 'raptorDays' in search:
+            return """
+                {{
+                  trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}", 
+                  raptorSearchRange:{raptorRange}, raptorSearchDays:{raptorDays}) {{
+                    tripPatterns {{
+                      startTime
+                      duration
+                      walkDistance
+                      legs {{
+                        fromPlace {{
+                          name
+                          vertexType
+                        }}
+                        toPlace {{
+                          name
+                          vertexType
+                        }}
+                      }}
+                    }}
+                    messageEnums
+                    messageStrings
+                  }}
                 }}
-                toPlace {{
-                  name
-                  vertexType
+                """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime,
+                           raptorRange=search["raptorRange"], raptorDays=search["raptorDays"])
+        else:
+            return """
+            {{
+              trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}") {{
+                tripPatterns {{
+                  startTime
+                  duration
+                  walkDistance
+                  legs {{
+                    fromPlace {{
+                      name
+                      vertexType
+                    }}
+                    toPlace {{
+                      name
+                      vertexType
+                    }}
+                  }}
                 }}
+                messageEnums
+                messageStrings
               }}
             }}
-            messageEnums
-            messageStrings
-          }}
-        }}
-        """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime)
+            """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime)
 
     def run_travel_searches(self, travel_searches, dateTime):
 

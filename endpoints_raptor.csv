@@ -1,0 +1,17 @@
+description;fromPlace;origin;toPlace;destination;transportType;raptorRange;raptorDays
+Østfold;NSR:StopPlace:2562;Halden bussterminal;NSR:StopPlace:1845;Skjærhalden;Buss;120;7
+Østfold;NSR:StopPlace:2562;Halden bussterminal;NSR:StopPlace:1845;Skjærhalden;Buss;1;1
+Akershus;NSR:StopPlace:166;Eidsvoll Verk;NSR:StopPlace:540;Årnes;Tog;120;7
+Akershus;NSR:StopPlace:166;Eidsvoll Verk;NSR:StopPlace:540;Årnes;Tog;11;1
+Akershus;NSR:StopPlace:3336;Eltonåsen;NSR:StopPlace:344;Jessheim;Buss+Tog;120;7
+Akershus;NSR:StopPlace:3336;Eltonåsen;NSR:StopPlace:344;Jessheim;Buss+Tog;1;1
+Oslo;NSR:StopPlace:6642;Simensbråten;NSR:StopPlace:58243;Bergkrystallen;Buss+T-bane;120;7
+Oslo;NSR:StopPlace:6642;Simensbråten;NSR:StopPlace:58243;Bergkrystallen;Buss+T-bane;1;1
+Oslo;NSR:StopPlace:6560;Eirik Raudes vei;NSR:StopPlace:6630;Malmøya;Buss;120;7
+Oslo;NSR:StopPlace:6560;Eirik Raudes vei;NSR:StopPlace:6630;Malmøya;Buss;1;1
+Hedmark;NSR:StopPlace:10325;Stavsjø Brænderi;NSR:StopPlace:10559;Hamar skysstasjon;Buss;120;7
+Hedmark;NSR:StopPlace:10325;Stavsjø Brænderi;NSR:StopPlace:10559;Hamar skysstasjon;Buss;1;1
+Oppland;NSR:StopPlace:11881;Lom;NSR:StopPlace:14307;Dombås skyssterminal;Buss;120;7
+Oppland;NSR:StopPlace:11881;Lom;NSR:StopPlace:14307;Dombås skyssterminal;Buss;1;1
+Buskerud;NSR:StopPlace:15255;Filtvet;NSR:StopPlace:16804;Drammen busstasjon;Buss;120;7
+Buskerud;NSR:StopPlace:15255;Filtvet;NSR:StopPlace:16804;Drammen busstasjon;Buss;1;1
