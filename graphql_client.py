@@ -22,7 +22,7 @@ class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
                'Content-Type': 'application/json',
                'User-Agent': 'otp-travelsearch-qa',
-               'ET-Client-Name': 'otp-travelsearch-qa',
+               'ET-Client-Name': 'entur-otp-travelsearch-qa',
                'ET-Client-ID': os.environ.get('HOSTNAME','')}
 
     print("Will use these headers: {}".format(HEADERS))
