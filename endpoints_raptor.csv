@@ -3,10 +3,10 @@ Fylkeskryssende;NSR:StopPlace:11;Drammen;NSR:StopPlace:58211;Oslo Lufthavn;flyto
 Fylkeskryssende;NSR:StopPlace:20762;Notodden Skysstasjon;NSR:StopPlace:6505;Oslo Bussterminal;TIMEkspressen;;120;3
 Møre og Romsdal;NSR:StopPlace:38768;Ålesund Hurtigbåtkai;NSR:StopPlace:38672;Hareid hurtigbåtkai;hurtigbåt;;120;3
 Møre og Romsdal;NSR:StopPlace:58054;Tromsø Hurtigrutekai;NSR:StopPlace:58035;Vadsø Hurtigrutekai;hurtigruta;;120;3
-NSB;NSR:StopPlace:659;Trondheim;NSR:StopPlace:337;Oslo S;NSB tog;120;2
-NSB;NSR:StopPlace:1;Drammen;NSR:StopPlace:302;Gjøvik;NSB tog+NSB tog;120;2
-NSB;NSR:StopPlace:324;Gol;NSR:StopPlace:577;Billingstad;NSB tog+NSB tog;120;2
-NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog;120;2
+NSB;NSR:StopPlace:659;Trondheim;NSR:StopPlace:337;Oslo S;NSB tog;;120;2
+NSB;NSR:StopPlace:1;Drammen;NSR:StopPlace:302;Gjøvik;NSB tog+NSB tog;;120;2
+NSB;NSR:StopPlace:324;Gol;NSR:StopPlace:577;Billingstad;NSB tog+NSB tog;;120;2
+NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog;;120;2
 Ruter;NSR:StopPlace:58195;Storo;NSR:StopPlace:58366;Jernbanetorget;t-bane;;40;1
 Ruter;NSR:StopPlace:6024;Sinsenterrassen;NSR:StopPlace:58251;Brugata;trikk;;40;1
 Ruter;NSR:StopPlace:58382;Aker brygge;NSR:StopPlace:4411;Hovedøya;båt;;40;1
@@ -76,7 +76,7 @@ Buskerud;NSR:StopPlace:16743;Lierbyen bussterminal;NSR:StopPlace:15255;Filtvet;B
 Vestfold;NSR:StopPlace:259;Holmestrand stasjon;NSR:StopPlace:18750;Svarstad;Buss,Tog;;120;2
 Vestfold;NSR:StopPlace:18729;Sundbyfoss;NSR:StopPlace:18964;Tjøme kommunehus;Buss;;120;2
 Vestfold;NSR:StopPlace:17452;Torggata;NSR:StopPlace:18872;Høyjord;Buss;7;120;2
-Vestfold;NSR:StopPlace:19031;Andebu sentrum;NSR:StopPlace:19480;Fjellvik;Buss;7
+Vestfold;NSR:StopPlace:19031;Andebu sentrum;NSR:StopPlace:19480;Fjellvik;Buss;7;120;2
 Vestfold;NSR:StopPlace:17465;Ranvik;NSR:StopPlace:18990;Kamfjordkilen;Buss;;120;2
 Vestfold;NSR:StopPlace:17566;Trudvangveien;NSR:StopPlace:18999;Almeveien;Buss;7;120;2
 Vestfold;NSR:StopPlace:653;Tønsberg stasjon;NSR:StopPlace:19363;Gloppeskogen;Buss,Tog;;120;2
