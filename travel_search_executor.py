@@ -22,11 +22,11 @@ class TravelSearchExecutor:
         self.graphite_reporter = graphite_reporter
 
     def create_query(self, search, dateTime):
-        if 'raptorRange' in search and 'raptorDays' in search:
+        if 'raptorRange' in search and 'raptorDays' in search and 'raptorProfile' in search:
             return """
                 {{
                   trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}", 
-                  raptorSearchRange:{raptorRange}, raptorSearchDays:{raptorDays}) {{
+                  raptorSearchRange:{raptorRange}, raptorSearchDays:{raptorDays}, raptorProfile:{raptorProfile}) {{
                     tripPatterns {{
                       startTime
                       duration
@@ -47,7 +47,8 @@ class TravelSearchExecutor:
                   }}
                 }}
                 """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime,
-                           raptorRange=search["raptorRange"], raptorDays=search["raptorDays"])
+                           raptorRange=search["raptorRange"], raptorDays=search["raptorDays"],
+                           raptorProfile=search["raptorProfile"])
         else:
             return """
             {{
