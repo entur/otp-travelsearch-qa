@@ -6,7 +6,7 @@ Møre og Romsdal;NSR:StopPlace:58054;Tromsø Hurtigrutekai;NSR:StopPlace:58035;V
 NSB;NSR:StopPlace:659;Trondheim;NSR:StopPlace:337;Oslo S;NSB tog;;240;2;earliestArrival
 NSB;NSR:StopPlace:1;Drammen;NSR:StopPlace:302;Gjøvik;NSB tog+NSB tog;;240;2;earliestArrival
 NSB;NSR:StopPlace:324;Gol;NSR:StopPlace:577;Billingstad;NSB tog+NSB tog;;240;2;earliestArrival
-NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog;;240;2;earliestArrivalR
+NSB;NSR:StopPlace:426;Lier;NSR:StopPlace:694;Spikkestad;NSB tog+NSB tog;;240;2;earliestArrival
 Ruter;NSR:StopPlace:58195;Storo;NSR:StopPlace:58366;Jernbanetorget;t-bane;;240;1;earliestArrival
 Ruter;NSR:StopPlace:6024;Sinsenterrassen;NSR:StopPlace:58251;Brugata;trikk;;240;1;earliestArrival
 Ruter;NSR:StopPlace:58382;Aker brygge;NSR:StopPlace:4411;Hovedøya;båt;;240;1;earliestArrival
