@@ -14,6 +14,7 @@
 import os
 
 from google.cloud import storage
+from google.api_core.exceptions import NotFound
 import time
 import re
 
@@ -123,7 +124,10 @@ def remove_old_files(bucket_name, destination_folder):
         blob_name = destination_folder + "/" + file_to_delete
         report_blob = bucket.blob(blob_name)
         if report_blob.exists():
-            report_blob.delete()
+            try:
+                report_blob.delete()
+            except NotFound:
+                print("File " + file_to_delete + " could not be deleted.")
 
     print("Write new index file to disk with files to keep")
     with open(INDEX_FILE, 'w') as index_file:
