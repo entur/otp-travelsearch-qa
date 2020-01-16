@@ -9,7 +9,7 @@ workflows:
            name: push-release
            registry: eu.gcr.io/entur-system-1287
            image: otp-travelsearch-qa
-           tag: ${CIRCLE_SHA1}
+           tag: '${CIRCLE_SHA1},latest'
            deploy: true
            context: dev
            filters:
