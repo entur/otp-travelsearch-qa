@@ -43,9 +43,9 @@ QUERY = """
 
 
 class StopTimesExecutor:
-    def __init__(self, client, graphite_reporter, travel_search_date):
+    def __init__(self, client, prometheus_reporter, travel_search_date):
         self.client = client
-        self.graphite_reporter = graphite_reporter
+        self.prometheus_reporter = prometheus_reporter
         self.travel_search_date = travel_search_date
 
     def run_stop_times_searches(self, stops):
@@ -57,6 +57,8 @@ class StopTimesExecutor:
 
         for stop in stops:
             count += 1
+
+            operator = stop["description"]
 
             try:
                 print("Executing stop times request {}: {}".format(count, stop))
@@ -73,19 +75,23 @@ class StopTimesExecutor:
                 if not json_response["data"]["stopPlace"]["estimatedCalls"]:
                     failed_searches.append(
                         {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "response": result})
+                    self.prometheus_reporter.report_stop_time(operator=operator, success=False)
                 else:
                     success_count += 1
+                    self.prometheus_reporter.report_stop_time(operator=operator, success=True)
             except GraphQLException as exception:
                 print("caught exception: " + exception.message)
 
                 failed_searches.append(
                     {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": exception.message,
                      "response": exception.body})
+                self.prometheus_reporter.report_stop_time(operator=operator, success=False)
             except Exception as exception:
                 fail_message = str(exception)
                 failed_searches.append(
                     {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": fail_message,
                      "response": fail_message})
+                self.prometheus_reporter.report_stop_time(operator=operator, success=False)
 
         spent = round(time.time() - test_start_time, 2)
         failed_count = len(failed_searches)
@@ -102,12 +108,7 @@ class StopTimesExecutor:
             "secondsTotal": spent
         }
 
-        self.graphite_reporter.report_to_graphite([
-            ('stop.time.count', count),
-            ('stop.time.success.count', success_count),
-            ('stop.time.seconds.total', spent),
-            ('stop.time.seconds.average', average),
-            ('stop.time.failed.count', failed_count)
-        ])
+        self.prometheus_reporter.report_stop_time_request_durations(spent, average)
+        self.prometheus_reporter.push_stop_times_to_gateway()
 
         return report

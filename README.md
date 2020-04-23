@@ -6,11 +6,11 @@ It produces json reports.
 
 ## Optional features
 * Upload reports to gcp (Google cloud storage)
-* Send stats to Graphite
+* Send stats to Prometheus Push Gateway
 
 ## Prepare:
 * Install python
-* `pip install datetime google.cloud graphitesend`
+* `pip install datetime google.cloud prometheus_client`
 
 ## Run
 ```
@@ -22,9 +22,9 @@ python graphql_test.py endpoints.csv
 BUCKET_NAME=<bucket_name> DESTINATION_BLOB_NAME="<destination_blob_name" python ./graphql_test.py endpoints.csv True
 ```
 
-## Run and send metrics to Graphite
+## Run and send metrics to Prometheus Push Gateway
 ```
-GRAPHITE_REPORT_HOST="<graphite>" python ./graphql_test.py endpoints.csv
+PROMETHEUS_PUSH_GATEWAY="<host>" python ./graphql_test.py endpoints.csv
 ```
 
 ## Viewing reports
@@ -43,11 +43,6 @@ The test reports does have a very specific format, that allows us to control the
 
 ### Control our headers
 Send ET-Client-Name to identify calls from this script.
-
-### Sending metrics to Graphite/Grafana
-This script updates graphite
-![Grafana](images/grafana.png)
-![Grafana test execution time](images/grafana_2.png)
 
 ### Postman Collection and Monitor
 We have spent quite some time trying to migrate this test suite to Postman Collection and Monitor.

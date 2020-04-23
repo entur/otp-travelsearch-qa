@@ -17,9 +17,9 @@ from graphql_exception import GraphQLException
 
 
 class TravelSearchExecutor:
-    def __init__(self, client, graphite_reporter):
+    def __init__(self, client, prometheus_reporter):
         self.client = client
-        self.graphite_reporter = graphite_reporter
+        self.prometheus_reporter = prometheus_reporter
 
     def create_query(self, search, dateTime):
         return """
@@ -57,8 +57,13 @@ class TravelSearchExecutor:
         for travel_search in travel_searches:
             count += 1
 
+            operator = travel_search["description"]
+
+
+
             query = self.create_query(travel_search, dateTime)
             start_time = time.time()
+
             try:
                 print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
                                                               travel_search["toPlace"]), flush=True)
@@ -70,19 +75,18 @@ class TravelSearchExecutor:
 
                 if not json_response["data"]["trip"]["tripPatterns"]:
                     failed_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
+                    self.prometheus_reporter.report_travel_search(operator=operator, success=False, time_spent=time_spent)
                 else:
                     success_count += 1
                     successful_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
+                    self.prometheus_reporter.report_travel_search(operator=operator, success=True, time_spent=time_spent)
             except GraphQLException as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
 
                 time_spent = round(time.time() - start_time, 2)
                 failed_searches.append(
                     {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body, "executionTime": time_spent})
-
-            self.graphite_reporter.report_to_graphite([
-                ('search.seconds.each', time_spent)
-            ])
+                self.prometheus_reporter.report_travel_search(operator=operator, success=False, time_spent=time_spent)
 
         total_time_spent = round(time.time() - start_time_all_tests, 2)
         failed_count = len(failed_searches)
@@ -100,12 +104,7 @@ class TravelSearchExecutor:
             "secondsTotal": total_time_spent
         }
 
-        self.graphite_reporter.report_to_graphite([
-            ('search.count', count),
-            ('search.success.count', success_count),
-            ('search.seconds.total', total_time_spent),
-            ('search.seconds.average', average),
-            ('search.failed.count', failed_count)
-        ])
+        self.prometheus_reporter.report_travel_search_request_durations(total_time_spent, average)
+        self.prometheus_reporter.push_search_to_gateway()
 
         return report

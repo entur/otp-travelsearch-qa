@@ -20,7 +20,7 @@ import csv_loader
 import gcp_uploader
 import report_dao
 import time
-from graphite_reporter import GraphiteReporter
+from prometheus_reporter import PrometheusReporter
 from graphql_client import GraphQLClient
 from stop_times_executor import StopTimesExecutor
 from travel_search_executor import TravelSearchExecutor
@@ -104,7 +104,7 @@ travel_search_file = get_arg(1)
 # optional
 stop_times_file = get_arg_default_value(2, None)
 
-graphite_reporter = GraphiteReporter()
+prometheus_reporter = PrometheusReporter()
 
 graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
 
@@ -113,8 +113,8 @@ client = GraphQLClient(graphql_endpoint)
 travel_search_date = get_env(TRAVEL_SEARCH_DATE_TIME, DEFAULT_TRAVEL_SEARCH_DATE_TIME)
 print("Using datetime: " + travel_search_date)
 
-travel_search_executor = TravelSearchExecutor(client, graphite_reporter)
-stop_times_executor = StopTimesExecutor(client, graphite_reporter, travel_search_date)
+travel_search_executor = TravelSearchExecutor(client, prometheus_reporter)
+stop_times_executor = StopTimesExecutor(client, prometheus_reporter, travel_search_date)
 
 if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
     print("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")
