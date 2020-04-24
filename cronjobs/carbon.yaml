@@ -35,6 +35,8 @@ spec:
               value: endpoints.csv
             - name: STOP_TIMES_FILE
               value: stop_times.csv
+            - name: PROMETHEUS_PUSH_GATEWAY
+              value: http://prometheus-pushgateway.metrics/
             image: eu.gcr.io/entur-system-1287/otp-travelsearch-qa
             imagePullPolicy: Always
             name: otp-travelsearch-qa
