@@ -52,14 +52,13 @@ class TravelSearchExecutor:
         success_count = 0
         failed_searches = []
         successful_searches = []
+        successful_search_times = []
         start_time_all_tests = time.time()
 
         for travel_search in travel_searches:
             count += 1
 
             operator = travel_search["description"]
-
-
 
             query = self.create_query(travel_search, dateTime)
             start_time = time.time()
@@ -69,7 +68,9 @@ class TravelSearchExecutor:
                                                               travel_search["toPlace"]), flush=True)
 
                 result = self.client.execute(query)
-                time_spent = round(time.time() - start_time, 2)
+
+                raw_time_spent = time.time() - start_time
+                time_spent = round(raw_time_spent, 2)
 
                 json_response = json.loads(result)
 
@@ -79,6 +80,7 @@ class TravelSearchExecutor:
                 else:
                     success_count += 1
                     successful_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
+                    successful_search_times.append(raw_time_spent)
                     self.prometheus_reporter.report_travel_search(operator=operator, success=True, time_spent=time_spent)
             except GraphQLException as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
@@ -91,7 +93,12 @@ class TravelSearchExecutor:
         total_time_spent = round(time.time() - start_time_all_tests, 2)
         failed_count = len(failed_searches)
         failed_percentage = failed_count / count * 100
-        average = round(total_time_spent / count, 2)
+
+        average = round(sum(successful_search_times) / len(successful_search_times), 2)
+        average_old = round(total_time_spent / count, 2)
+
+        print('Average execution time successful searches: ' + str(average))
+        print('Average execution time all searches: ' + str(average_old))
 
         report = {
             "failedPercentage": failed_percentage,
