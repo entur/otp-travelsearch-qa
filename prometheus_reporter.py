@@ -12,7 +12,7 @@
 # limitations under the Licence.
 
 import os
-from prometheus_client import CollectorRegistry, Counter, Gauge, pushadd_to_gateway
+from prometheus_client import CollectorRegistry, Counter, Histogram, pushadd_to_gateway
 
 class PrometheusReporter:
     def __init__(self):
@@ -22,15 +22,15 @@ class PrometheusReporter:
       self.search_count = Counter('otp_travelsearch_qa_search_count', 'Total travel search requests', ['operator'], registry=self.search_registry)
       self.search_success_count = Counter('otp_travelsearch_qa_search_success_count', 'Total successful travel search requests', ['operator'], registry=self.search_registry)
       self.search_failed_count = Counter('otp_travelsearch_qa_search_failed_count', 'Total failed travel search requests', ['operator'], registry=self.search_registry)
-      self.search_seconds_each = Gauge('otp_travelsearch_qa_search_seconds_each', 'Request time of each search', ['operator'], registry=self.search_registry)
-      self.search_seconds_total = Gauge('otp_travelsearch_qa_search_seconds_total', 'Total request time', registry=self.search_registry)
-      self.search_seconds_average = Gauge('otp_travelsearch_qa_search_seconds_average', 'Average request time', registry=self.search_registry)
+      self.search_seconds_each = Histogram('otp_travelsearch_qa_search_seconds_each', 'Request time of each search', ['operator'], registry=self.search_registry)
+      self.search_seconds_total = Histogram('otp_travelsearch_qa_search_seconds_total', 'Total request time', registry=self.search_registry)
+      self.search_seconds_average = Histogram('otp_travelsearch_qa_search_seconds_average', 'Average request time', registry=self.search_registry)
 
       self.stop_time_count = Counter('otp_travelsearch_qa_stop_time_count', 'Total stop times requests', ['operator'], registry=self.stop_times_registry)
       self.stop_time_success_count = Counter('otp_travelsearch_qa_stop_time_success_count', 'Total successful stop times requests', ['operator'], registry=self.stop_times_registry)
       self.stop_time_failed_count = Counter('otp_travelsearch_qa_stop_time_failed_count', 'Total failed stop times requests', ['operator'], registry=self.stop_times_registry)
-      self.stop_time_seconds_total = Gauge('otp_travelsearch_qa_stop_time_seconds_total', 'Total request time', registry=self.stop_times_registry)
-      self.stop_time_seconds_average = Gauge('otp_travelsearch_qa_stop_time_seconds_average', 'Average request time', registry=self.stop_times_registry)
+      self.stop_time_seconds_total = Histogram('otp_travelsearch_qa_stop_time_seconds_total', 'Total request time', registry=self.stop_times_registry)
+      self.stop_time_seconds_average = Histogram('otp_travelsearch_qa_stop_time_seconds_average', 'Average request time', registry=self.stop_times_registry)
 
     def report_travel_search(self, operator, success, time_spent):
       self.search_count.labels(operator=operator).inc()
@@ -38,11 +38,11 @@ class PrometheusReporter:
         self.search_success_count.labels(operator=operator).inc()
       else:
         self.search_failed_count.labels(operator=operator).inc()
-      self.search_seconds_each.labels(operator=operator).set(time_spent)
+      self.search_seconds_each.labels(operator=operator).observe(time_spent)
 
     def report_travel_search_request_durations(self, total, average):
-      self.search_seconds_total.set(total)
-      self.search_seconds_average.set(average)
+      self.search_seconds_total.observe(total)
+      self.search_seconds_average.observe(average)
 
     def report_stop_time(self, operator, success):
       self.stop_time_count.labels(operator=operator).inc()
@@ -52,8 +52,8 @@ class PrometheusReporter:
         self.stop_time_failed_count.labels(operator=operator).inc()
 
     def report_stop_time_request_durations(self, total, average):
-      self.stop_time_seconds_total.set(total)
-      self.stop_time_seconds_average.set(average)
+      self.stop_time_seconds_total.observe(total)
+      self.stop_time_seconds_average.observe(average)
 
     def push_search_to_gateway(self):
       if 'PROMETHEUS_PUSH_GATEWAY' in os.environ:
