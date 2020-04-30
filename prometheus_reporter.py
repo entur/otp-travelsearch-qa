@@ -59,7 +59,7 @@ class PrometheusReporter:
       if 'PROMETHEUS_PUSH_GATEWAY' in os.environ:
         print('Pushing search metrics to prometheus')
         try:
-          pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job='otp-travelsearch-qa', registry=self.search_registry)
+          pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job=self.get_job_name(), registry=self.search_registry)
         except Exception as e:
           print('Error pushing search metrics to prometheus: ' + str(e))
 
@@ -67,6 +67,13 @@ class PrometheusReporter:
       if 'PROMETHEUS_PUSH_GATEWAY' in os.environ:
         print('Pushing stop times metrics to prometheus')
         try:
-          pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job='otp-travelsearch-qa', registry=self.stop_times_registry)
+          pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job=self.get_job_name(), registry=self.stop_times_registry)
         except Exception as e:
           print('Error pushing stop times metrics to prometheus: ' + str(e))
+
+    def get_job_name(self):
+      if 'PROMETHEUS_JOB_NAME' in os.environ:
+        job = os.environ['PROMETHEUS_JOB_NAME']
+      else:
+        job = 'otp-travelsearch-qa'
+      return job
