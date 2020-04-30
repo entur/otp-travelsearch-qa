@@ -54,11 +54,14 @@ class StopTimesExecutor:
         count = 0
         success_count = 0
         failed_searches = []
+        successful_search_times = []
 
         for stop in stops:
             count += 1
 
             operator = stop["description"]
+
+            start_time = time.time()
 
             try:
                 print("Executing stop times request {}: {}".format(count, stop))
@@ -70,6 +73,9 @@ class StopTimesExecutor:
                 }
 
                 result = self.client.execute(QUERY, variables)
+
+                raw_time_spent = time.time() - start_time
+
                 json_response = json.loads(result)
 
                 if not json_response["data"]["stopPlace"]["estimatedCalls"]:
@@ -78,6 +84,7 @@ class StopTimesExecutor:
                     self.prometheus_reporter.report_stop_time(operator=operator, success=False)
                 else:
                     success_count += 1
+                    successful_search_times.append(raw_time_spent)
                     self.prometheus_reporter.report_stop_time(operator=operator, success=True)
             except GraphQLException as exception:
                 print("caught exception: " + exception.message)
@@ -96,7 +103,12 @@ class StopTimesExecutor:
         spent = round(time.time() - test_start_time, 2)
         failed_count = len(failed_searches)
         failed_percentage = failed_count / count * 100
-        average = round(spent / count, 2)
+
+        average = round(sum(successful_search_times) / len(successful_search_times), 2)
+        average_old = round(spent / count, 2)
+
+        print('Average execution time successful stop time searches: ' + str(average))
+        print('Average execution time all stop time searches: ' + str(average_old))
 
         report = {
             "failedPercentage": failed_percentage,
