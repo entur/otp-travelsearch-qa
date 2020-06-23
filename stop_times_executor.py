@@ -104,7 +104,10 @@ class StopTimesExecutor:
         failed_count = len(failed_searches)
         failed_percentage = failed_count / count * 100
 
-        average = round(sum(successful_search_times) / len(successful_search_times), 2)
+        if len(successful_search_times) != 0:
+            average = round(sum(successful_search_times) / len(successful_search_times), 2)
+        else:
+            average = 0
         average_old = round(spent / count, 2)
 
         print('Average execution time successful stop time searches: ' + str(average))

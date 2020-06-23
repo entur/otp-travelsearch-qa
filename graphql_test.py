@@ -38,6 +38,7 @@ TRAVEL_SEARCH_DATE_TIME = "TRAVEL_SEARCH_DATE_TIME"
 
 DEFAULT_GRAPHQL_ENDPOINT = "https://api.entur.org/journeyplanner/2.0/index/graphql"
 DEFAULT_TRAVEL_SEARCH_DATE_TIME = datetime.datetime.today().replace(hour=6, minute=0, second=0).strftime('%Y-%m-%dT%H:%M:%S')
+DEFAULT_TRAVEL_SEARCH_DATE_TIME = datetime.datetime.today().replace(hour=6, minute=0, second=0).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
 def get_env(key, default_value):
