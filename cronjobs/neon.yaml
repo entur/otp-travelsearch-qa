@@ -1,0 +1,60 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: otp-travelsearch-qa-cronjob-otp2
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      name: otp-travelsearch-qa-cronjob-otp2
+    spec:
+      template:
+        spec:
+          containers:
+          - env:
+            - name: TZ
+              value: Europe/Oslo
+            - name: BUCKET_NAME
+              value: otpreport.entur.org
+            - name: DESTINATION_BLOB_NAME
+              value: otp-travelsearch-qa-otp2/reports
+            - name: GRAPHQL_ENDPOINT
+              value: https://api.entur.io/journey-planner/v3/graphql
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/marduk/marduk-blobstore-credentials.json
+            - name: ENDPOINTS_FILE
+              value: endpoints.csv
+            - name: STOP_TIMES_FILE
+              value: stop_times.csv
+            image: eu.gcr.io/entur-system-1287/otp-travelsearch-qa
+            imagePullPolicy: Always
+            name: otp-travelsearch-qa-cronjob-otp2
+            resources:
+              limits:
+                cpu: 900m
+                memory: 550Mi
+              requests:
+                cpu: 100m
+                memory: 400Mi
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+            volumeMounts:
+            - mountPath: /etc/marduk/
+              name: marduk-key
+          dnsPolicy: ClusterFirst
+          imagePullSecrets:
+          - name: rutebanken-registry-key
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+          volumes:
+          - name: marduk-key
+            secret:
+              defaultMode: 420
+              secretName: marduk-neon-storage-key
+  schedule: '*/20 * * * *'
+  successfulJobsHistoryLimit: 3
+  suspend: false
+status: {}
