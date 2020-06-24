@@ -29,7 +29,7 @@ spec:
             - name: STOP_TIMES_FILE
               value: stop_times.csv
             - name: PROMETHEUS_PUSH_GATEWAY
-              value: http://prometheus-thanos-pushgateway.metrics/
+              value: http://prometheus-thanos-pushgateway.metrics:9091
             - name: BUCKET_NAME
               value: {{ .bucketName}}
             - name: DESTINATION_BLOB_NAME
