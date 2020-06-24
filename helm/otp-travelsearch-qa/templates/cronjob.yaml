@@ -16,9 +16,9 @@ spec:
       template:
         spec:
           containers:
-          - image: eu.gcr.io/entur-system-1287/{{ $.Chart.Name }}
-            imagePullPolicy: Always
-            name: {{ .name }}
+          - name: {{ .name }}
+            image: {{ $.Values.image.identifier }}
+            imagePullPolicy: {{ $.Values.image.imagePullPolicy }}
             env:
             - name: TZ
               value: Europe/Oslo

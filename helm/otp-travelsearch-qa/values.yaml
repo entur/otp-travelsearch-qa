@@ -5,6 +5,10 @@ labels:
   slack: talk-ror
   type: cronjob
 
+image:
+  identifier: ${artifact.metadata.image}
+  imagePullPolicy: Always
+
 secretMount:
   name: otp-travelsearch-qa-sa
   mountPath: /etc/otp-travelsearch-qa/credentials.json
