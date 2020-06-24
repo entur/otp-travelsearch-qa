@@ -1,0 +1,13 @@
+appVersion: 0.0.1
+
+labels:
+  team: ror
+  slack: talk-ror
+  type: cronjob
+
+secretMount:
+  name: otp-travelsearch-qa-sa
+  mountPath: /etc/otp-travelsearch-qa/credentials.json
+  subPath: credentials.json
+  readOnly: true
+  secretName: ror-otp-travelsearch-qa-sa-key
