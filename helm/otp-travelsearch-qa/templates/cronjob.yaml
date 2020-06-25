@@ -36,6 +36,8 @@ spec:
               value: {{ .destinationBlobName }}
             - name: GRAPHQL_ENDPOINT
               value: {{ .graphqlEndpoint }}
+            - name: PROMETHEUS_JOB_NAME
+              value: {{ .name }}
             resources:
               limits:
                 cpu: 900m
