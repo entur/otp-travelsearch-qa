@@ -1,9 +1,9 @@
 jobs:
   - name: otp-travelsearch-qa-otp1
-    bucketName: otpreport-test.entur.org
+    bucketName: otpreport.dev.entur.org
     destinationBlobName: otp-travelsearch-qa/reports
     graphqlEndpoint: https://api.dev.entur.io/journey-planner/v2/graphql
   - name: otp-travelsearch-qa-otp2
-    bucketName: otpreport-test.entur.org
+    bucketName: otpreport.dev.entur.org
     destinationBlobName: otp-travelsearch-qa-otp2/reports
     graphqlEndpoint: https://api.dev.entur.io/journey-planner/v3/graphql
