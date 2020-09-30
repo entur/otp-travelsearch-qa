@@ -28,5 +28,5 @@ variable "reports_bucket_name" {
 
 variable "reports_bucket_role" {
   description = "Role needed on bucket for report uploads"
-  default = "roles/storage.objectAdmin"
+  default = "roles/storage.admin"
 }
