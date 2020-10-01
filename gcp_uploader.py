@@ -52,7 +52,7 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
             index_file.write("\n")
         index_file.write(source_file_name)
 
-    upload_index_file(index_blob)
+    upload_index_file(get_index_file(bucket, destination_folder))
 
     print('File {} uploaded to {}. Index file updated.'.format(
         source_file_name,
