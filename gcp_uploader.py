@@ -135,8 +135,6 @@ def remove_old_files(bucket_name, destination_folder):
             index_file.write(file_to_keep)
             index_file.write("\n")
 
-    upload_index_file(index_blob)
+    upload_index_file(get_index_file(bucket, destination_folder))
 
     print("Done deleting {} files and rewriting index file".format(number_of_files_to_delete))
-
-# remove_old_files(os.environ["BUCKET_NAME"], os.environ["DESTINATION_BLOB_NAME"])
