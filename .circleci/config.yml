@@ -57,7 +57,7 @@ workflows:
   release:
     jobs:
       - docker-build-and-push:
-          context: dev
+          context: global
           filters:
             branches:
               only: master
