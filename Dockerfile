@@ -4,7 +4,8 @@ RUN addgroup appuser && adduser --disabled-password --gecos '' appuser --ingroup
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY --chown=appuser:appuser . .
+COPY . .
+RUN chown -R appuser:appuser /usr/src/app
 
 # From https://cloud.google.com/sdk/downloads
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-173.0.0-linux-x86_64.tar.gz -o google-cloud-sdk-173.0.0-linux-x86_64.tar.gz \
