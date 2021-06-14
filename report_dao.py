@@ -17,7 +17,7 @@ import time
 def save_json_report(json_report):
     print("Saving json report")
 
-    file_name = "/usr/src/app/test-report-{}.json".format(int(round(time.time() * 1000)))
+    file_name = "test-report-{}.json".format(int(round(time.time() * 1000)))
     text_file = open(file_name, "w")
     text_file.write(json_report)
     text_file.close()
