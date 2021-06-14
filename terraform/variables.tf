@@ -22,10 +22,6 @@ variable "labels" {
   }
 }
 
-variable "reports_bucket_name" {
-  description = "Name of bucket for report uploads"
-}
-
 variable "reports_bucket_role" {
   description = "Role needed on bucket for report uploads"
   default = "roles/storage.admin"
