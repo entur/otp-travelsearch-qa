@@ -51,15 +51,15 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
         print("index file does not exist. Will upload a new one")
 
     with open(INDEX_FILE, "a") as index_file:
-        print("Appending {} to index file".format(source_file_name))
+        print("Appending {} to index file".format(file_name))
         if blob_exists:
             index_file.write("\n")
-        index_file.write(source_file_name)
+        index_file.write(file_name)
 
     upload_index_file(get_index_file(bucket, destination_folder))
 
     print('File {} uploaded to {}. Index file updated.'.format(
-        source_file_name,
+        file_name,
         destination_blob_name))
 
 
