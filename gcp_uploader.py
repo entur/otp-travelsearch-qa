@@ -27,7 +27,7 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
 
     bucket = storage.Client().get_bucket(bucket_name)
 
-    (file_name, _) = os.path.split(source_file_name)
+    (_, file_name) = os.path.split(source_file_name)
 
     destination_blob_name = destination_folder + "/" + file_name
 
