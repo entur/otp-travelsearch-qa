@@ -1,9 +1,9 @@
 jobs:
   - name: otp-travelsearch-qa-otp1
-    bucketName: otpreport.staging.entur.org
-    destinationBlobName: otp-travelsearch-qa/reports
+    bucketName: otp-travelsearch-qa-reports-staging
+    destinationBlobName: otp1
     graphqlEndpoint: https://api.staging.entur.io/journey-planner/v2/graphql
   - name: otp-travelsearch-qa-otp2
-    bucketName: otpreport.staging.entur.org
-    destinationBlobName: otp-travelsearch-qa-otp2/reports
+    bucketName: otp-travelsearch-qa-reports-staging
+    destinationBlobName: otp2
     graphqlEndpoint: https://api.staging.entur.io/journey-planner/v3/graphql

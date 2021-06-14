@@ -1,6 +1,6 @@
 
 terraform {
-  required_version = ">= 0.12"
+  required_version = ">= 0.13.2"
 }
 
 provider "google" {
@@ -32,8 +32,31 @@ resource "kubernetes_secret" "service_account_credentials" {
   }
 }
 
+resource "google_storage_bucket" "reports_bucket" {
+  name          = "otp-travelsearch-qa-reports-${var.kube_namespace}"
+  location      = "EU"
+
+  cors {
+    origin          = ["*"]
+    method          = ["GET"]
+    response_header = ["*"]
+    max_age_seconds = 3600
+  }
+
+  lifecycle_rule {
+
+    condition {
+      age = 30
+    }
+
+    action {
+      type = "Delete"
+    }
+  }
+}
+
 resource "google_storage_bucket_iam_member" "reports_bucket_iam" {
-  bucket = var.reports_bucket_name
+  bucket = google_storage_bucket.reports_bucket.name
   role = var.reports_bucket_role
   member = "serviceAccount:${google_service_account.service_account.email}"
 }
