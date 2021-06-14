@@ -35,6 +35,7 @@ resource "kubernetes_secret" "service_account_credentials" {
 resource "google_storage_bucket" "reports_bucket" {
   name          = "otp-travelsearch-qa-reports-${var.kube_namespace}"
   location      = "EU"
+  project = var.gcp_project
 
   cors {
     origin          = ["*"]
