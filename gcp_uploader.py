@@ -30,7 +30,10 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
     destination_blob_name = destination_folder + "/" + source_file_name
 
     report_blob = bucket.blob(destination_blob_name)
-    report_blob.upload_from_filename(source_file_name)
+
+    with open(source_file_name, "rb") as souce_file:
+        report_blob.upload_from_file(souce_file)
+
     report_blob.make_public()
 
     index_blob = get_index_file(bucket, destination_folder)
