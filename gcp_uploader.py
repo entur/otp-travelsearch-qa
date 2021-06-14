@@ -27,12 +27,13 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
 
     bucket = storage.Client().get_bucket(bucket_name)
 
-    destination_blob_name = destination_folder + "/" + source_file_name
+    (file_name, _) = os.path.split(source_file_name)
+
+    destination_blob_name = destination_folder + "/" + file_name
 
     report_blob = bucket.blob(destination_blob_name)
 
-    with open(source_file_name, "rb") as souce_file:
-        report_blob.upload_from_file(souce_file)
+    report_blob.upload_from_filename(source_file_name)
 
     report_blob.make_public()
 
