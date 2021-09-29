@@ -82,7 +82,7 @@ class TravelSearchExecutor:
                     successful_searches.append({"search": travel_search, "otpquery": query, "response": result, "executionTime": time_spent})
                     successful_search_times.append(raw_time_spent)
                     self.prometheus_reporter.report_travel_search(operator=operator, success=True, time_spent=time_spent)
-            except GraphQLException as exception:
+            except (GraphQLException, TypeError) as exception:
                 print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
 
                 time_spent = round(time.time() - start_time, 2)
