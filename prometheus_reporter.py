@@ -13,6 +13,7 @@
 
 import os
 from prometheus_client import CollectorRegistry, Counter, Histogram, pushadd_to_gateway
+import logging
 
 class PrometheusReporter:
     def __init__(self):
@@ -31,6 +32,8 @@ class PrometheusReporter:
       self.stop_time_failed_count = Counter('otp_travelsearch_qa_stop_time_failed_count', 'Total failed stop times requests', ['operator'], registry=self.stop_times_registry)
       self.stop_time_seconds_total = Histogram('otp_travelsearch_qa_stop_time_seconds_total', 'Total request time', registry=self.stop_times_registry)
       self.stop_time_seconds_average = Histogram('otp_travelsearch_qa_stop_time_seconds_average', 'Average request time', registry=self.stop_times_registry)
+
+      self.log = logging.getLogger(__file__)
 
     def report_travel_search(self, operator, success, time_spent):
       self.search_count.labels(operator=operator).inc()
@@ -57,19 +60,19 @@ class PrometheusReporter:
 
     def push_search_to_gateway(self):
       if 'PROMETHEUS_PUSH_GATEWAY' in os.environ:
-        print('Pushing search metrics to prometheus')
+        self.log.info('Pushing search metrics to prometheus')
         try:
           pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job=self.get_job_name(), registry=self.search_registry)
         except Exception as e:
-          print('Error pushing search metrics to prometheus: ' + str(e))
+          self.log.info('Error pushing search metrics to prometheus: ' + str(e))
 
     def push_stop_times_to_gateway(self):
       if 'PROMETHEUS_PUSH_GATEWAY' in os.environ:
-        print('Pushing stop times metrics to prometheus')
+        self.log.info('Pushing stop times metrics to prometheus')
         try:
           pushadd_to_gateway(os.environ['PROMETHEUS_PUSH_GATEWAY'], job=self.get_job_name(), registry=self.stop_times_registry)
         except Exception as e:
-          print('Error pushing stop times metrics to prometheus: ' + str(e))
+          self.log.info('Error pushing stop times metrics to prometheus: ' + str(e))
 
     def get_job_name(self):
       if 'PROMETHEUS_JOB_NAME' in os.environ:

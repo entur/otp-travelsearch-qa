@@ -14,12 +14,15 @@
 import json
 import time
 from graphql_exception import GraphQLException
+import logging
+
 
 
 class TravelSearchExecutor:
     def __init__(self, client, prometheus_reporter):
         self.client = client
         self.prometheus_reporter = prometheus_reporter
+        self.log = logging.getLogger(__file__)
 
     def create_query(self, search, dateTime):
         return """
@@ -64,8 +67,8 @@ class TravelSearchExecutor:
             start_time = time.time()
 
             try:
-                print("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
-                                                              travel_search["toPlace"]), flush=True)
+                self.log.info("Executing search {}: {} -> {} ".format(count, travel_search["fromPlace"],
+                                                              travel_search["toPlace"]))
 
                 result = self.client.execute(query)
 
@@ -83,14 +86,14 @@ class TravelSearchExecutor:
                     successful_search_times.append(raw_time_spent)
                     self.prometheus_reporter.report_travel_search(operator=operator, success=True, time_spent=time_spent)
             except GraphQLException as exception:
-                print("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
+                self.log.info("adding failMessage and response to report '{}': '{}'".format(exception.message, exception.body))
 
                 time_spent = round(time.time() - start_time, 2)
                 failed_searches.append(
                     {"search": travel_search, "otpQuery": query, "failMessage": exception.message, "response": exception.body, "executionTime": time_spent})
                 self.prometheus_reporter.report_travel_search(operator=operator, success=False, time_spent=time_spent)
-            except TypeError as exception:
-                print("encountered TypeError: '{}'".format(exception))
+            except Exception as exception:
+                self.log.warn("encountered unhandled exception: '{}'".format(exception))
 
         total_time_spent = round(time.time() - start_time_all_tests, 2)
         failed_count = len(failed_searches)
@@ -99,8 +102,8 @@ class TravelSearchExecutor:
         average = round(sum(successful_search_times) / len(successful_search_times), 2)
         average_old = round(total_time_spent / count, 2)
 
-        print('Average execution time successful searches: ' + str(average))
-        print('Average execution time all searches: ' + str(average_old))
+        self.log.info('Average execution time successful searches: ' + str(average))
+        self.log.info('Average execution time all searches: ' + str(average_old))
 
         report = {
             "failedPercentage": failed_percentage,

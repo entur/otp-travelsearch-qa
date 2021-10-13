@@ -16,7 +16,9 @@ import os
 
 from six.moves import urllib
 from graphql_exception import GraphQLException
+import logging
 
+log = logging.getLogger(__file__)
 
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',
@@ -25,7 +27,7 @@ class GraphQLClient:
                'ET-Client-Name': 'entur-otp-travelsearch-qa',
                'ET-Client-ID': os.environ.get('HOSTNAME','')}
 
-    print("Will use these headers: {}".format(HEADERS))
+    log.info("Will use these headers: {}".format(HEADERS))
 
     CONNECT_TIMEOUT_SECONDS = 45
 

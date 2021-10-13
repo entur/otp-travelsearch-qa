@@ -17,6 +17,8 @@ from datetime import datetime
 
 from graphql_exception import GraphQLException
 
+import logging
+
 STOP_ID_KEY = "stopPlaceId"
 
 QUERY = """
@@ -47,6 +49,7 @@ class StopTimesExecutor:
         self.client = client
         self.prometheus_reporter = prometheus_reporter
         self.travel_search_date = travel_search_date
+        self.log = logging.getLogger(__file__)
 
     def run_stop_times_searches(self, stops):
 
@@ -64,7 +67,7 @@ class StopTimesExecutor:
             start_time = time.time()
 
             try:
-                print("Executing stop times request {}: {}".format(count, stop))
+                self.log.info("Executing stop times request {}: {}".format(count, stop))
 
 
                 variables = {
@@ -87,7 +90,7 @@ class StopTimesExecutor:
                     successful_search_times.append(raw_time_spent)
                     self.prometheus_reporter.report_stop_time(operator=operator, success=True)
             except GraphQLException as exception:
-                print("caught exception: " + exception.message)
+                self.log.info("caught exception: " + exception.message)
 
                 failed_searches.append(
                     {"search": stop, "otpQuery": QUERY, "otpVariables": variables, "failMessage": exception.message,
@@ -110,8 +113,8 @@ class StopTimesExecutor:
             average = 0
         average_old = round(spent / count, 2)
 
-        print('Average execution time successful stop time searches: ' + str(average))
-        print('Average execution time all stop time searches: ' + str(average_old))
+        self.log.info('Average execution time successful stop time searches: ' + str(average))
+        self.log.info('Average execution time all stop time searches: ' + str(average_old))
 
         report = {
             "failedPercentage": failed_percentage,

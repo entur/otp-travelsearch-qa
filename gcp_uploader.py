@@ -17,6 +17,9 @@ from google.cloud import storage
 from google.api_core.exceptions import NotFound
 import time
 import re
+import logging
+
+log = logging.getLogger(__file__)
 
 INDEX_FILE = "index"
 DAYS_TO_KEEP = 32
@@ -40,25 +43,25 @@ def upload_blob(bucket_name, source_file_name, destination_folder):
     index_blob = get_index_file(bucket, destination_folder)
 
     if os.path.exists(INDEX_FILE):
-        print("Deleting local index file")
+        log.info("Deleting local index file")
         os.remove(INDEX_FILE)
 
     blob_exists = index_blob.exists()
     if blob_exists:
-        print("index file exists: {}".format(index_blob))
+        log.info("index file exists: {}".format(index_blob))
         index_blob.download_to_filename(INDEX_FILE)
     else:
-        print("index file does not exist. Will upload a new one")
+        log.info("index file does not exist. Will upload a new one")
 
     with open(INDEX_FILE, "a") as index_file:
-        print("Appending {} to index file".format(file_name))
+        log.info("Appending {} to index file".format(file_name))
         if blob_exists:
             index_file.write("\n")
         index_file.write(file_name)
 
     upload_index_file(get_index_file(bucket, destination_folder))
 
-    print('File {} uploaded to {}. Index file updated.'.format(
+    log.info('File {} uploaded to {}. Index file updated.'.format(
         file_name,
         destination_blob_name))
 
@@ -68,7 +71,7 @@ def get_index_file(bucket, destination_folder):
 
 
 def upload_index_file(index_blob):
-    print("Uploading index file")
+    log.info("Uploading index file")
 
     index_blob.upload_from_filename(INDEX_FILE)
 
@@ -80,18 +83,18 @@ def upload_index_file(index_blob):
 
 
 def remove_old_files(bucket_name, destination_folder):
-    print("About to remove old files, days to keep: {}".format(DAYS_TO_KEEP))
+    log.info("About to remove old files, days to keep: {}".format(DAYS_TO_KEEP))
 
     bucket = storage.Client().get_bucket(bucket_name)
 
     delete_before = (int(time.time()) - (DAYS_TO_KEEP * 24 * 3600)) * 1000
 
-    print("Created timestamp {}".format(delete_before))
+    log.info("Created timestamp {}".format(delete_before))
 
     index_blob = get_index_file(bucket, destination_folder)
 
     if not index_blob.exists():
-        print("index file does not exist. Nothing to do.")
+        log.info("index file does not exist. Nothing to do.")
         return
 
     index_blob.download_to_filename(INDEX_FILE)
@@ -102,7 +105,7 @@ def remove_old_files(bucket_name, destination_folder):
     files_to_keep = []
 
     lines = index_file.read().splitlines()
-    print("Found {} lines in existing index file".format(len(lines)))
+    log.info("Found {} lines in existing index file".format(len(lines)))
     for line in lines:
 
         if line:
@@ -116,14 +119,14 @@ def remove_old_files(bucket_name, destination_folder):
 
     number_of_files_to_delete = len(files_to_delete)
 
-    print("Files to delete: {}".format(number_of_files_to_delete))
-    print("Lines to keep: {}".format(len(files_to_keep)))
+    log.info("Files to delete: {}".format(number_of_files_to_delete))
+    log.info("Lines to keep: {}".format(len(files_to_keep)))
 
     if number_of_files_to_delete is 0:
-        print("Nothing to do")
+        log.info("Nothing to do")
         return
 
-    print("About to delete {} files".format(number_of_files_to_delete))
+    log.info("About to delete {} files".format(number_of_files_to_delete))
     for file_to_delete in files_to_delete:
         blob_name = destination_folder + "/" + file_to_delete
         report_blob = bucket.blob(blob_name)
@@ -131,9 +134,9 @@ def remove_old_files(bucket_name, destination_folder):
             try:
                 report_blob.delete()
             except NotFound:
-                print("File " + file_to_delete + " could not be deleted.")
+                log.info("File " + file_to_delete + " could not be deleted.")
 
-    print("Write new index file to disk with files to keep")
+    log.info("Write new index file to disk with files to keep")
     with open(INDEX_FILE, 'w') as index_file:
         for file_to_keep in files_to_keep:
             index_file.write(file_to_keep)
@@ -141,4 +144,4 @@ def remove_old_files(bucket_name, destination_folder):
 
     upload_index_file(get_index_file(bucket, destination_folder))
 
-    print("Done deleting {} files and rewriting index file".format(number_of_files_to_delete))
+    log.info("Done deleting {} files and rewriting index file".format(number_of_files_to_delete))

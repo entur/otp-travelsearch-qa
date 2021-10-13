@@ -24,6 +24,11 @@ from prometheus_reporter import PrometheusReporter
 from graphql_client import GraphQLClient
 from stop_times_executor import StopTimesExecutor
 from travel_search_executor import TravelSearchExecutor
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+log = logging.getLogger(__file__)
 
 HOUR = 6
 MINUTE = 0
@@ -50,15 +55,15 @@ def get_env(key, default_value):
 
 def env_is_true(key):
     if key in os.environ and bool(os.environ[key]):
-        print("Got " + key + ": True")
+        log.info("Got " + key + ": True")
         return True
     return False
 
 
 def get_arg(index):
     if not args_has_index(index):
-        print("Could not find required argument at index {}".format(index))
-        print(USAGE)
+        log.info("Could not find required argument at index {}".format(index))
+        log.info(USAGE)
         sys.exit(1)
 
     return sys.argv[index]
@@ -82,12 +87,12 @@ def run(travel_search_date):
 
     if stop_times_file is not None:
         stops = csv_loader.load_csv(stop_times_file)
-        print("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
+        log.info("loaded {number_of_searches} stops from file".format(number_of_searches=len(stops)))
         report["stopTimes"] = stop_times_executor.run_stop_times_searches(stops)
 
     travel_searches = csv_loader.load_csv(travel_search_file)
-    print("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
-    print("Running searches against endpoint " + graphql_endpoint)
+    log.info("loaded {number_of_searches} searches from file".format(number_of_searches=len(travel_searches)))
+    log.info("Running searches against endpoint " + graphql_endpoint)
     report["travelSearch"] = travel_search_executor.run_travel_searches(travel_searches, travel_search_date)
 
     json_report = json.dumps(report)
@@ -112,13 +117,13 @@ graphql_endpoint = get_env(GRAPHQL_ENDPOINT_ENV, DEFAULT_GRAPHQL_ENDPOINT)
 client = GraphQLClient(graphql_endpoint)
 
 travel_search_date = get_env(TRAVEL_SEARCH_DATE_TIME, DEFAULT_TRAVEL_SEARCH_DATE_TIME)
-print("Using datetime: " + travel_search_date)
+log.info("Using datetime: " + travel_search_date)
 
 travel_search_executor = TravelSearchExecutor(client, prometheus_reporter)
 stop_times_executor = StopTimesExecutor(client, prometheus_reporter, travel_search_date)
 
 if BUCKET_NAME_ENV not in os.environ or DESTINATION_BLOB_NAME_ENV not in os.environ:
-    print("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")
+    log.info("Environment variables not set: BUCKET_NAME and DESTINATION_BLOB_NAME. Will not upload reports to gcp")
     upload_gcp = False
 else:
     upload_gcp = True
