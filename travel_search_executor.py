@@ -22,7 +22,7 @@ class TravelSearchExecutor:
     def __init__(self, client, prometheus_reporter):
         self.client = client
         self.prometheus_reporter = prometheus_reporter
-        self.log = logging.getLogger(__file__)
+        self.log = logging.getLogger(__name__)
 
     def create_query(self, search, dateTime):
         return """

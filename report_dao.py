@@ -14,7 +14,7 @@
 import time
 import logging
 
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 def save_json_report(json_report):
     log.info("Saving json report")

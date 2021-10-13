@@ -18,7 +18,7 @@ from six.moves import urllib
 from graphql_exception import GraphQLException
 import logging
 
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 class GraphQLClient:
     HEADERS = {'Accept': 'application/json',

@@ -19,7 +19,7 @@ import time
 import re
 import logging
 
-log = logging.getLogger(__file__)
+log = logging.getLogger(__name__)
 
 INDEX_FILE = "index"
 DAYS_TO_KEEP = 32

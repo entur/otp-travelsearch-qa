@@ -49,7 +49,7 @@ class StopTimesExecutor:
         self.client = client
         self.prometheus_reporter = prometheus_reporter
         self.travel_search_date = travel_search_date
-        self.log = logging.getLogger(__file__)
+        self.log = logging.getLogger(__name__)
 
     def run_stop_times_searches(self, stops):
 

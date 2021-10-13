@@ -33,7 +33,7 @@ class PrometheusReporter:
       self.stop_time_seconds_total = Histogram('otp_travelsearch_qa_stop_time_seconds_total', 'Total request time', registry=self.stop_times_registry)
       self.stop_time_seconds_average = Histogram('otp_travelsearch_qa_stop_time_seconds_average', 'Average request time', registry=self.stop_times_registry)
 
-      self.log = logging.getLogger(__file__)
+      self.log = logging.getLogger(__name__)
 
     def report_travel_search(self, operator, success, time_spent):
       self.search_count.labels(operator=operator).inc()
