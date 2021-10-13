@@ -19,27 +19,17 @@ import sys
 import csv_loader
 import gcp_uploader
 import report_dao
-import time
+import logging
+import google.cloud.logging
+
 from prometheus_reporter import PrometheusReporter
 from graphql_client import GraphQLClient
 from stop_times_executor import StopTimesExecutor
 from travel_search_executor import TravelSearchExecutor
-from logging.config import dictConfig
-from jslog4kube import LOGGING
-import logging
 
-LOGGERS = {
-    '': {
-        'handlers': ['json-stdout'],
-        'formatters': ['json'],
-        'propagate': True,
-        'level': 'INFO',
-    }
-}
-
-LOGGING['loggers'].update(LOGGERS)
-
-dictConfig(LOGGING)
+client = google.cloud.logging.Client()
+client.get_default_handler()
+client.setup_logging()
 
 log = logging.getLogger(__name__)
 
