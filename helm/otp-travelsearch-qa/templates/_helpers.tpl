@@ -33,4 +33,5 @@ release: {{ .Release.Name }}
 team: ror
 slack: talk-ror
 namespace: {{ .Release.Namespace }}
+environment: {{ .Values.env }}
 {{- end }}

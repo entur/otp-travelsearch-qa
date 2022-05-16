@@ -1,3 +1,5 @@
+env: prod
+
 jobs:
   - name: otp-travelsearch-qa-otp1
     bucketName: otp-travelsearch-qa-reports-production
