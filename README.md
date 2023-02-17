@@ -9,8 +9,8 @@ It produces json reports.
 * Send stats to Prometheus Push Gateway
 
 ## Prepare:
-* Install python
-* `pip install datetime google.cloud prometheus_client`
+* Install python 3.7
+* `pip install -r requirements.txt`
 
 ## Run
 ```
