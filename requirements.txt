@@ -1,0 +1,4 @@
+datetime==5.0
+google-cloud-storage==2.7.0
+prometheus_client==0.16.0
+google-cloud-logging==3.5.0
