@@ -34,6 +34,14 @@ class GraphQLClient:
     def __init__(self, endpoint):
         self.endpoint = endpoint
 
+    def endpoint_version(self):
+        if "/v2/" in self.endpoint:
+            return "v2"
+        elif "/v3/" in self.endpoint:
+            return "v3"
+        else:
+            raise Exception("Unknown endpoint version")
+
     def execute(self, query, variables=None):
         return self._send(query, variables)
 

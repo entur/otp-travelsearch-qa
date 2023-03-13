@@ -16,38 +16,68 @@ import time
 from graphql_exception import GraphQLException
 import logging
 
+v3_query = """
+    {{
+      trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}", relaxTransitSearchGeneralizedCostAtDestination: {relaxTransitSearchGeneralizedCostAtDestination}) {{
+        tripPatterns {{
+          startTime
+          duration
+          walkDistance
+          legs {{
+            fromPlace {{
+              name
+              vertexType
+            }}
+            toPlace {{
+              name
+              vertexType
+            }}
+          }}
+        }}
+        messageEnums
+        messageStrings
+      }}
+    }}
+"""
+
+v2_query = """
+    {{
+      trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}") {{
+        tripPatterns {{
+          startTime
+          duration
+          walkDistance
+          legs {{
+            fromPlace {{
+              name
+              vertexType
+            }}
+            toPlace {{
+              name
+              vertexType
+            }}
+          }}
+        }}
+        messageEnums
+        messageStrings
+      }}
+    }}
+"""
 
 
 class TravelSearchExecutor:
-    def __init__(self, client, prometheus_reporter):
+    def __init__(self, client, prometheus_reporter, params):
         self.client = client
         self.prometheus_reporter = prometheus_reporter
         self.log = logging.getLogger(__name__)
+        self.params = params
 
     def create_query(self, search, dateTime):
-        return """
-        {{
-          trip(from: {{place: "{fromPlace}"}}, to: {{place: "{toPlace}"}}, dateTime: "{dateTime}") {{
-            tripPatterns {{
-              startTime
-              duration
-              walkDistance
-              legs {{
-                fromPlace {{
-                  name
-                  vertexType
-                }}
-                toPlace {{
-                  name
-                  vertexType
-                }}
-              }}
-            }}
-            messageEnums
-            messageStrings
-          }}
-        }}
-        """.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime)
+        endpoint_version = self.client.endpoint_version()
+        if endpoint_version == 'v3':
+            return v3_query.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime, relaxTransitSearchGeneralizedCostAtDestination=self.params['relaxTransitSearchGeneralizedCostAtDestination'])
+        elif endpoint_version == 'v2':
+            return v2_query.format(fromPlace=search["fromPlace"], toPlace=search["toPlace"], dateTime=dateTime)
 
     def run_travel_searches(self, travel_searches, dateTime):
 
