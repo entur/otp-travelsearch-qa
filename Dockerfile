@@ -3,6 +3,7 @@ FROM python:3.7.16-alpine3.17
 RUN apk update && apk upgrade && apk add --no-cache \
    curl \
    tar \
+   bash \
    tini
 
 RUN addgroup appuser && adduser --disabled-password --gecos '' appuser --ingroup appuser
