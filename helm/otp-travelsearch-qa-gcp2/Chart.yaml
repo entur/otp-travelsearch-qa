@@ -1,0 +1,13 @@
+apiVersion: v1
+name: otp-travelsearch-qa
+version: 1.0.0
+appVersion: "{{ .Values.appVersion }}"
+description: Helm chart for otp-travelsearch-qa
+keywords:
+  - otp-travelsearch-qa
+sources:
+  - https://github.com/entur/otp-travelsearch-qa
+maintainers:
+  - name: ror
+    email: ror@entur.org
+engine: gotpl

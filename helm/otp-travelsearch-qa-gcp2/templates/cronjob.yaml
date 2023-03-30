@@ -1,0 +1,69 @@
+{{- $dot := . }}
+{{- range .Values.jobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "common.labels" $dot | indent 4 }}
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .name }}
+            image: {{ $.Values.image.identifier }}
+            imagePullPolicy: {{ $.Values.image.imagePullPolicy }}
+            env:
+            - name: TZ
+              value: Europe/Oslo
+            - name: ENDPOINTS_FILE
+              value: endpoints.csv
+            - name: STOP_TIMES_FILE
+              value: stop_times.csv
+            - name: PROMETHEUS_PUSH_GATEWAY
+              value: http://prometheus-thanos-pushgateway.metrics:9091
+            - name: BUCKET_NAME
+              value: {{ .bucketName}}
+            - name: DESTINATION_BLOB_NAME
+              value: {{ .destinationBlobName }}
+            - name: GRAPHQL_ENDPOINT
+              value: {{ .graphqlEndpoint }}
+            - name: PROMETHEUS_JOB_NAME
+              value: {{ .name }}
+            resources:
+              limits:
+                cpu: 900m
+                memory: 550Mi
+              requests:
+                cpu: 100m
+                memory: 400Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              runAsNonRoot: true
+              capabilities:
+                drop: [ "ALL" ]
+              seccompProfile:
+                type: RuntimeDefault
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          securityContext:
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          terminationGracePeriodSeconds: 30
+  schedule: '*/20 * * * *'
+  successfulJobsHistoryLimit: 1
+  suspend: false
+{{- end }}

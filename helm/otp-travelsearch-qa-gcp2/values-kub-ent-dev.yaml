@@ -1,0 +1,11 @@
+env: dev
+
+jobs:
+  - name: otp-travelsearch-qa-otp1
+    bucketName: otp-travelsearch-qa-reports-dev
+    destinationBlobName: otp-travelsearch-qa/reports
+    graphqlEndpoint: https://api.dev.entur.io/journey-planner/v2/graphql
+  - name: otp-travelsearch-qa-otp2
+    bucketName: otp-travelsearch-qa-reports-dev
+    destinationBlobName: otp-travelsearch-qa-otp2/reports
+    graphqlEndpoint: https://api.dev.entur.io/journey-planner/v3/graphql
