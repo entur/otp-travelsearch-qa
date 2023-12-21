@@ -2,15 +2,6 @@ variable "gcp_project" {
   description = "The GCP team project id"
 }
 
-variable "kube_namespace" {
-  description = "The Kubernetes namespace"
-}
-
-variable "load_config_file" {
-  description = "Do not load kube config file"
-  default     = false
-}
-
 variable "labels" {
   description = "Labels used in all resources"
   type        = map(string)
@@ -18,7 +9,7 @@ variable "labels" {
     manager = "terraform"
     team    = "ror"
     slack   = "talk-ror"
-    app     = "otp-travelsearch-qa"
+    app     = "otptrvlqa"
   }
 }
 
@@ -26,3 +17,7 @@ variable "reports_bucket_role" {
   description = "Role needed on bucket for report uploads"
   default = "roles/storage.admin"
 }
+
+variable "env_suffix" {}
+
+variable "default_sa" {}
