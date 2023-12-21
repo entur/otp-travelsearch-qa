@@ -2,10 +2,10 @@ env: prod
 
 jobs:
   - name: otp-travelsearch-qa-otp1
-    bucketName: otp-travelsearch-qa-reports-production
+    bucketName: otptrvlqa-production
     destinationBlobName: otp-travelsearch-qa/reports
     graphqlEndpoint: https://api.entur.io/journey-planner/v2/graphql
   - name: otp-travelsearch-qa-otp2
-    bucketName: otp-travelsearch-qa-reports-production
+    bucketName: otptrvlqa-production
     destinationBlobName: otp-travelsearch-qa-otp2/reports
     graphqlEndpoint: https://api.entur.io/journey-planner/v3/graphql

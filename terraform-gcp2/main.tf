@@ -12,9 +12,11 @@ provider "kubernetes" {
 }
 
 resource "google_storage_bucket" "reports_bucket" {
-  name          = "otp-travelsearch-qa-reports-${var.env_suffix}"
+  name          = "otptrvlqa-${var.env_suffix}"
   location      = "EUROPE-WEST1"
   project = var.gcp_project
+
+  uniform_bucket_level_access = false
 
   cors {
     origin          = ["*"]
